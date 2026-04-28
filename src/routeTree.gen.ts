@@ -9,8 +9,38 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TelegramRouteImport } from './routes/telegram'
+import { Route as RoteiroRouteImport } from './routes/roteiro'
+import { Route as ParquesRouteImport } from './routes/parques'
+import { Route as FilasRouteImport } from './routes/filas'
+import { Route as AlertasRouteImport } from './routes/alertas'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TelegramRoute = TelegramRouteImport.update({
+  id: '/telegram',
+  path: '/telegram',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoteiroRoute = RoteiroRouteImport.update({
+  id: '/roteiro',
+  path: '/roteiro',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ParquesRoute = ParquesRouteImport.update({
+  id: '/parques',
+  path: '/parques',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FilasRoute = FilasRouteImport.update({
+  id: '/filas',
+  path: '/filas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AlertasRoute = AlertasRouteImport.update({
+  id: '/alertas',
+  path: '/alertas',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +49,90 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/alertas': typeof AlertasRoute
+  '/filas': typeof FilasRoute
+  '/parques': typeof ParquesRoute
+  '/roteiro': typeof RoteiroRoute
+  '/telegram': typeof TelegramRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/alertas': typeof AlertasRoute
+  '/filas': typeof FilasRoute
+  '/parques': typeof ParquesRoute
+  '/roteiro': typeof RoteiroRoute
+  '/telegram': typeof TelegramRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/alertas': typeof AlertasRoute
+  '/filas': typeof FilasRoute
+  '/parques': typeof ParquesRoute
+  '/roteiro': typeof RoteiroRoute
+  '/telegram': typeof TelegramRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/alertas' | '/filas' | '/parques' | '/roteiro' | '/telegram'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/alertas' | '/filas' | '/parques' | '/roteiro' | '/telegram'
+  id:
+    | '__root__'
+    | '/'
+    | '/alertas'
+    | '/filas'
+    | '/parques'
+    | '/roteiro'
+    | '/telegram'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AlertasRoute: typeof AlertasRoute
+  FilasRoute: typeof FilasRoute
+  ParquesRoute: typeof ParquesRoute
+  RoteiroRoute: typeof RoteiroRoute
+  TelegramRoute: typeof TelegramRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/telegram': {
+      id: '/telegram'
+      path: '/telegram'
+      fullPath: '/telegram'
+      preLoaderRoute: typeof TelegramRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/roteiro': {
+      id: '/roteiro'
+      path: '/roteiro'
+      fullPath: '/roteiro'
+      preLoaderRoute: typeof RoteiroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/parques': {
+      id: '/parques'
+      path: '/parques'
+      fullPath: '/parques'
+      preLoaderRoute: typeof ParquesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/filas': {
+      id: '/filas'
+      path: '/filas'
+      fullPath: '/filas'
+      preLoaderRoute: typeof FilasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/alertas': {
+      id: '/alertas'
+      path: '/alertas'
+      fullPath: '/alertas'
+      preLoaderRoute: typeof AlertasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +145,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AlertasRoute: AlertasRoute,
+  FilasRoute: FilasRoute,
+  ParquesRoute: ParquesRoute,
+  RoteiroRoute: RoteiroRoute,
+  TelegramRoute: TelegramRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
