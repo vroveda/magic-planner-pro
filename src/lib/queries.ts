@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import type { Database } from "@/integrations/supabase/types";
@@ -112,6 +113,31 @@ export function useLiveStatusForAttractions(ids: string[]) {
       return map;
     },
   });
+}
+
+export function useLiveStatusRealtime(ids: string[]) {
+  const qc = useQueryClient();
+  const key = [...ids].sort().join(",");
+  useEffect(() => {
+    if (ids.length === 0) return;
+    const channel = supabase
+      .channel(`live-status:${key}`)
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "attraction_live_status" },
+        (payload) => {
+          const row = (payload.new ?? payload.old) as { attraction_id?: string } | null;
+          if (row?.attraction_id && ids.includes(row.attraction_id)) {
+            qc.invalidateQueries({ queryKey: ["live-status"] });
+          }
+        }
+      )
+      .subscribe();
+    return () => {
+      supabase.removeChannel(channel);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
 }
 
 export function useWaitHistoryForAttractions(ids: string[]) {
