@@ -32,8 +32,7 @@ function Welcome() {
           </div>
 
           <h1 className="font-display text-4xl font-bold leading-tight">
-            Aproveite <span className="text-gradient-gold">mais.</span>
-            <br />
+            Aproveite <span className="text-gradient-gold">mais.</span><br />
             Espere <span className="text-gradient-gold">menos.</span>
           </h1>
           <p className="mt-3 text-white/75 text-sm max-w-xs mx-auto">
@@ -58,15 +57,12 @@ function Welcome() {
 
         <div className="mt-auto pt-10">
           <Link
-            to="/parques"
+            to="/login"
             className="group flex items-center justify-center gap-2 rounded-2xl bg-gradient-gold py-4 text-base font-extrabold text-magic shadow-gold transition active:scale-[0.98]"
           >
-            Começar gratuitamente
+            Entrar e começar
             <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
           </Link>
-          <p className="mt-3 text-center text-xs text-white/60">
-            Planos disponíveis: <span className="font-bold text-white/80">Free · Day Pass · Trip Pass</span>
-          </p>
         </div>
       </div>
     </main>
@@ -75,20 +71,14 @@ function Welcome() {
 
 function Stars() {
   const stars = Array.from({ length: 30 }, (_, i) => ({
-    top: `${Math.random() * 100}%`,
-    left: `${Math.random() * 100}%`,
-    size: Math.random() * 2 + 1,
-    delay: `${Math.random() * 3}s`,
-    key: i,
+    top: `${Math.random() * 100}%`, left: `${Math.random() * 100}%`,
+    size: Math.random() * 2 + 1, delay: `${Math.random() * 3}s`, key: i,
   }));
   return (
     <div className="pointer-events-none absolute inset-0">
       {stars.map((s) => (
-        <div
-          key={s.key}
-          className="absolute rounded-full bg-white animate-sparkle"
-          style={{ top: s.top, left: s.left, width: s.size, height: s.size, animationDelay: s.delay }}
-        />
+        <div key={s.key} className="absolute rounded-full bg-white animate-sparkle"
+          style={{ top: s.top, left: s.left, width: s.size, height: s.size, animationDelay: s.delay }} />
       ))}
     </div>
   );
