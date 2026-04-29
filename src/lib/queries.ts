@@ -164,10 +164,10 @@ export function useActiveTrip() {
 export function useCreateTrip() {
   const qc = useQueryClient();
   const { user } = useAuth();
-  return useMutation({
-    mutationFn: async (name = "Minha viagem") => {
+  return useMutation<Trip, Error, string | undefined>({
+    mutationFn: async (name) => {
       if (!user) throw new Error("Sem usuário");
-      const insert: Tables["trips"]["Insert"] = { user_id: user.id, name, status: "planning" };
+      const insert: Tables["trips"]["Insert"] = { user_id: user.id, name: name ?? "Minha viagem", status: "planning" };
       const { data, error } = await supabase.from("trips").insert(insert).select("*").single();
       if (error) throw error;
       return data as Trip;
