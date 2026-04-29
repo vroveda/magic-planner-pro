@@ -1,7 +1,11 @@
-import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { Outlet, createRootRouteWithContext, HeadContent, Scripts } from "@tanstack/react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import appCss from "../styles.css?url";
-import { AppProvider } from "@/lib/app-state";
-import { UpgradeModal } from "@/components/UpgradeModal";
+import { AuthProvider } from "@/lib/auth";
+
+interface RouterContext {
+  queryClient: QueryClient;
+}
 
 function NotFoundComponent() {
   return (
@@ -10,13 +14,13 @@ function NotFoundComponent() {
         <div className="text-7xl mb-2">🏰</div>
         <h1 className="font-display text-5xl font-bold text-magic">404</h1>
         <p className="mt-2 text-muted-foreground">Essa magia não existe por aqui.</p>
-        <Link to="/" className="inline-block mt-5 rounded-xl bg-gradient-magic text-white px-5 py-2.5 font-bold shadow-magic">Voltar ao início</Link>
+        <a href="/" className="inline-block mt-5 rounded-xl bg-gradient-magic text-white px-5 py-2.5 font-bold shadow-magic">Voltar ao início</a>
       </div>
     </div>
   );
 }
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<RouterContext>()({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -46,10 +50,12 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
+  const { queryClient } = Route.useRouteContext();
   return (
-    <AppProvider>
-      <Outlet />
-      <UpgradeModal />
-    </AppProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <Outlet />
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
