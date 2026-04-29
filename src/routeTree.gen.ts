@@ -9,36 +9,24 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TelegramRouteImport } from './routes/telegram'
-import { Route as RoteiroRouteImport } from './routes/roteiro'
-import { Route as ParquesRouteImport } from './routes/parques'
-import { Route as FilasRouteImport } from './routes/filas'
-import { Route as AlertasRouteImport } from './routes/alertas'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppSetupRouteImport } from './routes/_app.setup'
+import { Route as AppRoteiroRouteImport } from './routes/_app.roteiro'
+import { Route as AppHojeRouteImport } from './routes/_app.hoje'
+import { Route as AppFilasRouteImport } from './routes/_app.filas'
+import { Route as AppConfigRouteImport } from './routes/_app.config'
+import { Route as AppAlertasRouteImport } from './routes/_app.alertas'
+import { Route as AppAtracaoIdRouteImport } from './routes/_app.atracao.$id'
 
-const TelegramRoute = TelegramRouteImport.update({
-  id: '/telegram',
-  path: '/telegram',
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const RoteiroRoute = RoteiroRouteImport.update({
-  id: '/roteiro',
-  path: '/roteiro',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ParquesRoute = ParquesRouteImport.update({
-  id: '/parques',
-  path: '/parques',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FilasRoute = FilasRouteImport.update({
-  id: '/filas',
-  path: '/filas',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AlertasRoute = AlertasRouteImport.update({
-  id: '/alertas',
-  path: '/alertas',
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -46,91 +34,134 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppSetupRoute = AppSetupRouteImport.update({
+  id: '/setup',
+  path: '/setup',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppRoteiroRoute = AppRoteiroRouteImport.update({
+  id: '/roteiro',
+  path: '/roteiro',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppHojeRoute = AppHojeRouteImport.update({
+  id: '/hoje',
+  path: '/hoje',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppFilasRoute = AppFilasRouteImport.update({
+  id: '/filas',
+  path: '/filas',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppConfigRoute = AppConfigRouteImport.update({
+  id: '/config',
+  path: '/config',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAlertasRoute = AppAlertasRouteImport.update({
+  id: '/alertas',
+  path: '/alertas',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAtracaoIdRoute = AppAtracaoIdRouteImport.update({
+  id: '/atracao/$id',
+  path: '/atracao/$id',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/alertas': typeof AlertasRoute
-  '/filas': typeof FilasRoute
-  '/parques': typeof ParquesRoute
-  '/roteiro': typeof RoteiroRoute
-  '/telegram': typeof TelegramRoute
+  '/login': typeof LoginRoute
+  '/alertas': typeof AppAlertasRoute
+  '/config': typeof AppConfigRoute
+  '/filas': typeof AppFilasRoute
+  '/hoje': typeof AppHojeRoute
+  '/roteiro': typeof AppRoteiroRoute
+  '/setup': typeof AppSetupRoute
+  '/atracao/$id': typeof AppAtracaoIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/alertas': typeof AlertasRoute
-  '/filas': typeof FilasRoute
-  '/parques': typeof ParquesRoute
-  '/roteiro': typeof RoteiroRoute
-  '/telegram': typeof TelegramRoute
+  '/login': typeof LoginRoute
+  '/alertas': typeof AppAlertasRoute
+  '/config': typeof AppConfigRoute
+  '/filas': typeof AppFilasRoute
+  '/hoje': typeof AppHojeRoute
+  '/roteiro': typeof AppRoteiroRoute
+  '/setup': typeof AppSetupRoute
+  '/atracao/$id': typeof AppAtracaoIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/alertas': typeof AlertasRoute
-  '/filas': typeof FilasRoute
-  '/parques': typeof ParquesRoute
-  '/roteiro': typeof RoteiroRoute
-  '/telegram': typeof TelegramRoute
+  '/_app': typeof AppRouteWithChildren
+  '/login': typeof LoginRoute
+  '/_app/alertas': typeof AppAlertasRoute
+  '/_app/config': typeof AppConfigRoute
+  '/_app/filas': typeof AppFilasRoute
+  '/_app/hoje': typeof AppHojeRoute
+  '/_app/roteiro': typeof AppRoteiroRoute
+  '/_app/setup': typeof AppSetupRoute
+  '/_app/atracao/$id': typeof AppAtracaoIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/alertas' | '/filas' | '/parques' | '/roteiro' | '/telegram'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/alertas'
+    | '/config'
+    | '/filas'
+    | '/hoje'
+    | '/roteiro'
+    | '/setup'
+    | '/atracao/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/alertas' | '/filas' | '/parques' | '/roteiro' | '/telegram'
+  to:
+    | '/'
+    | '/login'
+    | '/alertas'
+    | '/config'
+    | '/filas'
+    | '/hoje'
+    | '/roteiro'
+    | '/setup'
+    | '/atracao/$id'
   id:
     | '__root__'
     | '/'
-    | '/alertas'
-    | '/filas'
-    | '/parques'
-    | '/roteiro'
-    | '/telegram'
+    | '/_app'
+    | '/login'
+    | '/_app/alertas'
+    | '/_app/config'
+    | '/_app/filas'
+    | '/_app/hoje'
+    | '/_app/roteiro'
+    | '/_app/setup'
+    | '/_app/atracao/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AlertasRoute: typeof AlertasRoute
-  FilasRoute: typeof FilasRoute
-  ParquesRoute: typeof ParquesRoute
-  RoteiroRoute: typeof RoteiroRoute
-  TelegramRoute: typeof TelegramRoute
+  AppRoute: typeof AppRouteWithChildren
+  LoginRoute: typeof LoginRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/telegram': {
-      id: '/telegram'
-      path: '/telegram'
-      fullPath: '/telegram'
-      preLoaderRoute: typeof TelegramRouteImport
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/roteiro': {
-      id: '/roteiro'
-      path: '/roteiro'
-      fullPath: '/roteiro'
-      preLoaderRoute: typeof RoteiroRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/parques': {
-      id: '/parques'
-      path: '/parques'
-      fullPath: '/parques'
-      preLoaderRoute: typeof ParquesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/filas': {
-      id: '/filas'
-      path: '/filas'
-      fullPath: '/filas'
-      preLoaderRoute: typeof FilasRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/alertas': {
-      id: '/alertas'
-      path: '/alertas'
-      fullPath: '/alertas'
-      preLoaderRoute: typeof AlertasRouteImport
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -140,16 +171,84 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/setup': {
+      id: '/_app/setup'
+      path: '/setup'
+      fullPath: '/setup'
+      preLoaderRoute: typeof AppSetupRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/roteiro': {
+      id: '/_app/roteiro'
+      path: '/roteiro'
+      fullPath: '/roteiro'
+      preLoaderRoute: typeof AppRoteiroRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/hoje': {
+      id: '/_app/hoje'
+      path: '/hoje'
+      fullPath: '/hoje'
+      preLoaderRoute: typeof AppHojeRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/filas': {
+      id: '/_app/filas'
+      path: '/filas'
+      fullPath: '/filas'
+      preLoaderRoute: typeof AppFilasRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/config': {
+      id: '/_app/config'
+      path: '/config'
+      fullPath: '/config'
+      preLoaderRoute: typeof AppConfigRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/alertas': {
+      id: '/_app/alertas'
+      path: '/alertas'
+      fullPath: '/alertas'
+      preLoaderRoute: typeof AppAlertasRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/atracao/$id': {
+      id: '/_app/atracao/$id'
+      path: '/atracao/$id'
+      fullPath: '/atracao/$id'
+      preLoaderRoute: typeof AppAtracaoIdRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppAlertasRoute: typeof AppAlertasRoute
+  AppConfigRoute: typeof AppConfigRoute
+  AppFilasRoute: typeof AppFilasRoute
+  AppHojeRoute: typeof AppHojeRoute
+  AppRoteiroRoute: typeof AppRoteiroRoute
+  AppSetupRoute: typeof AppSetupRoute
+  AppAtracaoIdRoute: typeof AppAtracaoIdRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppAlertasRoute: AppAlertasRoute,
+  AppConfigRoute: AppConfigRoute,
+  AppFilasRoute: AppFilasRoute,
+  AppHojeRoute: AppHojeRoute,
+  AppRoteiroRoute: AppRoteiroRoute,
+  AppSetupRoute: AppSetupRoute,
+  AppAtracaoIdRoute: AppAtracaoIdRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AlertasRoute: AlertasRoute,
-  FilasRoute: FilasRoute,
-  ParquesRoute: ParquesRoute,
-  RoteiroRoute: RoteiroRoute,
-  TelegramRoute: TelegramRoute,
+  AppRoute: AppRouteWithChildren,
+  LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
