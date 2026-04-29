@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo } from "react";
-import { useActiveTrip, useTripParkDays, useRouteForDay, useRouteItems, useAttractionsByIds, useLiveStatusForAttractions, useWaitHistoryForAttractions } from "@/lib/queries";
+import { useActiveTrip, useTripParkDays, useRouteForDay, useRouteItems, useAttractionsByIds, useLiveStatusForAttractions, useWaitHistoryForAttractions, useLiveStatusRealtime } from "@/lib/queries";
 import { computeCondition, conditionMeta } from "@/lib/score";
 
 export const Route = createFileRoute("/_app/filas")({
@@ -19,6 +19,7 @@ function QueuesPage() {
   const { data: attractions = [] } = useAttractionsByIds(ids);
   const { data: live = {} } = useLiveStatusForAttractions(ids);
   const { data: hist = {} } = useWaitHistoryForAttractions(ids);
+  useLiveStatusRealtime(ids);
 
   return (
     <main className="px-5 pt-6 max-w-md mx-auto">

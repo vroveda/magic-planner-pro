@@ -1,8 +1,9 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo } from "react";
 import { ArrowRight, MapPin, Calendar } from "lucide-react";
-import { useActiveTrip, useTripParkDays, useParks, useRouteForDay, useRouteItems, useAttractionsByIds, useLiveStatusForAttractions, useWaitHistoryForAttractions } from "@/lib/queries";
+import { useActiveTrip, useTripParkDays, useParks, useRouteForDay, useRouteItems, useAttractionsByIds, useLiveStatusForAttractions, useWaitHistoryForAttractions, useLiveStatusRealtime } from "@/lib/queries";
 import { computeCondition, conditionMeta } from "@/lib/score";
+import { useGeolocationTracking } from "@/lib/geo";
 
 export const Route = createFileRoute("/_app/hoje")({
   head: () => ({ meta: [{ title: "Hoje — Genie Hacker" }] }),
@@ -29,6 +30,8 @@ function TodayPage() {
   const { data: attractions = [] } = useAttractionsByIds(ids);
   const { data: live = {} } = useLiveStatusForAttractions(ids);
   const { data: hist = {} } = useWaitHistoryForAttractions(ids);
+  useLiveStatusRealtime(ids);
+  useGeolocationTracking({ days, attractions });
 
   const next = items.find((i) => !i.visited_at && !i.skipped_at);
   const nextAttr = next ? attractions.find((a) => a.id === next.attraction_id) : null;
