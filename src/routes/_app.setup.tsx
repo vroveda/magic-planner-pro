@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, ArrowLeft, Calendar, Hotel, Ticket, Users, Baby, MapPin, ListChecks, Check, Sparkles } from "lucide-react";
+import { ArrowRight, ArrowLeft, Calendar, Hotel, Ticket, Users, Baby, MapPin, ListChecks, Check, Sparkles, RollerCoaster, Drama, HandHeart, Music, Sparkle, Zap, Gauge, Smartphone } from "lucide-react";
 import {
   useActiveTrip, useCreateTrip, useUpdateTrip, useParks, useTripParkDays, useUpsertTripParkDays,
   useAttractionsByPark, useReplaceRoute, readTripPrefs, writeTripPrefs, type TripPrefs,
@@ -387,8 +387,12 @@ function ParkRoutePicker({ parkId, parkName, childrenPrefs, value, onChange, onB
                 <div className="flex items-center gap-1.5 flex-wrap">
                   <p className="font-bold leading-tight truncate">{a.name}</p>
                   {a.is_must_do && <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-extrabold ${sel ? "bg-gold text-magic" : "bg-gradient-gold text-magic"}`}>IMPERDÍVEL</span>}
+                  <ExperienceIcon type={a.experience_type} selected={sel} />
+                  <LightningLaneIcon type={a.lightning_lane_type} selected={sel} />
                 </div>
-                <p className={`text-[11px] mt-0.5 ${sel ? "text-white/80" : "text-muted-foreground"}`}>{a.area} · {a.experience_type}{a.lightning_lane_type !== "none" ? ` · LL ${a.lightning_lane_type}` : ""}</p>
+                {a.short_description && (
+                  <p className={`text-[11px] mt-0.5 leading-snug line-clamp-2 ${sel ? "text-white/80" : "text-muted-foreground"}`}>{a.short_description}</p>
+                )}
                 {warn && <p className={`text-[11px] mt-0.5 font-bold ${sel ? "text-gold" : "text-warning"}`}>{warn}</p>}
               </div>
             </button>
@@ -398,5 +402,42 @@ function ParkRoutePicker({ parkId, parkName, childrenPrefs, value, onChange, onB
 
       <NavButtons onBack={onBack} onNext={value.length > 0 ? onNext : null} nextLabel={isLast ? "Concluir e ir" : "Próximo parque"} />
     </div>
+  );
+}
+
+function ExperienceIcon({ type, selected }: { type: string; selected: boolean }) {
+  const map: Record<string, { icon: typeof RollerCoaster; label: string }> = {
+    ride: { icon: RollerCoaster, label: "Atração" },
+    show: { icon: Drama, label: "Show" },
+    meet_greet: { icon: HandHeart, label: "Meet & Greet" },
+    parade: { icon: Music, label: "Parada" },
+    fireworks: { icon: Sparkle, label: "Fogos" },
+    other: { icon: Sparkles, label: "Outro" },
+  };
+  const entry = map[type] ?? map.other;
+  const Icon = entry.icon;
+  return (
+    <span title={entry.label} aria-label={entry.label}
+      className={`inline-flex h-4 w-4 items-center justify-center ${selected ? "text-white/70" : "text-muted-foreground"}`}>
+      <Icon className="h-3.5 w-3.5" />
+    </span>
+  );
+}
+
+function LightningLaneIcon({ type, selected }: { type: string; selected: boolean }) {
+  if (type === "none") return null;
+  const map: Record<string, { icon: typeof Zap; label: string }> = {
+    multipass: { icon: Zap, label: "Lightning Lane Multi Pass" },
+    single_pass: { icon: Gauge, label: "Lightning Lane Single Pass" },
+    virtual_queue: { icon: Smartphone, label: "Fila Virtual" },
+  };
+  const entry = map[type];
+  if (!entry) return null;
+  const Icon = entry.icon;
+  return (
+    <span title={entry.label} aria-label={entry.label}
+      className={`inline-flex h-4 w-4 items-center justify-center ${selected ? "text-gold" : "text-magic"}`}>
+      <Icon className="h-3.5 w-3.5" />
+    </span>
   );
 }
