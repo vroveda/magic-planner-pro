@@ -165,7 +165,7 @@ function SetupWizard() {
                   }} />
               </div>
             )}
-            <NavButtons onBack={back} onNext={prefs.children !== undefined ? next : null} />
+            <NavButtons onBack={back} onNext={prefs.children !== undefined ? () => setStep(hasChildren ? 5 : 6) : null} />
           </Card>
         )}
 
