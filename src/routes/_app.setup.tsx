@@ -207,7 +207,7 @@ function SetupWizard() {
                 );
               })}
             </div>
-            <NavButtons onBack={back} onNext={parkIds.length > 0 ? next : null} />
+            <NavButtons onBack={() => setStep(hasChildren ? 5 : 4)} onNext={parkIds.length > 0 ? next : null} />
           </Card>
         )}
 
