@@ -28,6 +28,7 @@ function SetupWizard() {
   const replaceRoute = useReplaceRoute();
   const { data: existingDays = [] } = useTripParkDays(trip?.id);
 
+  const todayISO = useMemo(() => new Date().toISOString().slice(0, 10), []);
   const [step, setStep] = useState(0);
   const [prefs, setPrefs] = useState<TripPrefs>({});
   const [arrival, setArrival] = useState<string>("");
