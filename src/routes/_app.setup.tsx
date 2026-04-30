@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, ArrowLeft, Calendar, Hotel, Ticket, Users, Baby, MapPin, ListChecks, Check, Sparkles } from "lucide-react";
+import { ArrowRight, ArrowLeft, Calendar, Hotel, Ticket, Users, Baby, MapPin, ListChecks, Check, Sparkles, RollerCoaster, Drama, HandHeart, Music, Sparkle, Zap, Gauge, Smartphone } from "lucide-react";
 import {
   useActiveTrip, useCreateTrip, useUpdateTrip, useParks, useTripParkDays, useUpsertTripParkDays,
   useAttractionsByPark, useReplaceRoute, readTripPrefs, writeTripPrefs, type TripPrefs,
