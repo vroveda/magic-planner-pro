@@ -219,13 +219,13 @@ function SetupWizard() {
                 return (
                   <div key={pid} className="rounded-2xl border border-border bg-card p-3">
                     <p className="font-bold text-sm mb-2">{p?.name}</p>
-                    <input type="date" value={parkDates[pid] ?? ""} onChange={(e) => setParkDates({ ...parkDates, [pid]: e.target.value })}
+                    <input type="date" value={parkDates[pid] ?? ""} min={arrival || todayISO} onChange={(e) => setParkDates({ ...parkDates, [pid]: e.target.value })}
                       className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm font-semibold" />
                   </div>
                 );
               })}
             </div>
-            <NavButtons onBack={back} onNext={parkIds.every((pid) => parkDates[pid]) ? async () => { await persistParksAndDates(); next(); } : null} />
+            <NavButtons onBack={back} onNext={parkIds.every((pid) => parkDates[pid] && parkDates[pid] >= (arrival || todayISO)) ? async () => { await persistParksAndDates(); next(); } : null} />
           </Card>
         )}
 
