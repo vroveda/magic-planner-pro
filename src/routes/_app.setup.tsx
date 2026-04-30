@@ -387,8 +387,12 @@ function ParkRoutePicker({ parkId, parkName, childrenPrefs, value, onChange, onB
                 <div className="flex items-center gap-1.5 flex-wrap">
                   <p className="font-bold leading-tight truncate">{a.name}</p>
                   {a.is_must_do && <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-extrabold ${sel ? "bg-gold text-magic" : "bg-gradient-gold text-magic"}`}>IMPERDÍVEL</span>}
+                  <ExperienceIcon type={a.experience_type} selected={sel} />
+                  <LightningLaneIcon type={a.lightning_lane_type} selected={sel} />
                 </div>
-                <p className={`text-[11px] mt-0.5 ${sel ? "text-white/80" : "text-muted-foreground"}`}>{a.area} · {a.experience_type}{a.lightning_lane_type !== "none" ? ` · LL ${a.lightning_lane_type}` : ""}</p>
+                {a.short_description && (
+                  <p className={`text-[11px] mt-0.5 leading-snug line-clamp-2 ${sel ? "text-white/80" : "text-muted-foreground"}`}>{a.short_description}</p>
+                )}
                 {warn && <p className={`text-[11px] mt-0.5 font-bold ${sel ? "text-gold" : "text-warning"}`}>{warn}</p>}
               </div>
             </button>
