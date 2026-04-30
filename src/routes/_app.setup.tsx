@@ -28,6 +28,7 @@ function SetupWizard() {
   const replaceRoute = useReplaceRoute();
   const { data: existingDays = [] } = useTripParkDays(trip?.id);
 
+  const todayISO = useMemo(() => new Date().toISOString().slice(0, 10), []);
   const [step, setStep] = useState(0);
   const [prefs, setPrefs] = useState<TripPrefs>({});
   const [arrival, setArrival] = useState<string>("");
@@ -119,9 +120,9 @@ function SetupWizard() {
 
         {step === 0 && (
           <Card icon={<Calendar className="h-6 w-6" />} title="Quando você chega em Orlando?" subtitle="Vamos usar essa data para montar seu cronograma.">
-            <input type="date" value={arrival} onChange={(e) => setArrival(e.target.value)} onBlur={(e) => persistArrival(e.target.value)}
+            <input type="date" value={arrival} min={todayISO} onChange={(e) => setArrival(e.target.value)} onBlur={(e) => persistArrival(e.target.value)}
               className="w-full rounded-2xl border border-border bg-card px-4 py-3 text-base font-semibold focus:outline-none focus:ring-2 focus:ring-gold" />
-            <NavButtons onBack={null} onNext={arrival ? () => { persistArrival(arrival); next(); } : null} />
+            <NavButtons onBack={null} onNext={arrival && arrival >= todayISO ? () => { persistArrival(arrival); next(); } : null} />
           </Card>
         )}
 
@@ -218,13 +219,13 @@ function SetupWizard() {
                 return (
                   <div key={pid} className="rounded-2xl border border-border bg-card p-3">
                     <p className="font-bold text-sm mb-2">{p?.name}</p>
-                    <input type="date" value={parkDates[pid] ?? ""} onChange={(e) => setParkDates({ ...parkDates, [pid]: e.target.value })}
+                    <input type="date" value={parkDates[pid] ?? ""} min={arrival || todayISO} onChange={(e) => setParkDates({ ...parkDates, [pid]: e.target.value })}
                       className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm font-semibold" />
                   </div>
                 );
               })}
             </div>
-            <NavButtons onBack={back} onNext={parkIds.every((pid) => parkDates[pid]) ? async () => { await persistParksAndDates(); next(); } : null} />
+            <NavButtons onBack={back} onNext={parkIds.every((pid) => parkDates[pid] && parkDates[pid] >= (arrival || todayISO)) ? async () => { await persistParksAndDates(); next(); } : null} />
           </Card>
         )}
 
