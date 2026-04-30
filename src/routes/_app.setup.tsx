@@ -63,6 +63,28 @@ function SetupWizard() {
   function next() { setStep((s) => Math.min(totalSteps - 1, s + 1)); }
   function back() { setStep((s) => Math.max(0, s - 1)); }
 
+  function addDaysISO(iso: string, days: number) {
+    const d = new Date(iso + "T00:00:00");
+    d.setDate(d.getDate() + days);
+    return d.toISOString().slice(0, 10);
+  }
+
+  // Pre-fill park visit dates: arrival + 1, +2, +3... for parks that don't have a date yet
+  useEffect(() => {
+    if (!arrival || parkIds.length === 0) return;
+    setParkDates((cur) => {
+      const out = { ...cur };
+      let changed = false;
+      parkIds.forEach((pid, i) => {
+        if (!out[pid]) {
+          out[pid] = addDaysISO(arrival, i + 1);
+          changed = true;
+        }
+      });
+      return changed ? out : cur;
+    });
+  }, [arrival, parkIds]);
+
   async function persistPrefs(p: TripPrefs) {
     setPrefs(p);
     if (trip) writeTripPrefs(trip.id, p);
