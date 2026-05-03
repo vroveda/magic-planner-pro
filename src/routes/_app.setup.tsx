@@ -234,28 +234,10 @@ function SetupWizard() {
                 );
               })}
             </div>
-            <NavButtons onBack={back} onNext={parkIds.every((pid) => parkDates[pid] && parkDates[pid] >= (arrival || todayISO)) ? async () => { await persistParksAndDates(); next(); } : null} />
+            <NavButtons onBack={back} onNext={parkIds.every((pid) => parkDates[pid] && parkDates[pid] >= (arrival || todayISO)) ? async () => { await finalize(); } : null} nextLabel="Concluir" />
           </Card>
         )}
 
-        {step === 8 && currentParkForRoute && (
-          <ParkRoutePicker
-            key={currentParkForRoute}
-            parkId={currentParkForRoute}
-            parkName={parks.find((p) => p.id === currentParkForRoute)?.name ?? ""}
-            childrenPrefs={prefs.children ?? []}
-            value={routesByPark[currentParkForRoute] ?? []}
-            onChange={(ids) => setRoutesByPark({ ...routesByPark, [currentParkForRoute]: ids })}
-            onBack={() => parkRouteIdx === 0 ? back() : setParkRouteIdx(parkRouteIdx - 1)}
-            onNext={async () => {
-              if (parkRouteIdx < parkIds.length - 1) setParkRouteIdx(parkRouteIdx + 1);
-              else await finalizeRoutes();
-            }}
-            isLast={parkRouteIdx === parkIds.length - 1}
-            position={parkRouteIdx + 1}
-            total={parkIds.length}
-          />
-        )}
       </div>
     </main>
   );
