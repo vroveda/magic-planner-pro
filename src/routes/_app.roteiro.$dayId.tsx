@@ -17,7 +17,6 @@ export const Route = createFileRoute("/_app/roteiro/$dayId")({
 
 function DayRoute() {
   const { dayId } = Route.useParams();
-  const nav = useNavigate();
   const { data: trip } = useActiveTrip();
   const { data: parks = [] } = useParks();
   const { data: days = [] } = useTripParkDays(trip?.id);
@@ -33,15 +32,28 @@ function DayRoute() {
   const markVisited = useMarkVisited();
   const markSkipped = useMarkSkipped();
   const replaceRoute = useReplaceRoute();
+  const setArrival = useSetPlannedArrival();
 
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState<string[]>([]);
+  const [step, setStep] = useState<"arrival" | "picker">("picker");
+  const [arrivalDraft, setArrivalDraft] = useState<string>("09:00");
   const prefs = trip ? readTripPrefs(trip.id) : {};
 
-  // when entering edit mode, seed with current items
-  useEffect(() => { if (editing) setDraft(ids); }, [editing]);
-
   const showPicker = editing || items.length === 0;
+
+  // initialize step + drafts when entering picker mode
+  useEffect(() => {
+    if (!showPicker || !day) return;
+    setDraft(editing ? ids : []);
+    if (!day.planned_arrival_time) {
+      setStep("arrival");
+      setArrivalDraft("09:00");
+    } else {
+      setStep("picker");
+      setArrivalDraft(day.planned_arrival_time.slice(0, 5));
+    }
+  }, [showPicker, editing, day?.id, day?.planned_arrival_time]);
 
   if (!day) {
     return (
@@ -52,24 +64,76 @@ function DayRoute() {
     );
   }
 
+  if (showPicker && park && step === "arrival") {
+    return (
+      <main className="px-5 pt-6 max-w-md mx-auto pb-32">
+        <Link to="/roteiro" className="inline-flex items-center gap-1 text-xs font-bold text-muted-foreground mb-3">
+          <ArrowLeft className="h-3.5 w-3.5" /> Voltar
+        </Link>
+        <div className="rounded-3xl bg-card border border-border p-5 shadow-soft">
+          <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">{park.name}</p>
+          <h2 className="font-display text-2xl font-bold text-magic mt-1">
+            Que horas você pretende chegar?
+          </h2>
+          <p className="text-sm text-muted-foreground mt-1">
+            Vamos usar isso para organizar seu roteiro.
+          </p>
+          <div className="mt-5 flex items-center gap-3">
+            <Clock className="h-5 w-5 text-magic" />
+            <input
+              type="time"
+              value={arrivalDraft}
+              onChange={(e) => setArrivalDraft(e.target.value)}
+              className="flex-1 rounded-2xl border border-border bg-card px-4 py-3 text-lg font-display font-bold text-magic"
+            />
+          </div>
+          <div className="mt-6 flex items-center gap-2">
+            {editing && (
+              <button onClick={() => setEditing(false)} className="flex items-center gap-1 rounded-2xl border border-border bg-card px-4 py-3 text-sm font-bold text-magic">
+                <ArrowLeft className="h-4 w-4" /> Cancelar
+              </button>
+            )}
+            <button
+              onClick={async () => {
+                await setArrival.mutateAsync({ dayId: day.id, time: arrivalDraft });
+                setStep("picker");
+              }}
+              disabled={!arrivalDraft}
+              className="ml-auto flex items-center gap-1 rounded-2xl bg-gradient-gold px-5 py-3 text-sm font-extrabold text-magic shadow-gold disabled:opacity-50"
+            >
+              Continuar <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   if (showPicker && park) {
     return (
       <main className="px-5 pt-6 max-w-md mx-auto pb-32">
         <Link to="/roteiro" className="inline-flex items-center gap-1 text-xs font-bold text-muted-foreground mb-3">
           <ArrowLeft className="h-3.5 w-3.5" /> Voltar
         </Link>
+        <button
+          onClick={() => setStep("arrival")}
+          className="mb-3 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-bold text-magic"
+        >
+          <Clock className="h-3.5 w-3.5" />
+          Chegada às {arrivalDraft} <span className="text-muted-foreground">• alterar</span>
+        </button>
         <ParkRoutePicker
           parkId={park.id}
           parkName={park.name}
           childrenPrefs={prefs.children ?? []}
-          value={editing ? draft : []}
-          onChange={(v) => setDraft(v)}
+          value={draft}
+          onChange={setDraft}
           headerExtra={editing ? "Editar roteiro" : "Definir roteiro"}
           onBack={editing ? () => setEditing(false) : null}
           onNext={
-            (editing ? draft : []).length > 0 || !editing
+            draft.length > 0
               ? async () => {
-                  await replaceRoute.mutateAsync({ tripParkDayId: day.id, attractionIds: editing ? draft : draft });
+                  await replaceRoute.mutateAsync({ tripParkDayId: day.id, attractionIds: draft });
                   setEditing(false);
                 }
               : null
