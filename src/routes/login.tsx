@@ -5,6 +5,9 @@ import { Logo, CastleIcon } from "@/components/Logo";
 import { useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/login")({
+  validateSearch: (search): { redirect?: string } => ({
+    redirect: typeof search.redirect === "string" ? search.redirect : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Entrar — Genie Hacker" },
@@ -17,14 +20,16 @@ export const Route = createFileRoute("/login")({
 function LoginPage() {
   const { signIn, user, loading } = useAuth();
   const nav = useNavigate();
+  const { redirect } = Route.useSearch();
+  const redirectTo = redirect ?? "/hoje";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    if (!loading && user) nav({ to: "/hoje" });
-  }, [loading, user, nav]);
+    if (!loading && user) nav({ to: redirectTo, replace: true });
+  }, [loading, user, nav, redirectTo]);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -33,7 +38,6 @@ function LoginPage() {
     const { error } = await signIn(email.trim(), password);
     setSubmitting(false);
     if (error) setError(error);
-    else nav({ to: "/hoje" });
   }
 
   return (
