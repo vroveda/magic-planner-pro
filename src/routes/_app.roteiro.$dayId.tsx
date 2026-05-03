@@ -113,6 +113,27 @@ function DayRoute() {
     );
   }
 
+  if (showPicker && park && step === "order") {
+    return (
+      <main className="px-5 pt-6 max-w-md mx-auto pb-32">
+        <Link to="/roteiro" className="inline-flex items-center gap-1 text-xs font-bold text-muted-foreground mb-3">
+          <ArrowLeft className="h-3.5 w-3.5" /> Voltar
+        </Link>
+        <RouteOrderStep
+          parkName={park.name}
+          attractions={parkAttractions.filter((a) => draft.includes(a.id))}
+          initialIds={draft}
+          onBack={() => setStep("picker")}
+          saving={replaceRoute.isPending}
+          onSave={async (orderedIds) => {
+            await replaceRoute.mutateAsync({ tripParkDayId: day.id, attractionIds: orderedIds });
+            setEditing(false);
+          }}
+        />
+      </main>
+    );
+  }
+
   if (showPicker && park) {
     return (
       <main className="px-5 pt-6 max-w-md mx-auto pb-32">
@@ -136,18 +157,12 @@ function DayRoute() {
           onBack={editing ? () => setEditing(false) : null}
           usesLightningLane={!!day.uses_lightning_lane}
           onUsesLightningLaneChange={(v) => setUsesLL.mutate({ dayId: day.id, value: v })}
-          onNext={
-            draft.length > 0
-              ? async () => {
-                  await replaceRoute.mutateAsync({ tripParkDayId: day.id, attractionIds: draft });
-                  setEditing(false);
-                }
-              : null
-          }
-          nextLabel="Salvar roteiro"
+          onNext={draft.length > 0 ? () => setStep("order") : null}
+          nextLabel="Continuar"
         />
       </main>
     );
+  }
   }
 
   return (
