@@ -34,8 +34,6 @@ function SetupWizard() {
   const [arrival, setArrival] = useState<string>("");
   const [parkIds, setParkIds] = useState<string[]>([]);
   const [parkDates, setParkDates] = useState<Record<string, string>>({});
-  const [routesByPark, setRoutesByPark] = useState<Record<string, string[]>>({});
-  const [parkRouteIdx, setParkRouteIdx] = useState(0);
 
   // Auto-create trip on first load
   useEffect(() => {
@@ -56,7 +54,7 @@ function SetupWizard() {
     }
   }, [existingDays]);
 
-  const totalSteps = 9;
+  const totalSteps = 8;
   const progress = ((step + 1) / totalSteps) * 100;
   const hasChildren = (prefs.children?.length ?? 0) > 0;
 
