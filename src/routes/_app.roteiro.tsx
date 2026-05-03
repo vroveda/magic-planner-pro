@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo } from "react";
 import { Crown, Check, SkipForward } from "lucide-react";
-import { useActiveTrip, useTripParkDays, useParks, useRouteForDay, useRouteItems, useAttractionsByIds, useLiveStatusForAttractions, useWaitHistoryForAttractions, useMarkVisited, useMarkSkipped } from "@/lib/queries";
+import { useActiveTrip, useTripParkDays, useParks, useRouteForDay, useRouteItems, useAttractionsByIds, useLiveStatusForAttractions, useWaitHistoryForAttractions, useLiveStatusRealtime, useMarkVisited, useMarkSkipped } from "@/lib/queries";
 import { computeCondition, conditionMeta } from "@/lib/score";
 
 export const Route = createFileRoute("/_app/roteiro")({
@@ -26,6 +26,7 @@ function RouteList() {
   const { data: attractions = [] } = useAttractionsByIds(ids);
   const { data: live = {} } = useLiveStatusForAttractions(ids);
   const { data: hist = {} } = useWaitHistoryForAttractions(ids);
+  useLiveStatusRealtime(ids);
   const markVisited = useMarkVisited();
   const markSkipped = useMarkSkipped();
 
@@ -33,7 +34,8 @@ function RouteList() {
     <main className="px-5 pt-6 max-w-md mx-auto">
       <header className="mb-5">
         <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">{park?.name ?? "Roteiro"}</p>
-        <h1 className="font-display text-3xl font-bold text-magic">Roteiro do dia</h1>
+        <h1 className="font-display text-3xl font-bold text-magic">Roteiro & Filas</h1>
+        <p className="text-xs text-muted-foreground mt-1">Sua ordem do dia com tempos de espera ao vivo.</p>
       </header>
 
       {items.length === 0 && (
@@ -49,12 +51,13 @@ function RouteList() {
           if (!a) return null;
           const w = live[a.id]?.current_wait_minutes ?? null;
           const h = hist[a.id] ?? null;
-          const { condition } = computeCondition(w, h);
+          const { condition, deviation } = computeCondition(w, h);
           const meta = conditionMeta[condition];
+          const trend = deviation == null ? "→" : deviation > 0.05 ? "↑" : deviation < -0.05 ? "↓" : "→";
           const done = !!item.visited_at;
           const skipped = !!item.skipped_at;
           return (
-            <li key={item.id} className={`rounded-2xl border p-4 ${done ? "bg-success/5 border-success/30" : skipped ? "bg-muted/40 border-border opacity-70" : "bg-card border-border shadow-soft"}`}>
+            <li key={item.id} className={`rounded-2xl border p-4 ${done ? "bg-success/5 border-success/30" : skipped ? "bg-muted/40 border-border opacity-70" : `bg-card border-border shadow-soft ${meta.bg}`}`}>
               <div className="flex items-start gap-3">
                 <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl font-display font-bold text-sm ${a.is_must_do ? "bg-gradient-gold text-magic" : "bg-secondary text-magic"}`}>
                   {idx + 1}
@@ -65,9 +68,16 @@ function RouteList() {
                   </Link>
                   <div className="mt-1.5 flex items-center gap-1.5 flex-wrap text-[10px] font-extrabold">
                     {a.is_must_do && <span className="inline-flex items-center gap-1 rounded-full bg-gradient-gold text-magic px-2 py-0.5"><Crown className="h-3 w-3" /> IMPERDÍVEL</span>}
-                    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 ${meta.bg} ${meta.color}`}>{meta.emoji} {meta.label}</span>
-                    {w != null && <span className="text-muted-foreground">{w} min</span>}
+                    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 ${meta.color}`}>{meta.emoji} {meta.label}</span>
+                    {h != null && <span className="text-muted-foreground">média {Math.round(h)}m</span>}
                   </div>
+                </div>
+                <div className="text-right shrink-0">
+                  <p className="font-display text-2xl font-bold text-magic leading-none">
+                    {w != null ? w : "—"}
+                    <span className="text-xs font-bold text-muted-foreground"> min</span>
+                  </p>
+                  <p className={`text-xs font-bold ${meta.color}`}>{trend}</p>
                 </div>
               </div>
               {!done && !skipped && (
