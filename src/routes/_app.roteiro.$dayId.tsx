@@ -5,7 +5,7 @@ import {
   useActiveTrip, useTripParkDays, useParks, useRouteForDay, useRouteItems,
   useAttractionsByIds, useLiveStatusForAttractions, useWaitHistoryForAttractions,
   useLiveStatusRealtime, useMarkVisited, useMarkSkipped, useReplaceRoute,
-  useSetPlannedArrival, readTripPrefs,
+  useSetPlannedArrival, useSetUsesLightningLane, readTripPrefs,
 } from "@/lib/queries";
 import { computeCondition, conditionMeta } from "@/lib/score";
 import { ParkRoutePicker } from "@/components/ParkRoutePicker";
