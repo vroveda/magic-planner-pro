@@ -102,28 +102,17 @@ function SetupWizard() {
     await upsertDays.mutateAsync({ tripId: trip.id, days });
   }
 
-  async function finalizeRoutes() {
+  async function finalize() {
     if (!trip) return;
-    // Refetch days happens via invalidation; we re-read from cache by visiting; simplest: requery now.
     const days = parkIds.map((pid) => ({ park_id: pid, visit_date: parkDates[pid] }));
-    // ensure days saved
     await upsertDays.mutateAsync({ tripId: trip.id, days });
-    // Now fetch the freshly inserted day rows to get IDs
-    const { supabase } = await import("@/integrations/supabase/client");
-    const { data: dayRows } = await supabase.from("trip_park_days").select("*").eq("trip_id", trip.id);
-    for (const row of dayRows ?? []) {
-      const ids = routesByPark[row.park_id] ?? [];
-      await replaceRoute.mutateAsync({ tripParkDayId: row.id, attractionIds: ids });
-    }
     await updateTrip.mutateAsync({ id: trip.id, patch: { status: "active" } });
-    nav({ to: "/hoje" });
+    nav({ to: "/roteiro" });
   }
 
   if (loadingTrip || !trip) {
     return <div className="p-10 text-center text-muted-foreground">Carregando…</div>;
   }
-
-  const currentParkForRoute = parkIds[parkRouteIdx];
 
   return (
     <main className="min-h-screen px-5 pt-6 pb-32">
