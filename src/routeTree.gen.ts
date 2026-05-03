@@ -17,6 +17,7 @@ import { Route as AppRoteiroRouteImport } from './routes/_app.roteiro'
 import { Route as AppHojeRouteImport } from './routes/_app.hoje'
 import { Route as AppConfigRouteImport } from './routes/_app.config'
 import { Route as AppAlertasRouteImport } from './routes/_app.alertas'
+import { Route as AppRoteiroDayIdRouteImport } from './routes/_app.roteiro.$dayId'
 import { Route as AppAtracaoIdRouteImport } from './routes/_app.atracao.$id'
 
 const LoginRoute = LoginRouteImport.update({
@@ -58,6 +59,11 @@ const AppAlertasRoute = AppAlertasRouteImport.update({
   path: '/alertas',
   getParentRoute: () => AppRoute,
 } as any)
+const AppRoteiroDayIdRoute = AppRoteiroDayIdRouteImport.update({
+  id: '/$dayId',
+  path: '/$dayId',
+  getParentRoute: () => AppRoteiroRoute,
+} as any)
 const AppAtracaoIdRoute = AppAtracaoIdRouteImport.update({
   id: '/atracao/$id',
   path: '/atracao/$id',
@@ -70,9 +76,10 @@ export interface FileRoutesByFullPath {
   '/alertas': typeof AppAlertasRoute
   '/config': typeof AppConfigRoute
   '/hoje': typeof AppHojeRoute
-  '/roteiro': typeof AppRoteiroRoute
+  '/roteiro': typeof AppRoteiroRouteWithChildren
   '/setup': typeof AppSetupRoute
   '/atracao/$id': typeof AppAtracaoIdRoute
+  '/roteiro/$dayId': typeof AppRoteiroDayIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -80,9 +87,10 @@ export interface FileRoutesByTo {
   '/alertas': typeof AppAlertasRoute
   '/config': typeof AppConfigRoute
   '/hoje': typeof AppHojeRoute
-  '/roteiro': typeof AppRoteiroRoute
+  '/roteiro': typeof AppRoteiroRouteWithChildren
   '/setup': typeof AppSetupRoute
   '/atracao/$id': typeof AppAtracaoIdRoute
+  '/roteiro/$dayId': typeof AppRoteiroDayIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -92,9 +100,10 @@ export interface FileRoutesById {
   '/_app/alertas': typeof AppAlertasRoute
   '/_app/config': typeof AppConfigRoute
   '/_app/hoje': typeof AppHojeRoute
-  '/_app/roteiro': typeof AppRoteiroRoute
+  '/_app/roteiro': typeof AppRoteiroRouteWithChildren
   '/_app/setup': typeof AppSetupRoute
   '/_app/atracao/$id': typeof AppAtracaoIdRoute
+  '/_app/roteiro/$dayId': typeof AppRoteiroDayIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -107,6 +116,7 @@ export interface FileRouteTypes {
     | '/roteiro'
     | '/setup'
     | '/atracao/$id'
+    | '/roteiro/$dayId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -117,6 +127,7 @@ export interface FileRouteTypes {
     | '/roteiro'
     | '/setup'
     | '/atracao/$id'
+    | '/roteiro/$dayId'
   id:
     | '__root__'
     | '/'
@@ -128,6 +139,7 @@ export interface FileRouteTypes {
     | '/_app/roteiro'
     | '/_app/setup'
     | '/_app/atracao/$id'
+    | '/_app/roteiro/$dayId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -194,6 +206,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAlertasRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/roteiro/$dayId': {
+      id: '/_app/roteiro/$dayId'
+      path: '/$dayId'
+      fullPath: '/roteiro/$dayId'
+      preLoaderRoute: typeof AppRoteiroDayIdRouteImport
+      parentRoute: typeof AppRoteiroRoute
+    }
     '/_app/atracao/$id': {
       id: '/_app/atracao/$id'
       path: '/atracao/$id'
@@ -204,11 +223,23 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AppRoteiroRouteChildren {
+  AppRoteiroDayIdRoute: typeof AppRoteiroDayIdRoute
+}
+
+const AppRoteiroRouteChildren: AppRoteiroRouteChildren = {
+  AppRoteiroDayIdRoute: AppRoteiroDayIdRoute,
+}
+
+const AppRoteiroRouteWithChildren = AppRoteiroRoute._addFileChildren(
+  AppRoteiroRouteChildren,
+)
+
 interface AppRouteChildren {
   AppAlertasRoute: typeof AppAlertasRoute
   AppConfigRoute: typeof AppConfigRoute
   AppHojeRoute: typeof AppHojeRoute
-  AppRoteiroRoute: typeof AppRoteiroRoute
+  AppRoteiroRoute: typeof AppRoteiroRouteWithChildren
   AppSetupRoute: typeof AppSetupRoute
   AppAtracaoIdRoute: typeof AppAtracaoIdRoute
 }
@@ -217,7 +248,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppAlertasRoute: AppAlertasRoute,
   AppConfigRoute: AppConfigRoute,
   AppHojeRoute: AppHojeRoute,
-  AppRoteiroRoute: AppRoteiroRoute,
+  AppRoteiroRoute: AppRoteiroRouteWithChildren,
   AppSetupRoute: AppSetupRoute,
   AppAtracaoIdRoute: AppAtracaoIdRoute,
 }
