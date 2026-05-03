@@ -1,98 +1,77 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo } from "react";
-import { Crown, Check, SkipForward } from "lucide-react";
-import { useActiveTrip, useTripParkDays, useParks, useRouteForDay, useRouteItems, useAttractionsByIds, useLiveStatusForAttractions, useWaitHistoryForAttractions, useLiveStatusRealtime, useMarkVisited, useMarkSkipped } from "@/lib/queries";
-import { computeCondition, conditionMeta } from "@/lib/score";
+import { useEffect } from "react";
+import { Calendar, Check, ChevronRight, ListChecks } from "lucide-react";
+import { useActiveTrip, useTripParkDays, useParks, useRoutesForDays } from "@/lib/queries";
 
 export const Route = createFileRoute("/_app/roteiro")({
   head: () => ({ meta: [{ title: "Roteiro — Genie Hacker" }] }),
-  component: RouteList,
+  component: RoteiroIndex,
 });
 
-function RouteList() {
+function RoteiroIndex() {
   const nav = useNavigate();
   const { data: trip, isLoading } = useActiveTrip();
   const { data: parks = [] } = useParks();
   const { data: days = [] } = useTripParkDays(trip?.id);
+  const dayIds = days.map((d) => d.id);
+  const { data: routesByDay = {} } = useRoutesForDays(dayIds);
 
   useEffect(() => { if (!isLoading && !trip) nav({ to: "/setup" }); }, [isLoading, trip, nav]);
 
   const today = new Date().toISOString().slice(0, 10);
-  const day = days.find((d) => d.visit_date === today) ?? days.find((d) => d.is_active_day) ?? days[0];
-  const park = day ? parks.find((p) => p.id === day.park_id) : null;
-  const { data: route } = useRouteForDay(day?.id);
-  const { data: items = [] } = useRouteItems(route?.id);
-  const ids = useMemo(() => items.map((i) => i.attraction_id), [items]);
-  const { data: attractions = [] } = useAttractionsByIds(ids);
-  const { data: live = {} } = useLiveStatusForAttractions(ids);
-  const { data: hist = {} } = useWaitHistoryForAttractions(ids);
-  useLiveStatusRealtime(ids);
-  const markVisited = useMarkVisited();
-  const markSkipped = useMarkSkipped();
+
+  function fmt(iso: string) {
+    const [y, m, d] = iso.split("-").map(Number);
+    return new Date(y, m - 1, d).toLocaleDateString("pt-BR", { weekday: "short", day: "2-digit", month: "short" });
+  }
 
   return (
-    <main className="px-5 pt-6 max-w-md mx-auto">
+    <main className="px-5 pt-6 max-w-md mx-auto pb-32">
       <header className="mb-5">
-        <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">{park?.name ?? "Roteiro"}</p>
-        <h1 className="font-display text-3xl font-bold text-magic">Roteiro & Filas</h1>
-        <p className="text-xs text-muted-foreground mt-1">Sua ordem do dia com tempos de espera ao vivo.</p>
+        <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Sua viagem</p>
+        <h1 className="font-display text-3xl font-bold text-magic">Roteiro</h1>
+        <p className="text-xs text-muted-foreground mt-1">Defina as atrações de cada dia.</p>
       </header>
 
-      {items.length === 0 && (
+      {days.length === 0 && (
         <div className="rounded-3xl bg-card border border-border p-5 text-center">
-          <p className="text-muted-foreground">Nenhuma atração no roteiro deste dia.</p>
-          <Link to="/setup" className="mt-3 inline-block rounded-xl bg-gradient-magic text-white px-4 py-2 text-sm font-bold">Ajustar viagem</Link>
+          <p className="text-muted-foreground">Você ainda não escolheu parques.</p>
+          <Link to="/setup" className="mt-3 inline-block rounded-xl bg-gradient-magic text-white px-4 py-2 text-sm font-bold">Configurar viagem</Link>
         </div>
       )}
 
       <ul className="space-y-3">
-        {items.map((item, idx) => {
-          const a = attractions.find((x) => x.id === item.attraction_id);
-          if (!a) return null;
-          const w = live[a.id]?.current_wait_minutes ?? null;
-          const h = hist[a.id] ?? null;
-          const { condition, deviation } = computeCondition(w, h);
-          const meta = conditionMeta[condition];
-          const trend = deviation == null ? "→" : deviation > 0.05 ? "↑" : deviation < -0.05 ? "↓" : "→";
-          const done = !!item.visited_at;
-          const skipped = !!item.skipped_at;
+        {days.map((d) => {
+          const park = parks.find((p) => p.id === d.park_id);
+          const r = routesByDay[d.id];
+          const hasRoute = (r?.itemCount ?? 0) > 0;
+          const isToday = d.visit_date === today;
           return (
-            <li key={item.id} className={`rounded-2xl border p-4 ${done ? "bg-success/5 border-success/30" : skipped ? "bg-muted/40 border-border opacity-70" : `bg-card border-border shadow-soft ${meta.bg}`}`}>
-              <div className="flex items-start gap-3">
-                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl font-display font-bold text-sm ${a.is_must_do ? "bg-gradient-gold text-magic" : "bg-secondary text-magic"}`}>
-                  {idx + 1}
+            <li key={d.id}>
+              <Link to="/roteiro/$dayId" params={{ dayId: d.id }}
+                className={`flex items-center gap-3 rounded-2xl border p-4 transition ${isToday ? "bg-gradient-magic text-white border-magic shadow-magic" : "bg-card border-border shadow-soft"}`}>
+                <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${isToday ? "bg-white/15" : "bg-secondary"}`}>
+                  <Calendar className={`h-6 w-6 ${isToday ? "text-white" : "text-magic"}`} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <Link to="/atracao/$id" params={{ id: a.id }}>
-                    <h3 className={`font-display font-bold text-magic text-base leading-tight ${done ? "line-through" : ""}`}>{a.name}</h3>
-                  </Link>
-                  <div className="mt-1.5 flex items-center gap-1.5 flex-wrap text-[10px] font-extrabold">
-                    {a.is_must_do && <span className="inline-flex items-center gap-1 rounded-full bg-gradient-gold text-magic px-2 py-0.5"><Crown className="h-3 w-3" /> IMPERDÍVEL</span>}
-                    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 ${meta.color}`}>{meta.emoji} {meta.label}</span>
-                    {h != null && <span className="text-muted-foreground">média {Math.round(h)}m</span>}
+                  <p className={`font-display font-bold text-base leading-tight ${isToday ? "text-white" : "text-magic"}`}>{park?.name ?? "Parque"}</p>
+                  <p className={`text-xs font-bold ${isToday ? "text-white/80" : "text-muted-foreground"}`}>
+                    {fmt(d.visit_date)}{isToday && " • HOJE"}
+                  </p>
+                  <div className="mt-1.5">
+                    {hasRoute ? (
+                      <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-extrabold ${isToday ? "bg-white/20 text-white" : "bg-success/15 text-success"}`}>
+                        <Check className="h-3 w-3" /> Roteiro definido • {r!.itemCount} atrações
+                      </span>
+                    ) : (
+                      <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-extrabold ${isToday ? "bg-gradient-gold text-magic" : "bg-warning/15 text-warning"}`}>
+                        <ListChecks className="h-3 w-3" /> Definir roteiro
+                      </span>
+                    )}
                   </div>
                 </div>
-                <div className="text-right shrink-0">
-                  <p className="font-display text-2xl font-bold text-magic leading-none">
-                    {w != null ? w : "—"}
-                    <span className="text-xs font-bold text-muted-foreground"> min</span>
-                  </p>
-                  <p className={`text-xs font-bold ${meta.color}`}>{trend}</p>
-                </div>
-              </div>
-              {!done && !skipped && (
-                <div className="mt-3 grid grid-cols-2 gap-2">
-                  <button onClick={() => markVisited.mutate({ itemId: item.id, visited: true })}
-                    className="rounded-xl bg-success text-white py-2 text-sm font-bold flex items-center justify-center gap-1">
-                    <Check className="h-4 w-4" /> Feito!
-                  </button>
-                  <button onClick={() => markSkipped.mutate({ itemId: item.id })}
-                    className="rounded-xl border border-border bg-card text-magic py-2 text-sm font-bold flex items-center justify-center gap-1">
-                    <SkipForward className="h-4 w-4" /> Pular
-                  </button>
-                </div>
-              )}
-              {done && <button onClick={() => markVisited.mutate({ itemId: item.id, visited: false })} className="mt-3 text-xs font-bold text-muted-foreground hover:underline">Desfazer</button>}
+                <ChevronRight className={`h-5 w-5 shrink-0 ${isToday ? "text-white" : "text-muted-foreground"}`} />
+              </Link>
             </li>
           );
         })}

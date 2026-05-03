@@ -1,9 +1,9 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, ArrowLeft, Calendar, Hotel, Ticket, Users, Baby, MapPin, ListChecks, Check, Sparkles, RollerCoaster, Drama, HandHeart, Music, Sparkle, Zap, Gauge, Smartphone } from "lucide-react";
+import { ArrowRight, ArrowLeft, Calendar, Hotel, Ticket, Users, Baby, MapPin, Check, Sparkles } from "lucide-react";
 import {
   useActiveTrip, useCreateTrip, useUpdateTrip, useParks, useTripParkDays, useUpsertTripParkDays,
-  useAttractionsByPark, useReplaceRoute, readTripPrefs, writeTripPrefs, type TripPrefs,
+  readTripPrefs, writeTripPrefs, type TripPrefs,
 } from "@/lib/queries";
 
 export const Route = createFileRoute("/_app/setup")({
@@ -25,7 +25,7 @@ function SetupWizard() {
   const updateTrip = useUpdateTrip();
   const { data: parks = [] } = useParks();
   const upsertDays = useUpsertTripParkDays();
-  const replaceRoute = useReplaceRoute();
+  
   const { data: existingDays = [] } = useTripParkDays(trip?.id);
 
   const todayISO = useMemo(() => new Date().toISOString().slice(0, 10), []);
@@ -34,8 +34,6 @@ function SetupWizard() {
   const [arrival, setArrival] = useState<string>("");
   const [parkIds, setParkIds] = useState<string[]>([]);
   const [parkDates, setParkDates] = useState<Record<string, string>>({});
-  const [routesByPark, setRoutesByPark] = useState<Record<string, string[]>>({});
-  const [parkRouteIdx, setParkRouteIdx] = useState(0);
 
   // Auto-create trip on first load
   useEffect(() => {
@@ -56,7 +54,7 @@ function SetupWizard() {
     }
   }, [existingDays]);
 
-  const totalSteps = 9;
+  const totalSteps = 8;
   const progress = ((step + 1) / totalSteps) * 100;
   const hasChildren = (prefs.children?.length ?? 0) > 0;
 
@@ -95,37 +93,17 @@ function SetupWizard() {
     if (trip) await updateTrip.mutateAsync({ id: trip.id, patch: { arrival_date: d } });
   }
 
-  async function persistParksAndDates() {
+  async function finalize() {
     if (!trip) return;
-    const days = parkIds
-      .filter((pid) => parkDates[pid])
-      .map((pid) => ({ park_id: pid, visit_date: parkDates[pid] }));
-    if (days.length === 0) return;
-    await upsertDays.mutateAsync({ tripId: trip.id, days });
-  }
-
-  async function finalizeRoutes() {
-    if (!trip) return;
-    // Refetch days happens via invalidation; we re-read from cache by visiting; simplest: requery now.
     const days = parkIds.map((pid) => ({ park_id: pid, visit_date: parkDates[pid] }));
-    // ensure days saved
     await upsertDays.mutateAsync({ tripId: trip.id, days });
-    // Now fetch the freshly inserted day rows to get IDs
-    const { supabase } = await import("@/integrations/supabase/client");
-    const { data: dayRows } = await supabase.from("trip_park_days").select("*").eq("trip_id", trip.id);
-    for (const row of dayRows ?? []) {
-      const ids = routesByPark[row.park_id] ?? [];
-      await replaceRoute.mutateAsync({ tripParkDayId: row.id, attractionIds: ids });
-    }
     await updateTrip.mutateAsync({ id: trip.id, patch: { status: "active" } });
-    nav({ to: "/hoje" });
+    nav({ to: "/roteiro" });
   }
 
   if (loadingTrip || !trip) {
     return <div className="p-10 text-center text-muted-foreground">Carregando…</div>;
   }
-
-  const currentParkForRoute = parkIds[parkRouteIdx];
 
   return (
     <main className="min-h-screen px-5 pt-6 pb-32">
@@ -247,28 +225,10 @@ function SetupWizard() {
                 );
               })}
             </div>
-            <NavButtons onBack={back} onNext={parkIds.every((pid) => parkDates[pid] && parkDates[pid] >= (arrival || todayISO)) ? async () => { await persistParksAndDates(); next(); } : null} />
+            <NavButtons onBack={back} onNext={parkIds.every((pid) => parkDates[pid] && parkDates[pid] >= (arrival || todayISO)) ? async () => { await finalize(); } : null} nextLabel="Concluir" />
           </Card>
         )}
 
-        {step === 8 && currentParkForRoute && (
-          <ParkRoutePicker
-            key={currentParkForRoute}
-            parkId={currentParkForRoute}
-            parkName={parks.find((p) => p.id === currentParkForRoute)?.name ?? ""}
-            childrenPrefs={prefs.children ?? []}
-            value={routesByPark[currentParkForRoute] ?? []}
-            onChange={(ids) => setRoutesByPark({ ...routesByPark, [currentParkForRoute]: ids })}
-            onBack={() => parkRouteIdx === 0 ? back() : setParkRouteIdx(parkRouteIdx - 1)}
-            onNext={async () => {
-              if (parkRouteIdx < parkIds.length - 1) setParkRouteIdx(parkRouteIdx + 1);
-              else await finalizeRoutes();
-            }}
-            isLast={parkRouteIdx === parkIds.length - 1}
-            position={parkRouteIdx + 1}
-            total={parkIds.length}
-          />
-        )}
       </div>
     </main>
   );
@@ -333,111 +293,3 @@ function NavButtons({ onBack, onNext, nextLabel = "Continuar" }: { onBack: (() =
   );
 }
 
-function ParkRoutePicker({ parkId, parkName, childrenPrefs, value, onChange, onBack, onNext, isLast, position, total }: {
-  parkId: string; parkName: string;
-  childrenPrefs: NonNullable<TripPrefs["children"]>;
-  value: string[]; onChange: (ids: string[]) => void;
-  onBack: () => void; onNext: () => void; isLast: boolean; position: number; total: number;
-}) {
-  const { data: attractions = [], isLoading } = useAttractionsByPark(parkId);
-  const ordered = useMemo(() => {
-    const selected = value.map((id) => attractions.find((a) => a.id === id)).filter(Boolean) as typeof attractions;
-    const rest = attractions.filter((a) => !value.includes(a.id));
-    return [...selected, ...rest];
-  }, [attractions, value]);
-
-  function toggle(id: string) {
-    onChange(value.includes(id) ? value.filter((x) => x !== id) : [...value, id]);
-  }
-  function useSuggested() {
-    onChange(attractions.filter((a) => a.is_must_do).map((a) => a.id));
-  }
-  function heightWarning(min: number | null) {
-    if (!min || childrenPrefs.length === 0) return null;
-    const blocked = childrenPrefs.filter((c) => {
-      const cm = c.height === "under_97" ? 80 : c.height === "97_107" ? 97 : c.height === "107_122" ? 107 : 122;
-      return cm < min;
-    });
-    if (blocked.length === 0) return null;
-    return `⚠️ Restrição (${min} cm) — ${blocked.length} criança(s)`;
-  }
-
-  return (
-    <div className="rounded-3xl bg-card border border-border p-5 shadow-soft">
-      <div className="flex items-center justify-between text-xs font-bold text-muted-foreground mb-1">
-        <span><ListChecks className="inline h-3.5 w-3.5 mr-1" />Parque {position} de {total}</span>
-        <button onClick={useSuggested} className="text-magic underline">Usar sugerido</button>
-      </div>
-      <h2 className="font-display text-2xl font-bold text-magic">{parkName}</h2>
-      <p className="text-sm text-muted-foreground">Selecione na ordem de prioridade.</p>
-
-      <div className="mt-4 max-h-[55vh] overflow-y-auto -mx-2 px-2 space-y-2">
-        {isLoading && <p className="text-muted-foreground text-sm">Carregando atrações…</p>}
-        {ordered.map((a, idx) => {
-          const sel = value.includes(a.id);
-          const order = sel ? value.indexOf(a.id) + 1 : null;
-          const warn = heightWarning(a.min_height_cm);
-          return (
-            <button key={a.id} onClick={() => toggle(a.id)}
-              className={`w-full text-left flex items-start gap-3 rounded-2xl border p-3 transition ${sel ? "bg-gradient-magic text-white border-magic shadow-magic" : "bg-card border-border"}`}>
-              <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl font-display font-bold text-sm ${sel ? "bg-gradient-gold text-magic" : "bg-secondary text-magic"}`}>
-                {order ?? (idx + 1)}
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  <p className="font-bold leading-tight truncate">{a.name}</p>
-                  {a.is_must_do && <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-extrabold ${sel ? "bg-gold text-magic" : "bg-gradient-gold text-magic"}`}>IMPERDÍVEL</span>}
-                  <ExperienceIcon type={a.experience_type} selected={sel} />
-                  <LightningLaneIcon type={a.lightning_lane_type} selected={sel} />
-                </div>
-                {a.short_description && (
-                  <p className={`text-[11px] mt-0.5 leading-snug line-clamp-2 ${sel ? "text-white/80" : "text-muted-foreground"}`}>{a.short_description}</p>
-                )}
-                {warn && <p className={`text-[11px] mt-0.5 font-bold ${sel ? "text-gold" : "text-warning"}`}>{warn}</p>}
-              </div>
-            </button>
-          );
-        })}
-      </div>
-
-      <NavButtons onBack={onBack} onNext={value.length > 0 ? onNext : null} nextLabel={isLast ? "Concluir e ir" : "Próximo parque"} />
-    </div>
-  );
-}
-
-function ExperienceIcon({ type, selected }: { type: string; selected: boolean }) {
-  const map: Record<string, { icon: typeof RollerCoaster; label: string }> = {
-    ride: { icon: RollerCoaster, label: "Atração" },
-    show: { icon: Drama, label: "Show" },
-    meet_greet: { icon: HandHeart, label: "Meet & Greet" },
-    parade: { icon: Music, label: "Parada" },
-    fireworks: { icon: Sparkle, label: "Fogos" },
-    other: { icon: Sparkles, label: "Outro" },
-  };
-  const entry = map[type] ?? map.other;
-  const Icon = entry.icon;
-  return (
-    <span title={entry.label} aria-label={entry.label}
-      className={`inline-flex h-4 w-4 items-center justify-center ${selected ? "text-white/70" : "text-muted-foreground"}`}>
-      <Icon className="h-3.5 w-3.5" />
-    </span>
-  );
-}
-
-function LightningLaneIcon({ type, selected }: { type: string; selected: boolean }) {
-  if (type === "none") return null;
-  const map: Record<string, { icon: typeof Zap; label: string }> = {
-    multipass: { icon: Zap, label: "Lightning Lane Multi Pass" },
-    single_pass: { icon: Gauge, label: "Lightning Lane Single Pass" },
-    virtual_queue: { icon: Smartphone, label: "Fila Virtual" },
-  };
-  const entry = map[type];
-  if (!entry) return null;
-  const Icon = entry.icon;
-  return (
-    <span title={entry.label} aria-label={entry.label}
-      className={`inline-flex h-4 w-4 items-center justify-center ${selected ? "text-gold" : "text-magic"}`}>
-      <Icon className="h-3.5 w-3.5" />
-    </span>
-  );
-}
