@@ -17,18 +17,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Set up listener BEFORE getSession (per Supabase guidance)
+    let mounted = true;
+    let initialSessionResolved = false;
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, s) => {
+      if (!mounted) return;
+      if (!initialSessionResolved && _event === "INITIAL_SESSION") return;
       setSession(s);
       setLoading(false);
     });
 
     supabase.auth.getSession().then(({ data }) => {
+      if (!mounted) return;
+      initialSessionResolved = true;
       setSession(data.session);
       setLoading(false);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const value: AuthState = {
@@ -39,7 +48,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) return { error: error.message };
       if (!data.session) return { error: "Não foi possível iniciar a sessão. Tente novamente." };
-      setSession(data.session);
+      const { data: persisted } = await supabase.auth.getSession();
+      setSession(persisted.session ?? data.session);
       setLoading(false);
       return { error: null };
     },
