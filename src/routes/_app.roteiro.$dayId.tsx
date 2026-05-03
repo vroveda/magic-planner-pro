@@ -1,11 +1,11 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, Crown, Check, SkipForward, Pencil } from "lucide-react";
+import { ArrowLeft, ArrowRight, Crown, Check, SkipForward, Pencil, Clock } from "lucide-react";
 import {
   useActiveTrip, useTripParkDays, useParks, useRouteForDay, useRouteItems,
   useAttractionsByIds, useLiveStatusForAttractions, useWaitHistoryForAttractions,
   useLiveStatusRealtime, useMarkVisited, useMarkSkipped, useReplaceRoute,
-  readTripPrefs,
+  useSetPlannedArrival, readTripPrefs,
 } from "@/lib/queries";
 import { computeCondition, conditionMeta } from "@/lib/score";
 import { ParkRoutePicker } from "@/components/ParkRoutePicker";
