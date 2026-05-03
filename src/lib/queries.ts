@@ -285,6 +285,38 @@ export function useRouteForDay(tripParkDayId: string | undefined) {
   });
 }
 
+export function useRoutesForDays(dayIds: string[]) {
+  return useQuery({
+    queryKey: ["routes-for-days", [...dayIds].sort()],
+    enabled: dayIds.length > 0,
+    queryFn: async () => {
+      const { data: routes, error } = await supabase
+        .from("routes")
+        .select("id, trip_park_day_id")
+        .in("trip_park_day_id", dayIds);
+      if (error) throw error;
+      const routeRows = (routes ?? []) as { id: string; trip_park_day_id: string }[];
+      const routeIds = routeRows.map((r) => r.id);
+      let counts: Record<string, number> = {};
+      if (routeIds.length > 0) {
+        const { data: items, error: e2 } = await supabase
+          .from("route_items")
+          .select("route_id")
+          .in("route_id", routeIds);
+        if (e2) throw e2;
+        for (const it of (items ?? []) as { route_id: string }[]) {
+          counts[it.route_id] = (counts[it.route_id] ?? 0) + 1;
+        }
+      }
+      const out: Record<string, { routeId: string; itemCount: number }> = {};
+      for (const r of routeRows) {
+        out[r.trip_park_day_id] = { routeId: r.id, itemCount: counts[r.id] ?? 0 };
+      }
+      return out;
+    },
+  });
+}
+
 export function useRouteItems(routeId: string | undefined) {
   return useQuery({
     queryKey: ["route-items", routeId],
