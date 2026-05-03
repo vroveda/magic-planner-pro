@@ -33,6 +33,7 @@ function DayRoute() {
   const markSkipped = useMarkSkipped();
   const replaceRoute = useReplaceRoute();
   const setArrival = useSetPlannedArrival();
+  const setUsesLL = useSetUsesLightningLane();
 
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState<string[]>([]);
