@@ -163,7 +163,6 @@ function DayRoute() {
       </main>
     );
   }
-  }
 
   return (
     <main className="px-5 pt-6 max-w-md mx-auto pb-32">
