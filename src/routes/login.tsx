@@ -38,7 +38,6 @@ function LoginPage() {
     const { error } = await signIn(email.trim(), password);
     setSubmitting(false);
     if (error) setError(error);
-    else nav({ to: redirectTo, replace: true });
   }
 
   return (
