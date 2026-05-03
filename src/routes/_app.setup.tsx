@@ -93,15 +93,6 @@ function SetupWizard() {
     if (trip) await updateTrip.mutateAsync({ id: trip.id, patch: { arrival_date: d } });
   }
 
-  async function persistParksAndDates() {
-    if (!trip) return;
-    const days = parkIds
-      .filter((pid) => parkDates[pid])
-      .map((pid) => ({ park_id: pid, visit_date: parkDates[pid] }));
-    if (days.length === 0) return;
-    await upsertDays.mutateAsync({ tripId: trip.id, days });
-  }
-
   async function finalize() {
     if (!trip) return;
     const days = parkIds.map((pid) => ({ park_id: pid, visit_date: parkDates[pid] }));
