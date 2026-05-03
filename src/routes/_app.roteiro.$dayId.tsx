@@ -9,6 +9,8 @@ import {
 } from "@/lib/queries";
 import { computeCondition, conditionMeta } from "@/lib/score";
 import { ParkRoutePicker } from "@/components/ParkRoutePicker";
+import { RouteOrderStep } from "@/components/RouteOrderStep";
+import { useAttractionsByPark } from "@/lib/queries";
 
 export const Route = createFileRoute("/_app/roteiro/$dayId")({
   head: () => ({ meta: [{ title: "Roteiro do dia — Genie Hacker" }] }),
