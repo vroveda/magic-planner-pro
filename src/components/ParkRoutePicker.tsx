@@ -25,6 +25,7 @@ const LL_META: Record<string, { icon: typeof Zap; label: string }> = {
 export function ParkRoutePicker({
   parkId, parkName, childrenPrefs, value, onChange, onBack, onNext,
   nextLabel = "Salvar roteiro", subtitle, headerExtra,
+  usesLightningLane, onUsesLightningLaneChange,
 }: {
   parkId: string;
   parkName: string;
@@ -36,6 +37,8 @@ export function ParkRoutePicker({
   nextLabel?: string;
   subtitle?: string;
   headerExtra?: React.ReactNode;
+  usesLightningLane?: boolean;
+  onUsesLightningLaneChange?: (v: boolean) => void;
 }) {
   const { data: attractions = [], isLoading } = useAttractionsByPark(parkId);
   const [legendOpen, setLegendOpen] = useState(true);
