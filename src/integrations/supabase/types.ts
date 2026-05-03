@@ -580,6 +580,7 @@ export type Database = {
           park_id: string
           planned_arrival_time: string | null
           trip_id: string
+          uses_lightning_lane: boolean
           visit_date: string
         }
         Insert: {
@@ -589,6 +590,7 @@ export type Database = {
           park_id: string
           planned_arrival_time?: string | null
           trip_id: string
+          uses_lightning_lane?: boolean
           visit_date: string
         }
         Update: {
@@ -598,6 +600,7 @@ export type Database = {
           park_id?: string
           planned_arrival_time?: string | null
           trip_id?: string
+          uses_lightning_lane?: boolean
           visit_date?: string
         }
         Relationships: [
