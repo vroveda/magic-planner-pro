@@ -21,7 +21,7 @@ function LoginPage() {
   const { signIn, user, loading } = useAuth();
   const nav = useNavigate();
   const { redirect } = Route.useSearch();
-  const redirectTo = redirect ?? "/hoje";
+  const redirectTo = redirect && redirect !== "/login" ? redirect : "/hoje";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -38,6 +38,7 @@ function LoginPage() {
     const { error } = await signIn(email.trim(), password);
     setSubmitting(false);
     if (error) setError(error);
+    else nav({ to: redirectTo, replace: true });
   }
 
   return (
