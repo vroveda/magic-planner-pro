@@ -578,6 +578,7 @@ export type Database = {
           id: string
           is_active_day: boolean
           park_id: string
+          planned_arrival_time: string | null
           trip_id: string
           visit_date: string
         }
@@ -586,6 +587,7 @@ export type Database = {
           id?: string
           is_active_day?: boolean
           park_id: string
+          planned_arrival_time?: string | null
           trip_id: string
           visit_date: string
         }
@@ -594,6 +596,7 @@ export type Database = {
           id?: string
           is_active_day?: boolean
           park_id?: string
+          planned_arrival_time?: string | null
           trip_id?: string
           visit_date?: string
         }

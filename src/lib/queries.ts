@@ -265,6 +265,25 @@ export function useUpsertTripParkDays() {
   });
 }
 
+export function useSetPlannedArrival() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ dayId, time }: { dayId: string; time: string | null }) => {
+      const { data, error } = await supabase
+        .from("trip_park_days")
+        .update({ planned_arrival_time: time })
+        .eq("id", dayId)
+        .select("*")
+        .single();
+      if (error) throw error;
+      return data as TripParkDay;
+    },
+    onSuccess: (d) => {
+      qc.invalidateQueries({ queryKey: ["trip-park-days", d.trip_id] });
+    },
+  });
+}
+
 // ============ ROUTES + ITEMS ============
 
 export function useRouteForDay(tripParkDayId: string | undefined) {
