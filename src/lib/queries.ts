@@ -284,6 +284,25 @@ export function useSetPlannedArrival() {
   });
 }
 
+export function useSetUsesLightningLane() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ dayId, value }: { dayId: string; value: boolean }) => {
+      const { data, error } = await supabase
+        .from("trip_park_days")
+        .update({ uses_lightning_lane: value })
+        .eq("id", dayId)
+        .select("*")
+        .single();
+      if (error) throw error;
+      return data as TripParkDay;
+    },
+    onSuccess: (d) => {
+      qc.invalidateQueries({ queryKey: ["trip-park-days", d.trip_id] });
+    },
+  });
+}
+
 // ============ ROUTES + ITEMS ============
 
 export function useRouteForDay(tripParkDayId: string | undefined) {

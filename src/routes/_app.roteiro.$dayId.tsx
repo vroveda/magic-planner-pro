@@ -5,7 +5,7 @@ import {
   useActiveTrip, useTripParkDays, useParks, useRouteForDay, useRouteItems,
   useAttractionsByIds, useLiveStatusForAttractions, useWaitHistoryForAttractions,
   useLiveStatusRealtime, useMarkVisited, useMarkSkipped, useReplaceRoute,
-  useSetPlannedArrival, readTripPrefs,
+  useSetPlannedArrival, useSetUsesLightningLane, readTripPrefs,
 } from "@/lib/queries";
 import { computeCondition, conditionMeta } from "@/lib/score";
 import { ParkRoutePicker } from "@/components/ParkRoutePicker";
@@ -33,6 +33,7 @@ function DayRoute() {
   const markSkipped = useMarkSkipped();
   const replaceRoute = useReplaceRoute();
   const setArrival = useSetPlannedArrival();
+  const setUsesLL = useSetUsesLightningLane();
 
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState<string[]>([]);
@@ -130,6 +131,8 @@ function DayRoute() {
           onChange={setDraft}
           headerExtra={editing ? "Editar roteiro" : "Definir roteiro"}
           onBack={editing ? () => setEditing(false) : null}
+          usesLightningLane={!!day.uses_lightning_lane}
+          onUsesLightningLaneChange={(v) => setUsesLL.mutate({ dayId: day.id, value: v })}
           onNext={
             draft.length > 0
               ? async () => {

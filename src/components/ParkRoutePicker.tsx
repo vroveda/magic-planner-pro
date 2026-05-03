@@ -25,6 +25,7 @@ const LL_META: Record<string, { icon: typeof Zap; label: string }> = {
 export function ParkRoutePicker({
   parkId, parkName, childrenPrefs, value, onChange, onBack, onNext,
   nextLabel = "Salvar roteiro", subtitle, headerExtra,
+  usesLightningLane, onUsesLightningLaneChange,
 }: {
   parkId: string;
   parkName: string;
@@ -36,6 +37,8 @@ export function ParkRoutePicker({
   nextLabel?: string;
   subtitle?: string;
   headerExtra?: React.ReactNode;
+  usesLightningLane?: boolean;
+  onUsesLightningLaneChange?: (v: boolean) => void;
 }) {
   const { data: attractions = [], isLoading } = useAttractionsByPark(parkId);
   const [legendOpen, setLegendOpen] = useState(true);
@@ -119,6 +122,29 @@ export function ParkRoutePicker({
           </div>
         )}
       </div>
+
+      {onUsesLightningLaneChange && (
+        <div className="mt-3 flex items-center gap-3 rounded-2xl border border-border bg-card px-3 py-3">
+          <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${usesLightningLane ? "bg-gradient-magic text-white" : "bg-secondary text-magic"}`}>
+            <Zap className="h-4.5 w-4.5" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-display font-bold text-magic leading-tight">Vou usar Lightning Lane</p>
+            <p className="text-[11px] text-muted-foreground leading-snug">
+              {usesLightningLane ? "Vamos sugerir os melhores horários para reservar." : "Ative se comprou Multi Pass / Single Pass."}
+            </p>
+          </div>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={!!usesLightningLane}
+            onClick={() => onUsesLightningLaneChange(!usesLightningLane)}
+            className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition ${usesLightningLane ? "bg-gradient-magic" : "bg-muted"}`}
+          >
+            <span className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition ${usesLightningLane ? "translate-x-5" : "translate-x-0.5"}`} />
+          </button>
+        </div>
+      )}
 
       <div className="mt-4 max-h-[55vh] overflow-y-auto -mx-2 px-2 space-y-4">
         {isLoading && <p className="text-muted-foreground text-sm">Carregando atrações…</p>}

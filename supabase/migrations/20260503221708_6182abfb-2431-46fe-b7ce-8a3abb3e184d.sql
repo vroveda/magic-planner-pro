@@ -1,0 +1,1 @@
+ALTER TABLE public.trip_park_days ADD COLUMN IF NOT EXISTS uses_lightning_lane boolean NOT NULL DEFAULT false;
