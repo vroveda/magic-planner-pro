@@ -131,6 +131,8 @@ function DayRoute() {
           onChange={setDraft}
           headerExtra={editing ? "Editar roteiro" : "Definir roteiro"}
           onBack={editing ? () => setEditing(false) : null}
+          usesLightningLane={!!day.uses_lightning_lane}
+          onUsesLightningLaneChange={(v) => setUsesLL.mutate({ dayId: day.id, value: v })}
           onNext={
             draft.length > 0
               ? async () => {
