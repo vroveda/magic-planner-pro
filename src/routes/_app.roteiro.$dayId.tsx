@@ -9,6 +9,8 @@ import {
 } from "@/lib/queries";
 import { computeCondition, conditionMeta } from "@/lib/score";
 import { ParkRoutePicker } from "@/components/ParkRoutePicker";
+import { RouteOrderStep } from "@/components/RouteOrderStep";
+import { useAttractionsByPark } from "@/lib/queries";
 
 export const Route = createFileRoute("/_app/roteiro/$dayId")({
   head: () => ({ meta: [{ title: "Roteiro do dia — Genie Hacker" }] }),
@@ -37,9 +39,10 @@ function DayRoute() {
 
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState<string[]>([]);
-  const [step, setStep] = useState<"arrival" | "picker">("picker");
+  const [step, setStep] = useState<"arrival" | "picker" | "order">("picker");
   const [arrivalDraft, setArrivalDraft] = useState<string>("09:00");
   const prefs = trip ? readTripPrefs(trip.id) : {};
+  const { data: parkAttractions = [] } = useAttractionsByPark(day?.park_id);
 
   const showPicker = editing || items.length === 0;
 
@@ -110,6 +113,27 @@ function DayRoute() {
     );
   }
 
+  if (showPicker && park && step === "order") {
+    return (
+      <main className="px-5 pt-6 max-w-md mx-auto pb-32">
+        <Link to="/roteiro" className="inline-flex items-center gap-1 text-xs font-bold text-muted-foreground mb-3">
+          <ArrowLeft className="h-3.5 w-3.5" /> Voltar
+        </Link>
+        <RouteOrderStep
+          parkName={park.name}
+          attractions={parkAttractions.filter((a) => draft.includes(a.id))}
+          initialIds={draft}
+          onBack={() => setStep("picker")}
+          saving={replaceRoute.isPending}
+          onSave={async (orderedIds) => {
+            await replaceRoute.mutateAsync({ tripParkDayId: day.id, attractionIds: orderedIds });
+            setEditing(false);
+          }}
+        />
+      </main>
+    );
+  }
+
   if (showPicker && park) {
     return (
       <main className="px-5 pt-6 max-w-md mx-auto pb-32">
@@ -133,15 +157,8 @@ function DayRoute() {
           onBack={editing ? () => setEditing(false) : null}
           usesLightningLane={!!day.uses_lightning_lane}
           onUsesLightningLaneChange={(v) => setUsesLL.mutate({ dayId: day.id, value: v })}
-          onNext={
-            draft.length > 0
-              ? async () => {
-                  await replaceRoute.mutateAsync({ tripParkDayId: day.id, attractionIds: draft });
-                  setEditing(false);
-                }
-              : null
-          }
-          nextLabel="Salvar roteiro"
+          onNext={draft.length > 0 ? () => setStep("order") : null}
+          nextLabel="Continuar"
         />
       </main>
     );
