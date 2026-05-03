@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect, useLocation, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
@@ -19,12 +19,14 @@ export const Route = createFileRoute("/_app")({
 
 function AppLayout() {
   const { loading, user } = useAuth();
+  const nav = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (!loading && !user && typeof window !== "undefined") {
-      window.location.href = "/login";
+      nav({ to: "/login", search: { redirect: location.href }, replace: true });
     }
-  }, [loading, user]);
+  }, [loading, user, nav, location.href]);
 
   if (loading) {
     return (
