@@ -1,10 +1,9 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { Home, ListChecks, Activity, Bell, Settings } from "lucide-react";
+import { Home, ListChecks, Bell, Settings } from "lucide-react";
 
 const items = [
   { to: "/hoje", label: "Hoje", icon: Home },
   { to: "/roteiro", label: "Roteiro", icon: ListChecks },
-  { to: "/filas", label: "Filas", icon: Activity },
   { to: "/alertas", label: "Alertas", icon: Bell },
   { to: "/config", label: "Config", icon: Settings },
 ] as const;

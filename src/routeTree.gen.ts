@@ -15,7 +15,6 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppSetupRouteImport } from './routes/_app.setup'
 import { Route as AppRoteiroRouteImport } from './routes/_app.roteiro'
 import { Route as AppHojeRouteImport } from './routes/_app.hoje'
-import { Route as AppFilasRouteImport } from './routes/_app.filas'
 import { Route as AppConfigRouteImport } from './routes/_app.config'
 import { Route as AppAlertasRouteImport } from './routes/_app.alertas'
 import { Route as AppAtracaoIdRouteImport } from './routes/_app.atracao.$id'
@@ -49,11 +48,6 @@ const AppHojeRoute = AppHojeRouteImport.update({
   path: '/hoje',
   getParentRoute: () => AppRoute,
 } as any)
-const AppFilasRoute = AppFilasRouteImport.update({
-  id: '/filas',
-  path: '/filas',
-  getParentRoute: () => AppRoute,
-} as any)
 const AppConfigRoute = AppConfigRouteImport.update({
   id: '/config',
   path: '/config',
@@ -75,7 +69,6 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/alertas': typeof AppAlertasRoute
   '/config': typeof AppConfigRoute
-  '/filas': typeof AppFilasRoute
   '/hoje': typeof AppHojeRoute
   '/roteiro': typeof AppRoteiroRoute
   '/setup': typeof AppSetupRoute
@@ -86,7 +79,6 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/alertas': typeof AppAlertasRoute
   '/config': typeof AppConfigRoute
-  '/filas': typeof AppFilasRoute
   '/hoje': typeof AppHojeRoute
   '/roteiro': typeof AppRoteiroRoute
   '/setup': typeof AppSetupRoute
@@ -99,7 +91,6 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/_app/alertas': typeof AppAlertasRoute
   '/_app/config': typeof AppConfigRoute
-  '/_app/filas': typeof AppFilasRoute
   '/_app/hoje': typeof AppHojeRoute
   '/_app/roteiro': typeof AppRoteiroRoute
   '/_app/setup': typeof AppSetupRoute
@@ -112,7 +103,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/alertas'
     | '/config'
-    | '/filas'
     | '/hoje'
     | '/roteiro'
     | '/setup'
@@ -123,7 +113,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/alertas'
     | '/config'
-    | '/filas'
     | '/hoje'
     | '/roteiro'
     | '/setup'
@@ -135,7 +124,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/_app/alertas'
     | '/_app/config'
-    | '/_app/filas'
     | '/_app/hoje'
     | '/_app/roteiro'
     | '/_app/setup'
@@ -192,13 +180,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppHojeRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/filas': {
-      id: '/_app/filas'
-      path: '/filas'
-      fullPath: '/filas'
-      preLoaderRoute: typeof AppFilasRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/_app/config': {
       id: '/_app/config'
       path: '/config'
@@ -226,7 +207,6 @@ declare module '@tanstack/react-router' {
 interface AppRouteChildren {
   AppAlertasRoute: typeof AppAlertasRoute
   AppConfigRoute: typeof AppConfigRoute
-  AppFilasRoute: typeof AppFilasRoute
   AppHojeRoute: typeof AppHojeRoute
   AppRoteiroRoute: typeof AppRoteiroRoute
   AppSetupRoute: typeof AppSetupRoute
@@ -236,7 +216,6 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppAlertasRoute: AppAlertasRoute,
   AppConfigRoute: AppConfigRoute,
-  AppFilasRoute: AppFilasRoute,
   AppHojeRoute: AppHojeRoute,
   AppRoteiroRoute: AppRoteiroRoute,
   AppSetupRoute: AppSetupRoute,
