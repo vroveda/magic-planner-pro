@@ -39,6 +39,7 @@ function DayRoute() {
 
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState<string[]>([]);
+  const [mustDoDraft, setMustDoDraft] = useState<string[]>([]);
   const [step, setStep] = useState<"arrival" | "picker" | "order">("picker");
   const [arrivalDraft, setArrivalDraft] = useState<string>("09:00");
   const prefs = trip ? readTripPrefs(trip.id) : {};
@@ -50,6 +51,11 @@ function DayRoute() {
   useEffect(() => {
     if (!showPicker || !day) return;
     setDraft(editing ? ids : []);
+    setMustDoDraft(
+      editing
+        ? items.filter((i) => i.is_must_do).map((i) => i.attraction_id)
+        : [],
+    );
     if (!day.planned_arrival_time) {
       setStep("arrival");
       setArrivalDraft("09:00");
