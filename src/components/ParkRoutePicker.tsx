@@ -59,7 +59,19 @@ export function ParkRoutePicker({
   }, [attractions]);
 
   function toggle(id: string) {
-    onChange(value.includes(id) ? value.filter((x) => x !== id) : [...value, id]);
+    if (value.includes(id)) {
+      onChange(value.filter((x) => x !== id));
+      // unselecting also clears must-do
+      if (mustDoIds?.includes(id)) onMustDoChange?.(mustDoIds.filter((x) => x !== id));
+    } else {
+      onChange([...value, id]);
+    }
+  }
+  function toggleMustDo(id: string, e: React.MouseEvent) {
+    e.stopPropagation();
+    if (!onMustDoChange) return;
+    const cur = mustDoIds ?? [];
+    onMustDoChange(cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id]);
   }
   function useSuggested() {
     onChange(attractions.filter((a) => a.is_must_do).map((a) => a.id));
