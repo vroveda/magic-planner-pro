@@ -26,6 +26,7 @@ export function ParkRoutePicker({
   parkId, parkName, childrenPrefs, value, onChange, onBack, onNext,
   nextLabel = "Salvar roteiro", subtitle, headerExtra,
   usesLightningLane, onUsesLightningLaneChange,
+  mustDoIds, onMustDoChange,
 }: {
   parkId: string;
   parkName: string;
@@ -39,6 +40,8 @@ export function ParkRoutePicker({
   headerExtra?: React.ReactNode;
   usesLightningLane?: boolean;
   onUsesLightningLaneChange?: (v: boolean) => void;
+  mustDoIds?: string[];
+  onMustDoChange?: (ids: string[]) => void;
 }) {
   const { data: attractions = [], isLoading } = useAttractionsByPark(parkId);
   const [legendOpen, setLegendOpen] = useState(true);
