@@ -180,9 +180,11 @@ export function ParkRoutePicker({
                 {items.map((a) => {
                   const sel = value.includes(a.id);
                   const warn = heightWarning(a.min_height_cm);
+                  const must = sel && (mustDoIds?.includes(a.id) ?? false);
                   return (
-                    <button key={a.id} onClick={() => toggle(a.id)}
-                      className={`w-full text-left flex items-start gap-3 rounded-2xl border p-3 transition ${sel ? "bg-gradient-magic text-white border-magic shadow-magic" : "bg-card border-border"}`}>
+                    <div key={a.id} role="button" tabIndex={0} onClick={() => toggle(a.id)}
+                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(a.id); } }}
+                      className={`w-full text-left flex items-start gap-3 rounded-2xl border p-3 transition cursor-pointer ${sel ? "bg-gradient-magic text-white border-magic shadow-magic" : "bg-card border-border"}`}>
                       <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 ${sel ? "bg-gold border-gold text-magic" : "border-border bg-card text-transparent"}`}>
                         <Check className="h-4 w-4" />
                       </div>
@@ -197,7 +199,19 @@ export function ParkRoutePicker({
                         )}
                         {warn && <p className={`text-[11px] mt-0.5 font-bold ${sel ? "text-gold" : "text-warning"}`}>{warn}</p>}
                       </div>
-                    </button>
+                      {sel && onMustDoChange && (
+                        <button
+                          type="button"
+                          onClick={(e) => toggleMustDo(a.id, e)}
+                          aria-pressed={must}
+                          aria-label={must ? "Remover obrigatório" : "Marcar como obrigatório"}
+                          title={must ? "Obrigatório (não posso perder)" : "Marcar como obrigatório"}
+                          className={`shrink-0 flex h-8 w-8 items-center justify-center rounded-full transition ${must ? "bg-gold text-magic shadow-gold" : "bg-white/15 text-white hover:bg-white/25"}`}
+                        >
+                          <Star className={`h-4 w-4 ${must ? "fill-current" : ""}`} />
+                        </button>
+                      )}
+                    </div>
                   );
                 })}
               </div>
