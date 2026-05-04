@@ -26,16 +26,18 @@ const TYPE_META: Record<string, { icon: typeof RollerCoaster; label: string }> =
 const TYPE_ORDER: Attraction["experience_type"][] = ["ride", "meet_greet", "show", "parade", "fireworks", "other"];
 
 export function RouteOrderStep({
-  parkName, attractions, initialIds, onBack, onSave, saving,
+  parkName, attractions, initialIds, mustDoIds, onBack, onSave, saving,
 }: {
   parkName: string;
   attractions: Attraction[];
   initialIds: string[];
+  mustDoIds?: string[];
   onBack: () => void;
   onSave: (orderedIds: string[]) => void;
   saving?: boolean;
 }) {
   const [ids, setIds] = useState<string[]>(initialIds);
+  const mustSet = new Set(mustDoIds ?? []);
 
   useEffect(() => { setIds(initialIds); }, [initialIds.join(",")]);
 
@@ -49,7 +51,8 @@ export function RouteOrderStep({
     const map = new Map(attractions.map((a) => [a.id, a]));
     const sorted = [...ids].sort((aId, bId) => {
       const a = map.get(aId)!; const b = map.get(bId)!;
-      if (a.is_must_do !== b.is_must_do) return a.is_must_do ? -1 : 1;
+      const am = mustSet.has(aId); const bm = mustSet.has(bId);
+      if (am !== bm) return am ? -1 : 1;
       const ai = TYPE_ORDER.indexOf(a.experience_type);
       const bi = TYPE_ORDER.indexOf(b.experience_type);
       if (ai !== bi) return ai - bi;
