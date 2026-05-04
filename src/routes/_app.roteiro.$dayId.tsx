@@ -229,6 +229,13 @@ function DayRoute() {
         </button>
       </header>
 
+      {feasibilityWarning && (
+        <div className="mb-3 flex items-start gap-2 rounded-2xl border border-warning/40 bg-warning/10 p-3 text-sm font-bold text-magic">
+          <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" />
+          <span>{feasibilityWarning}</span>
+        </div>
+      )}
+
       <ul className="space-y-3">
         {items.map((item, idx) => {
           const a = attractions.find((x) => x.id === item.attraction_id);
