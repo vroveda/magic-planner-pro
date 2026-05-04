@@ -39,6 +39,41 @@ function DayRoute() {
   const setArrival = useSetPlannedArrival();
   const setUsesLL = useSetUsesLightningLane();
 
+  const dayOfWeek = day ? new Date(day.visit_date + "T00:00:00").getDay() : 0;
+  const { data: walkMatrix = {} } = useWalkMatrixForAttractions(ids);
+  const { data: fullWaitHistory = {} } = useFullWaitHistoryForAttractions(ids, dayOfWeek);
+
+  const { scheduled, feasibilityWarning } = useMemo(() => {
+    if (!day?.planned_arrival_time || items.length === 0 || attractions.length === 0) {
+      return { scheduled: [] as ReturnType<typeof buildDayRoute>["scheduled"], feasibilityWarning: null as string | null };
+    }
+    const attrMap = new Map(attractions.map((a) => [a.id, a]));
+    const input = items
+      .filter((i) => !i.skipped_at)
+      .map((i) => {
+        const a = attrMap.get(i.attraction_id);
+        return {
+          attractionId: i.attraction_id,
+          isMustDo: i.is_must_do ?? false,
+          experienceType: a?.experience_type ?? "ride",
+          avgDurationMinutes: a?.avg_duration_minutes ?? 5,
+          fixedTime: null,
+        };
+      });
+    return buildDayRoute(
+      day.planned_arrival_time.slice(0, 5),
+      input,
+      fullWaitHistory,
+      walkMatrix,
+      dayOfWeek,
+    );
+  }, [day, items, attractions, walkMatrix, fullWaitHistory, dayOfWeek]);
+
+  const scheduleMap = useMemo(
+    () => new Map(scheduled.map((s) => [s.attractionId, s])),
+    [scheduled],
+  );
+
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState<string[]>([]);
   const [mustDoDraft, setMustDoDraft] = useState<string[]>([]);
