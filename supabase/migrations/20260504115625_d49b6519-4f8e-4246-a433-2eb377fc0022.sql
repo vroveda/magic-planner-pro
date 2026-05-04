@@ -1,0 +1,1 @@
+ALTER TABLE public.route_items ADD COLUMN IF NOT EXISTS is_must_do boolean NOT NULL DEFAULT false;

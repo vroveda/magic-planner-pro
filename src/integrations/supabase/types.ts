@@ -473,6 +473,7 @@ export type Database = {
           attraction_id: string
           created_at: string
           id: string
+          is_must_do: boolean
           notes: string | null
           planned_time: string | null
           position: number
@@ -484,6 +485,7 @@ export type Database = {
           attraction_id: string
           created_at?: string
           id?: string
+          is_must_do?: boolean
           notes?: string | null
           planned_time?: string | null
           position: number
@@ -495,6 +497,7 @@ export type Database = {
           attraction_id?: string
           created_at?: string
           id?: string
+          is_must_do?: boolean
           notes?: string | null
           planned_time?: string | null
           position?: number
