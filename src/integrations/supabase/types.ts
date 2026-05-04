@@ -224,7 +224,7 @@ export type Database = {
           {
             foreignKeyName: "attraction_live_status_attraction_id_fkey"
             columns: ["attraction_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "attractions"
             referencedColumns: ["id"]
           },
