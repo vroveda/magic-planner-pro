@@ -87,7 +87,7 @@ export function RouteOrderStep({
               {ids.map((id, idx) => {
                 const a = map.get(id);
                 if (!a) return null;
-                return <SortableRow key={id} id={id} index={idx} attraction={a} />;
+                return <SortableRow key={id} id={id} index={idx} attraction={a} mustDo={mustSet.has(id)} />;
               })}
             </ul>
           </SortableContext>
