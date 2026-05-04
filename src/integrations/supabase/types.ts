@@ -271,9 +271,34 @@ export type Database = {
           },
         ]
       }
+      attraction_walk_minutes: {
+        Row: {
+          dest_id: string
+          id: string
+          origin_id: string
+          walk_minutes: number | null
+          walk_seconds: number | null
+        }
+        Insert: {
+          dest_id: string
+          id?: string
+          origin_id: string
+          walk_minutes?: number | null
+          walk_seconds?: number | null
+        }
+        Update: {
+          dest_id?: string
+          id?: string
+          origin_id?: string
+          walk_minutes?: number | null
+          walk_seconds?: number | null
+        }
+        Relationships: []
+      }
       attractions: {
         Row: {
           area: string | null
+          avg_duration_minutes: number | null
           coordinates_lat: number | null
           coordinates_lng: number | null
           created_at: string
@@ -287,6 +312,7 @@ export type Database = {
           min_height_cm: number | null
           name: string
           park_id: string
+          queue_times_id: number | null
           short_description: string | null
           strategic_tip: string | null
           thrill_level: Database["public"]["Enums"]["thrill_level"] | null
@@ -294,6 +320,7 @@ export type Database = {
         }
         Insert: {
           area?: string | null
+          avg_duration_minutes?: number | null
           coordinates_lat?: number | null
           coordinates_lng?: number | null
           created_at?: string
@@ -307,6 +334,7 @@ export type Database = {
           min_height_cm?: number | null
           name: string
           park_id: string
+          queue_times_id?: number | null
           short_description?: string | null
           strategic_tip?: string | null
           thrill_level?: Database["public"]["Enums"]["thrill_level"] | null
@@ -314,6 +342,7 @@ export type Database = {
         }
         Update: {
           area?: string | null
+          avg_duration_minutes?: number | null
           coordinates_lat?: number | null
           coordinates_lng?: number | null
           created_at?: string
@@ -327,6 +356,7 @@ export type Database = {
           min_height_cm?: number | null
           name?: string
           park_id?: string
+          queue_times_id?: number | null
           short_description?: string | null
           strategic_tip?: string | null
           thrill_level?: Database["public"]["Enums"]["thrill_level"] | null
@@ -381,6 +411,7 @@ export type Database = {
           external_id: string | null
           id: string
           name: string
+          queue_times_id: number | null
           resort: string
           slug: string
           timezone: string
@@ -390,6 +421,7 @@ export type Database = {
           external_id?: string | null
           id?: string
           name: string
+          queue_times_id?: number | null
           resort?: string
           slug: string
           timezone?: string
@@ -399,6 +431,7 @@ export type Database = {
           external_id?: string | null
           id?: string
           name?: string
+          queue_times_id?: number | null
           resort?: string
           slug?: string
           timezone?: string
