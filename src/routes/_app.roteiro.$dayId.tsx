@@ -257,6 +257,15 @@ function DayRoute() {
                   <Link to="/atracao/$id" params={{ id: a.id }}>
                     <h3 className={`font-display font-bold text-magic text-base leading-tight ${done ? "line-through" : ""}`}>{a.name}</h3>
                   </Link>
+                  {scheduleMap.get(item.attraction_id) && (
+                    <div className="mt-1 flex items-center gap-2 flex-wrap text-[11px] font-bold text-muted-foreground">
+                      <span className="inline-flex items-center gap-1 text-magic"><Clock className="h-3 w-3" /> {scheduleMap.get(item.attraction_id)!.arrivalTime}</span>
+                      {scheduleMap.get(item.attraction_id)!.walkFromPreviousMinutes > 0 && (
+                        <span className="inline-flex items-center gap-1"><Footprints className="h-3 w-3" /> {scheduleMap.get(item.attraction_id)!.walkFromPreviousMinutes}min</span>
+                      )}
+                      <span className="inline-flex items-center gap-1"><Timer className="h-3 w-3" /> ~{scheduleMap.get(item.attraction_id)!.estimatedWaitMinutes}min fila</span>
+                    </div>
+                  )}
                   <div className="mt-1.5 flex items-center gap-1.5 flex-wrap text-[10px] font-extrabold">
                     {item.is_must_do && <span className="inline-flex items-center gap-1 rounded-full bg-gradient-gold text-magic px-2 py-0.5"><Crown className="h-3 w-3" /> OBRIGATÓRIO</span>}
                     <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 ${meta.color}`}>{meta.emoji} {meta.label}</span>
