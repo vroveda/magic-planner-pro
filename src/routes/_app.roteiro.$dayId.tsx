@@ -206,7 +206,7 @@ function DayRoute() {
           return (
             <li key={item.id} className={`rounded-2xl border p-4 ${done ? "bg-success/5 border-success/30" : skipped ? "bg-muted/40 border-border opacity-70" : `bg-card border-border shadow-soft ${meta.bg}`}`}>
               <div className="flex items-start gap-3">
-                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl font-display font-bold text-sm ${a.is_must_do ? "bg-gradient-gold text-magic" : "bg-secondary text-magic"}`}>
+                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl font-display font-bold text-sm ${item.is_must_do ? "bg-gradient-gold text-magic" : "bg-secondary text-magic"}`}>
                   {idx + 1}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -214,7 +214,7 @@ function DayRoute() {
                     <h3 className={`font-display font-bold text-magic text-base leading-tight ${done ? "line-through" : ""}`}>{a.name}</h3>
                   </Link>
                   <div className="mt-1.5 flex items-center gap-1.5 flex-wrap text-[10px] font-extrabold">
-                    {a.is_must_do && <span className="inline-flex items-center gap-1 rounded-full bg-gradient-gold text-magic px-2 py-0.5"><Crown className="h-3 w-3" /> IMPERDÍVEL</span>}
+                    {item.is_must_do && <span className="inline-flex items-center gap-1 rounded-full bg-gradient-gold text-magic px-2 py-0.5"><Crown className="h-3 w-3" /> OBRIGATÓRIO</span>}
                     <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 ${meta.color}`}>{meta.emoji} {meta.label}</span>
                     {h != null && <span className="text-muted-foreground">média {Math.round(h)}m</span>}
                   </div>
