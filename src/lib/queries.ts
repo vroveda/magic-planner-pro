@@ -375,8 +375,9 @@ export function useReplaceRoute() {
   const qc = useQueryClient();
   const { user } = useAuth();
   return useMutation({
-    mutationFn: async ({ tripParkDayId, attractionIds }: { tripParkDayId: string; attractionIds: string[] }) => {
+    mutationFn: async ({ tripParkDayId, attractionIds, mustDoIds }: { tripParkDayId: string; attractionIds: string[]; mustDoIds?: string[] }) => {
       if (!user) throw new Error("Sem usuário");
+      const mustDoSet = new Set(mustDoIds ?? []);
       const { data: existing, error: e1 } = await supabase
         .from("routes")
         .select("id")
@@ -397,7 +398,7 @@ export function useReplaceRoute() {
       if (delErr) throw delErr;
       if (attractionIds.length > 0) {
         const rows: Tables["route_items"]["Insert"][] = attractionIds.map((id, i) => ({
-          route_id: routeId!, attraction_id: id, position: i + 1,
+          route_id: routeId!, attraction_id: id, position: i + 1, is_must_do: mustDoSet.has(id),
         }));
         const { error: insErr } = await supabase.from("route_items").insert(rows);
         if (insErr) throw insErr;

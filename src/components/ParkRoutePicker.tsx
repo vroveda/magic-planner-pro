@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import {
   ArrowRight, ArrowLeft, ListChecks, RollerCoaster, Drama, HandHeart, Music,
-  Sparkle, Sparkles, Zap, Gauge, Smartphone, Wand2, ChevronDown, Check,
+  Sparkle, Sparkles, Zap, Gauge, Smartphone, Wand2, ChevronDown, Check, Star,
 } from "lucide-react";
 import { useAttractionsByPark, type TripPrefs, type Attraction } from "@/lib/queries";
 
@@ -26,6 +26,7 @@ export function ParkRoutePicker({
   parkId, parkName, childrenPrefs, value, onChange, onBack, onNext,
   nextLabel = "Salvar roteiro", subtitle, headerExtra,
   usesLightningLane, onUsesLightningLaneChange,
+  mustDoIds, onMustDoChange,
 }: {
   parkId: string;
   parkName: string;
@@ -39,6 +40,8 @@ export function ParkRoutePicker({
   headerExtra?: React.ReactNode;
   usesLightningLane?: boolean;
   onUsesLightningLaneChange?: (v: boolean) => void;
+  mustDoIds?: string[];
+  onMustDoChange?: (ids: string[]) => void;
 }) {
   const { data: attractions = [], isLoading } = useAttractionsByPark(parkId);
   const [legendOpen, setLegendOpen] = useState(true);
@@ -56,7 +59,19 @@ export function ParkRoutePicker({
   }, [attractions]);
 
   function toggle(id: string) {
-    onChange(value.includes(id) ? value.filter((x) => x !== id) : [...value, id]);
+    if (value.includes(id)) {
+      onChange(value.filter((x) => x !== id));
+      // unselecting also clears must-do
+      if (mustDoIds?.includes(id)) onMustDoChange?.(mustDoIds.filter((x) => x !== id));
+    } else {
+      onChange([...value, id]);
+    }
+  }
+  function toggleMustDo(id: string, e: React.MouseEvent) {
+    e.stopPropagation();
+    if (!onMustDoChange) return;
+    const cur = mustDoIds ?? [];
+    onMustDoChange(cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id]);
   }
   function useSuggested() {
     onChange(attractions.filter((a) => a.is_must_do).map((a) => a.id));
@@ -119,6 +134,12 @@ export function ParkRoutePicker({
                 })}
               </div>
             </div>
+            <div>
+              <p className="text-[10px] font-extrabold uppercase tracking-wider text-muted-foreground mb-1">Prioridade</p>
+              <span className="inline-flex items-center gap-1 text-[11px] text-magic">
+                <Star className="h-3.5 w-3.5 fill-gold text-gold" /> Obrigatório (não posso perder) — toque na estrela após selecionar
+              </span>
+            </div>
           </div>
         )}
       </div>
@@ -165,9 +186,11 @@ export function ParkRoutePicker({
                 {items.map((a) => {
                   const sel = value.includes(a.id);
                   const warn = heightWarning(a.min_height_cm);
+                  const must = sel && (mustDoIds?.includes(a.id) ?? false);
                   return (
-                    <button key={a.id} onClick={() => toggle(a.id)}
-                      className={`w-full text-left flex items-start gap-3 rounded-2xl border p-3 transition ${sel ? "bg-gradient-magic text-white border-magic shadow-magic" : "bg-card border-border"}`}>
+                    <div key={a.id} role="button" tabIndex={0} onClick={() => toggle(a.id)}
+                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(a.id); } }}
+                      className={`w-full text-left flex items-start gap-3 rounded-2xl border p-3 transition cursor-pointer ${sel ? "bg-gradient-magic text-white border-magic shadow-magic" : "bg-card border-border"}`}>
                       <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 ${sel ? "bg-gold border-gold text-magic" : "border-border bg-card text-transparent"}`}>
                         <Check className="h-4 w-4" />
                       </div>
@@ -182,7 +205,19 @@ export function ParkRoutePicker({
                         )}
                         {warn && <p className={`text-[11px] mt-0.5 font-bold ${sel ? "text-gold" : "text-warning"}`}>{warn}</p>}
                       </div>
-                    </button>
+                      {sel && onMustDoChange && (
+                        <button
+                          type="button"
+                          onClick={(e) => toggleMustDo(a.id, e)}
+                          aria-pressed={must}
+                          aria-label={must ? "Remover obrigatório" : "Marcar como obrigatório"}
+                          title={must ? "Obrigatório (não posso perder)" : "Marcar como obrigatório"}
+                          className={`shrink-0 flex h-8 w-8 items-center justify-center rounded-full transition ${must ? "bg-gold text-magic shadow-gold" : "bg-white/15 text-white hover:bg-white/25"}`}
+                        >
+                          <Star className={`h-4 w-4 ${must ? "fill-current" : ""}`} />
+                        </button>
+                      )}
+                    </div>
                   );
                 })}
               </div>

@@ -26,16 +26,18 @@ const TYPE_META: Record<string, { icon: typeof RollerCoaster; label: string }> =
 const TYPE_ORDER: Attraction["experience_type"][] = ["ride", "meet_greet", "show", "parade", "fireworks", "other"];
 
 export function RouteOrderStep({
-  parkName, attractions, initialIds, onBack, onSave, saving,
+  parkName, attractions, initialIds, mustDoIds, onBack, onSave, saving,
 }: {
   parkName: string;
   attractions: Attraction[];
   initialIds: string[];
+  mustDoIds?: string[];
   onBack: () => void;
   onSave: (orderedIds: string[]) => void;
   saving?: boolean;
 }) {
   const [ids, setIds] = useState<string[]>(initialIds);
+  const mustSet = new Set(mustDoIds ?? []);
 
   useEffect(() => { setIds(initialIds); }, [initialIds.join(",")]);
 
@@ -49,7 +51,8 @@ export function RouteOrderStep({
     const map = new Map(attractions.map((a) => [a.id, a]));
     const sorted = [...ids].sort((aId, bId) => {
       const a = map.get(aId)!; const b = map.get(bId)!;
-      if (a.is_must_do !== b.is_must_do) return a.is_must_do ? -1 : 1;
+      const am = mustSet.has(aId); const bm = mustSet.has(bId);
+      if (am !== bm) return am ? -1 : 1;
       const ai = TYPE_ORDER.indexOf(a.experience_type);
       const bi = TYPE_ORDER.indexOf(b.experience_type);
       if (ai !== bi) return ai - bi;
@@ -84,7 +87,7 @@ export function RouteOrderStep({
               {ids.map((id, idx) => {
                 const a = map.get(id);
                 if (!a) return null;
-                return <SortableRow key={id} id={id} index={idx} attraction={a} />;
+                return <SortableRow key={id} id={id} index={idx} attraction={a} mustDo={mustSet.has(id)} />;
               })}
             </ul>
           </SortableContext>
@@ -104,7 +107,7 @@ export function RouteOrderStep({
   );
 }
 
-function SortableRow({ id, index, attraction }: { id: string; index: number; attraction: Attraction }) {
+function SortableRow({ id, index, attraction, mustDo }: { id: string; index: number; attraction: Attraction; mustDo: boolean }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -115,21 +118,21 @@ function SortableRow({ id, index, attraction }: { id: string; index: number; att
   const Icon = meta?.icon ?? Sparkles;
   return (
     <li ref={setNodeRef} style={style}
-      className={`flex items-center gap-2 rounded-2xl border border-border bg-card p-3 ${isDragging ? "shadow-magic" : "shadow-soft"}`}>
+      className={`flex items-center gap-2 rounded-2xl border p-3 ${mustDo ? "border-gold bg-gold/5" : "border-border bg-card"} ${isDragging ? "shadow-magic" : "shadow-soft"}`}>
       <button {...attributes} {...listeners}
         className="touch-none flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-secondary text-magic cursor-grab active:cursor-grabbing"
         aria-label="Arrastar para reordenar">
         <GripVertical className="h-4 w-4" />
       </button>
-      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-magic text-white font-display font-bold text-xs">
+      <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full font-display font-bold text-xs ${mustDo ? "bg-gradient-gold text-magic" : "bg-gradient-magic text-white"}`}>
         {index + 1}
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1.5 flex-wrap">
           <p className="font-bold text-magic leading-tight truncate">{attraction.name}</p>
-          {attraction.is_must_do && (
+          {mustDo && (
             <span className="inline-flex items-center gap-0.5 rounded-full bg-gradient-gold text-magic px-1.5 py-0.5 text-[9px] font-extrabold">
-              <Crown className="h-2.5 w-2.5" /> IMPERDÍVEL
+              <Crown className="h-2.5 w-2.5" /> OBRIGATÓRIO
             </span>
           )}
         </div>
