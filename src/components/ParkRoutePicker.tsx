@@ -134,6 +134,12 @@ export function ParkRoutePicker({
                 })}
               </div>
             </div>
+            <div>
+              <p className="text-[10px] font-extrabold uppercase tracking-wider text-muted-foreground mb-1">Prioridade</p>
+              <span className="inline-flex items-center gap-1 text-[11px] text-magic">
+                <Star className="h-3.5 w-3.5 fill-gold text-gold" /> Obrigatório (não posso perder) — toque na estrela após selecionar
+              </span>
+            </div>
           </div>
         )}
       </div>
