@@ -1,16 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, Crown, Check, SkipForward, Pencil, Clock } from "lucide-react";
+import { ArrowLeft, ArrowRight, Crown, Check, SkipForward, Pencil, Clock, Footprints, Timer, AlertTriangle } from "lucide-react";
 import {
   useActiveTrip, useTripParkDays, useParks, useRouteForDay, useRouteItems,
   useAttractionsByIds, useLiveStatusForAttractions, useWaitHistoryForAttractions,
   useLiveStatusRealtime, useMarkVisited, useMarkSkipped, useReplaceRoute,
   useSetPlannedArrival, useSetUsesLightningLane, readTripPrefs,
+  useWalkMatrixForAttractions, useFullWaitHistoryForAttractions,
 } from "@/lib/queries";
 import { computeCondition, conditionMeta } from "@/lib/score";
 import { ParkRoutePicker } from "@/components/ParkRoutePicker";
 import { RouteOrderStep } from "@/components/RouteOrderStep";
 import { useAttractionsByPark } from "@/lib/queries";
+import { buildDayRoute } from "@/lib/route-builder";
 
 export const Route = createFileRoute("/_app/roteiro/$dayId")({
   head: () => ({ meta: [{ title: "Roteiro do dia — Genie Hacker" }] }),
@@ -36,6 +38,41 @@ function DayRoute() {
   const replaceRoute = useReplaceRoute();
   const setArrival = useSetPlannedArrival();
   const setUsesLL = useSetUsesLightningLane();
+
+  const dayOfWeek = day ? new Date(day.visit_date + "T00:00:00").getDay() : 0;
+  const { data: walkMatrix = {} } = useWalkMatrixForAttractions(ids);
+  const { data: fullWaitHistory = {} } = useFullWaitHistoryForAttractions(ids, dayOfWeek);
+
+  const { scheduled, feasibilityWarning } = useMemo(() => {
+    if (!day?.planned_arrival_time || items.length === 0 || attractions.length === 0) {
+      return { scheduled: [] as ReturnType<typeof buildDayRoute>["scheduled"], feasibilityWarning: null as string | null };
+    }
+    const attrMap = new Map(attractions.map((a) => [a.id, a]));
+    const input = items
+      .filter((i) => !i.skipped_at)
+      .map((i) => {
+        const a = attrMap.get(i.attraction_id);
+        return {
+          attractionId: i.attraction_id,
+          isMustDo: i.is_must_do ?? false,
+          experienceType: a?.experience_type ?? "ride",
+          avgDurationMinutes: a?.avg_duration_minutes ?? 5,
+          fixedTime: null,
+        };
+      });
+    return buildDayRoute(
+      day.planned_arrival_time.slice(0, 5),
+      input,
+      fullWaitHistory,
+      walkMatrix,
+      dayOfWeek,
+    );
+  }, [day, items, attractions, walkMatrix, fullWaitHistory, dayOfWeek]);
+
+  const scheduleMap = useMemo(
+    () => new Map(scheduled.map((s) => [s.attractionId, s])),
+    [scheduled],
+  );
 
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState<string[]>([]);
@@ -192,6 +229,13 @@ function DayRoute() {
         </button>
       </header>
 
+      {feasibilityWarning && (
+        <div className="mb-3 flex items-start gap-2 rounded-2xl border border-warning/40 bg-warning/10 p-3 text-sm font-bold text-magic">
+          <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" />
+          <span>{feasibilityWarning}</span>
+        </div>
+      )}
+
       <ul className="space-y-3">
         {items.map((item, idx) => {
           const a = attractions.find((x) => x.id === item.attraction_id);
@@ -213,6 +257,15 @@ function DayRoute() {
                   <Link to="/atracao/$id" params={{ id: a.id }}>
                     <h3 className={`font-display font-bold text-magic text-base leading-tight ${done ? "line-through" : ""}`}>{a.name}</h3>
                   </Link>
+                  {scheduleMap.get(item.attraction_id) && (
+                    <div className="mt-1 flex items-center gap-2 flex-wrap text-[11px] font-bold text-muted-foreground">
+                      <span className="inline-flex items-center gap-1 text-magic"><Clock className="h-3 w-3" /> {scheduleMap.get(item.attraction_id)!.arrivalTime}</span>
+                      {scheduleMap.get(item.attraction_id)!.walkFromPreviousMinutes > 0 && (
+                        <span className="inline-flex items-center gap-1"><Footprints className="h-3 w-3" /> {scheduleMap.get(item.attraction_id)!.walkFromPreviousMinutes}min</span>
+                      )}
+                      <span className="inline-flex items-center gap-1"><Timer className="h-3 w-3" /> ~{scheduleMap.get(item.attraction_id)!.estimatedWaitMinutes}min fila</span>
+                    </div>
+                  )}
                   <div className="mt-1.5 flex items-center gap-1.5 flex-wrap text-[10px] font-extrabold">
                     {item.is_must_do && <span className="inline-flex items-center gap-1 rounded-full bg-gradient-gold text-magic px-2 py-0.5"><Crown className="h-3 w-3" /> OBRIGATÓRIO</span>}
                     <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 ${meta.color}`}>{meta.emoji} {meta.label}</span>

@@ -165,6 +165,50 @@ export function useWaitHistoryForAttractions(ids: string[]) {
   });
 }
 
+export function useWalkMatrixForAttractions(ids: string[]) {
+  return useQuery({
+    queryKey: ["walk-matrix", [...ids].sort()],
+    enabled: ids.length > 1,
+    staleTime: 60 * 60 * 1000,
+    queryFn: async () => {
+      const inList = ids.map((i) => `"${i}"`).join(",");
+      const { data, error } = await supabase
+        .from("attraction_walk_minutes")
+        .select("origin_id, dest_id, walk_minutes")
+        .or(`origin_id.in.(${inList}),dest_id.in.(${inList})`);
+      if (error) throw error;
+      const matrix: Record<string, Record<string, number>> = {};
+      for (const row of (data ?? []) as { origin_id: string; dest_id: string; walk_minutes: number | null }[]) {
+        if (!matrix[row.origin_id]) matrix[row.origin_id] = {};
+        matrix[row.origin_id][row.dest_id] = row.walk_minutes ?? 5;
+      }
+      return matrix;
+    },
+  });
+}
+
+export function useFullWaitHistoryForAttractions(ids: string[], dayOfWeek: number) {
+  return useQuery({
+    queryKey: ["wait-history-full", [...ids].sort(), dayOfWeek],
+    enabled: ids.length > 0,
+    staleTime: 60 * 60 * 1000,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("attraction_wait_history")
+        .select("attraction_id, hour_of_day, average_wait_minutes")
+        .in("attraction_id", ids)
+        .eq("day_of_week", dayOfWeek);
+      if (error) throw error;
+      const map: Record<string, Record<number, number>> = {};
+      for (const row of (data ?? []) as { attraction_id: string; hour_of_day: number; average_wait_minutes: number }[]) {
+        if (!map[row.attraction_id]) map[row.attraction_id] = {};
+        map[row.attraction_id][row.hour_of_day] = row.average_wait_minutes;
+      }
+      return map;
+    },
+  });
+}
+
 // ============ TRIPS ============
 
 export function useActiveTrip() {
