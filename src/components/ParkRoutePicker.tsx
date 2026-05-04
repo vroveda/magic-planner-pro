@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import {
   ArrowRight, ArrowLeft, ListChecks, RollerCoaster, Drama, HandHeart, Music,
-  Sparkle, Sparkles, Zap, Gauge, Smartphone, Wand2, ChevronDown, Check,
+  Sparkle, Sparkles, Zap, Gauge, Smartphone, Wand2, ChevronDown, Check, Star,
 } from "lucide-react";
 import { useAttractionsByPark, type TripPrefs, type Attraction } from "@/lib/queries";
 
