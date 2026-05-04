@@ -1,16 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, Crown, Check, SkipForward, Pencil, Clock } from "lucide-react";
+import { ArrowLeft, ArrowRight, Crown, Check, SkipForward, Pencil, Clock, Footprints, Timer, AlertTriangle } from "lucide-react";
 import {
   useActiveTrip, useTripParkDays, useParks, useRouteForDay, useRouteItems,
   useAttractionsByIds, useLiveStatusForAttractions, useWaitHistoryForAttractions,
   useLiveStatusRealtime, useMarkVisited, useMarkSkipped, useReplaceRoute,
   useSetPlannedArrival, useSetUsesLightningLane, readTripPrefs,
+  useWalkMatrixForAttractions, useFullWaitHistoryForAttractions,
 } from "@/lib/queries";
 import { computeCondition, conditionMeta } from "@/lib/score";
 import { ParkRoutePicker } from "@/components/ParkRoutePicker";
 import { RouteOrderStep } from "@/components/RouteOrderStep";
 import { useAttractionsByPark } from "@/lib/queries";
+import { buildDayRoute } from "@/lib/route-builder";
 
 export const Route = createFileRoute("/_app/roteiro/$dayId")({
   head: () => ({ meta: [{ title: "Roteiro do dia — Genie Hacker" }] }),
