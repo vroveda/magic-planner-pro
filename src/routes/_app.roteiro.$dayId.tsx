@@ -129,10 +129,15 @@ function DayRoute() {
           parkName={park.name}
           attractions={parkAttractions.filter((a) => draft.includes(a.id))}
           initialIds={draft}
+          mustDoIds={mustDoDraft}
           onBack={() => setStep("picker")}
           saving={replaceRoute.isPending}
           onSave={async (orderedIds) => {
-            await replaceRoute.mutateAsync({ tripParkDayId: day.id, attractionIds: orderedIds });
+            await replaceRoute.mutateAsync({
+              tripParkDayId: day.id,
+              attractionIds: orderedIds,
+              mustDoIds: mustDoDraft.filter((id) => orderedIds.includes(id)),
+            });
             setEditing(false);
           }}
         />
