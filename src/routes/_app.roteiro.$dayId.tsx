@@ -164,6 +164,8 @@ function DayRoute() {
           childrenPrefs={prefs.children ?? []}
           value={draft}
           onChange={setDraft}
+          mustDoIds={mustDoDraft}
+          onMustDoChange={setMustDoDraft}
           headerExtra={editing ? "Editar roteiro" : "Definir roteiro"}
           onBack={editing ? () => setEditing(false) : null}
           usesLightningLane={!!day.uses_lightning_lane}
