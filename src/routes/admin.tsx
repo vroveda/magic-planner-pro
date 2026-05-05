@@ -363,6 +363,53 @@ function OwnBaseTab() {
 
   const sourceOptions = summary.data?.sources.map(([s]) => s).filter((s) => s !== "(null)") ?? [];
 
+  const isOwnSource =
+    sourceFilter !== "all" &&
+    sourceFilter !== "queue_times" &&
+    sourceFilter !== "queue-times.com";
+
+  const evolution = useQuery({
+    queryKey: ["admin", "ownbase-evolution", parkId, sourceFilter],
+    enabled: isOwnSource,
+    queryFn: async () => {
+      let query = supabase
+        .from("attraction_wait_history")
+        .select("day_of_week, hour_of_day, average_wait_minutes, sample_count, updated_at, attractions!inner(name, park_id, parks(name))")
+        .eq("source", sourceFilter)
+        .order("updated_at", { ascending: false })
+        .limit(200);
+      if (parkId !== "all") query = query.eq("attractions.park_id", parkId);
+      const { data, error } = await query;
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const span = useQuery({
+    queryKey: ["admin", "ownbase-span", parkId, sourceFilter],
+    enabled: isOwnSource,
+    queryFn: async () => {
+      let baseFirst = supabase
+        .from("attraction_wait_history")
+        .select("updated_at, attractions!inner(park_id)")
+        .eq("source", sourceFilter)
+        .order("updated_at", { ascending: true })
+        .limit(1);
+      let baseLast = supabase
+        .from("attraction_wait_history")
+        .select("updated_at, attractions!inner(park_id)")
+        .eq("source", sourceFilter)
+        .order("updated_at", { ascending: false })
+        .limit(1);
+      if (parkId !== "all") {
+        baseFirst = baseFirst.eq("attractions.park_id", parkId);
+        baseLast = baseLast.eq("attractions.park_id", parkId);
+      }
+      const [{ data: f }, { data: l }] = await Promise.all([baseFirst, baseLast]);
+      return { first: f?.[0]?.updated_at ?? null, last: l?.[0]?.updated_at ?? null };
+    },
+  });
+
   const q = useQuery({
     queryKey: ["admin", "ownbase", parkId, dow, hour, sort, sourceFilter],
     queryFn: async () => {
@@ -434,6 +481,13 @@ function OwnBaseTab() {
             ))}
           </div>
         )}
+        {isOwnSource && span.data && (span.data.first || span.data.last) && (
+          <div className="text-xs text-muted-foreground">
+            primeira coleta: {span.data.first ? new Date(span.data.first).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) : "—"}
+            {" — última: "}
+            {span.data.last ? new Date(span.data.last).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) : "—"}
+          </div>
+        )}
       </div>
 
       <div className="flex flex-wrap gap-2">
@@ -484,6 +538,27 @@ function OwnBaseTab() {
         columns={["Atração", "Parque", "Dia", "Hora", "Média (min)", "Amostras", "Atualizado em"]}
         rows={rows}
       />
+
+      {isOwnSource && (
+        <div className="space-y-2 pt-4">
+          <h3 className="text-sm font-semibold">Evolução das amostras</h3>
+          <p className="text-xs text-muted-foreground">
+            Registros de <code>{sourceFilter}</code> ordenados por última atualização — para ver se sample_count cresce a cada ciclo.
+          </p>
+          <DataTable
+            columns={["Atração", "Parque", "Dia", "Hora", "Média (min)", "Amostras", "Atualizado em"]}
+            rows={(evolution.data ?? []).map((r: any) => [
+              fmt(r.attractions?.name),
+              fmt(r.attractions?.parks?.name),
+              DOWS[r.day_of_week],
+              `${r.hour_of_day}h`,
+              Number(r.average_wait_minutes).toFixed(1),
+              renderSamples(r.sample_count),
+              fmtDate(r.updated_at),
+            ])}
+          />
+        </div>
+      )}
     </div>
   );
 }
