@@ -334,15 +334,16 @@ function OwnBaseTab() {
   const [dow, setDow] = useState<number>(now.getDay());
   const [hour, setHour] = useState<number>(now.getHours());
   const [sort, setSort] = useState<SortKey>("avg_desc");
+  const [sourceFilter, setSourceFilter] = useState<string>("all");
 
   const summary = useQuery({
     queryKey: ["admin", "ownbase-summary", parkId],
     queryFn: async () => {
       let query = supabase
         .from("attraction_wait_history")
-        .select("sample_count, updated_at, attractions!inner(park_id)");
+        .select("sample_count, updated_at, source, attractions!inner(park_id)");
       if (parkId !== "all") query = query.eq("attractions.park_id", parkId);
-      const { data, error } = await query.limit(10000);
+      const { data, error } = await query.limit(20000);
       if (error) throw error;
       const rows = data ?? [];
       const samples = rows.reduce((s: number, r: any) => s + (r.sample_count ?? 0), 0);
@@ -350,19 +351,28 @@ function OwnBaseTab() {
         if (!r.updated_at) return m;
         return !m || r.updated_at > m ? r.updated_at : m;
       }, null as string | null);
-      return { count: rows.length, samples, last };
+      const sourceCounts = new Map<string, number>();
+      for (const r of rows as any[]) {
+        const k = r.source ?? "(null)";
+        sourceCounts.set(k, (sourceCounts.get(k) ?? 0) + 1);
+      }
+      const sources = Array.from(sourceCounts.entries()).sort((a, b) => b[1] - a[1]);
+      return { count: rows.length, samples, last, sources };
     },
   });
 
+  const sourceOptions = summary.data?.sources.map(([s]) => s).filter((s) => s !== "(null)") ?? [];
+
   const q = useQuery({
-    queryKey: ["admin", "ownbase", parkId, dow, hour, sort],
+    queryKey: ["admin", "ownbase", parkId, dow, hour, sort, sourceFilter],
     queryFn: async () => {
       let query = supabase
         .from("attraction_wait_history")
-        .select("day_of_week, hour_of_day, average_wait_minutes, sample_count, updated_at, attractions!inner(name, park_id, parks(name))")
+        .select("day_of_week, hour_of_day, average_wait_minutes, sample_count, updated_at, source, attractions!inner(name, park_id, parks(name))")
         .eq("day_of_week", dow)
         .eq("hour_of_day", hour);
       if (parkId !== "all") query = query.eq("attractions.park_id", parkId);
+      if (sourceFilter !== "all") query = query.eq("source", sourceFilter);
       const orderMap: Record<SortKey, { col: string; asc: boolean }> = {
         avg_desc: { col: "average_wait_minutes", asc: false },
         avg_asc: { col: "average_wait_minutes", asc: true },
@@ -377,22 +387,30 @@ function OwnBaseTab() {
     },
   });
 
+  const renderSamples = (n: number | null | undefined) => {
+    if (n === null || n === undefined) {
+      return <span className="text-muted-foreground">—</span>;
+    }
+    if (n >= 1 && n <= 4) {
+      return <span className="text-amber-600">⚠ {n}</span>;
+    }
+    return <span>{n}</span>;
+  };
+
   const rows = (q.data ?? []).map((r: any) => [
     fmt(r.attractions?.name),
     fmt(r.attractions?.parks?.name),
     DOWS[r.day_of_week],
     `${r.hour_of_day}h`,
     Number(r.average_wait_minutes).toFixed(1),
-    <span key="s" className={r.sample_count < 5 ? "text-amber-600" : ""}>
-      {r.sample_count < 5 ? `⚠ ${r.sample_count}` : r.sample_count}
-    </span>,
+    renderSamples(r.sample_count),
     fmtDate(r.updated_at),
   ]);
 
   const s = summary.data;
   return (
     <div className="space-y-3">
-      <div className="rounded-md border border-border bg-card p-3">
+      <div className="rounded-md border border-border bg-card p-3 space-y-2">
         <div className="flex flex-wrap gap-2 text-xs">
           <span className="rounded-full bg-secondary px-3 py-1">
             {s ? `${s.count} entradas` : "…"}
@@ -406,6 +424,16 @@ function OwnBaseTab() {
               : "Sem atualizações"}
           </span>
         </div>
+        {s?.sources && s.sources.length > 0 && (
+          <div className="flex flex-wrap gap-2 text-xs">
+            <span className="text-muted-foreground self-center">Sources:</span>
+            {s.sources.map(([name, count]) => (
+              <span key={name} className="rounded-full border border-border px-3 py-1">
+                {name}: {count} linhas
+              </span>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="flex flex-wrap gap-2">
@@ -429,6 +457,15 @@ function OwnBaseTab() {
           <SelectContent>
             {Array.from({ length: 24 }, (_, i) => (
               <SelectItem key={i} value={String(i)}>{i}h</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select value={sourceFilter} onValueChange={setSourceFilter}>
+          <SelectTrigger className="w-44"><SelectValue placeholder="Fonte" /></SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Todas as fontes</SelectItem>
+            {sourceOptions.map((src) => (
+              <SelectItem key={src} value={src}>{src}</SelectItem>
             ))}
           </SelectContent>
         </Select>
