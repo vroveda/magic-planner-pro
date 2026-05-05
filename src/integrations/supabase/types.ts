@@ -306,6 +306,7 @@ export type Database = {
           external_id: string | null
           has_show_schedule: boolean
           id: string
+          image_url: string | null
           is_must_do: boolean
           lightning_lane_type: Database["public"]["Enums"]["lightning_lane_type"]
           long_description: string | null
@@ -328,6 +329,7 @@ export type Database = {
           external_id?: string | null
           has_show_schedule?: boolean
           id?: string
+          image_url?: string | null
           is_must_do?: boolean
           lightning_lane_type?: Database["public"]["Enums"]["lightning_lane_type"]
           long_description?: string | null
@@ -350,6 +352,7 @@ export type Database = {
           external_id?: string | null
           has_show_schedule?: boolean
           id?: string
+          image_url?: string | null
           is_must_do?: boolean
           lightning_lane_type?: Database["public"]["Enums"]["lightning_lane_type"]
           long_description?: string | null
