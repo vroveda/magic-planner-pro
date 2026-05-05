@@ -526,6 +526,24 @@ function OwnBaseTab() {
             {span.data.last ? new Date(span.data.last).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) : "—"}
           </div>
         )}
+        {snapshotsSummary.data && (
+          <div className="flex flex-wrap gap-2 text-xs pt-1 border-t border-border">
+            <span className="text-muted-foreground self-center">Snapshots de condição:</span>
+            <span className="rounded-full bg-secondary px-3 py-1">
+              {snapshotsSummary.data.count} registros
+            </span>
+            {snapshotsSummary.data.last && (
+              <span className="rounded-full bg-secondary px-3 py-1">
+                último: {new Date(snapshotsSummary.data.last).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
+              </span>
+            )}
+            {snapshotsSummary.data.conditions.map(([name, count]) => (
+              <span key={name} className="rounded-full border border-border px-3 py-1">
+                {name}: {count}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="flex flex-wrap gap-2">
