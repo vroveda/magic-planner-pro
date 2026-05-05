@@ -299,6 +299,7 @@ function DayRoute() {
                 </div>
               )}
               {done && <button onClick={() => markVisited.mutate({ itemId: item.id, visited: false })} className="mt-3 text-xs font-bold text-muted-foreground hover:underline">Desfazer</button>}
+              </div>
             </li>
           );
         })}
