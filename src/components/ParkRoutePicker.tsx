@@ -190,7 +190,13 @@ export function ParkRoutePicker({
                   return (
                     <div key={a.id} role="button" tabIndex={0} onClick={() => toggle(a.id)}
                       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(a.id); } }}
-                      className={`w-full text-left flex items-start gap-3 rounded-2xl border p-3 transition cursor-pointer ${sel ? "bg-gradient-magic text-white border-magic shadow-magic" : "bg-card border-border"}`}>
+                      className={`w-full text-left rounded-2xl border overflow-hidden transition cursor-pointer ${sel ? "bg-gradient-magic text-white border-magic shadow-magic" : "bg-card border-border"}`}>
+                      {a.image_url && (
+                        <div className="aspect-[16/9] w-full overflow-hidden bg-muted">
+                          <img src={a.image_url} alt={a.name} loading="lazy" className="h-full w-full object-cover" />
+                        </div>
+                      )}
+                      <div className="flex items-start gap-3 p-3">
                       <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 ${sel ? "bg-gold border-gold text-magic" : "border-border bg-card text-transparent"}`}>
                         <Check className="h-4 w-4" />
                       </div>
@@ -217,6 +223,7 @@ export function ParkRoutePicker({
                           <Star className={`h-4 w-4 ${must ? "fill-current" : ""}`} />
                         </button>
                       )}
+                      </div>
                     </div>
                   );
                 })}
