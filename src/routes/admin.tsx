@@ -615,6 +615,25 @@ function OwnBaseTab() {
           />
         </div>
       )}
+
+      <div className="space-y-2 pt-4">
+        <h3 className="text-sm font-semibold">Snapshots de condição</h3>
+        <p className="text-xs text-muted-foreground">
+          Últimas capturas de <code>attraction_condition_snapshots</code> — comparação fila atual vs média histórica.
+        </p>
+        <DataTable
+          columns={["Atração", "Parque", "Condição", "Fila atual", "Média hist.", "Desvio %", "Capturado"]}
+          rows={(snapshots.data ?? []).map((r: any) => [
+            fmt(r.attractions?.name),
+            fmt(r.attractions?.parks?.name),
+            fmt(r.condition),
+            fmt(r.current_wait_minutes),
+            r.historical_average_minutes != null ? Number(r.historical_average_minutes).toFixed(1) : fmt(null),
+            r.deviation_percent != null ? `${Number(r.deviation_percent).toFixed(1)}%` : fmt(null),
+            fmtDate(r.captured_at),
+          ])}
+        />
+      </div>
     </div>
   );
 }
