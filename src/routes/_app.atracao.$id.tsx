@@ -28,6 +28,11 @@ function AttractionPage() {
   return (
     <main className="px-5 pt-6 max-w-md mx-auto pb-10">
       <Link to="/roteiro" className="inline-flex items-center gap-1 text-sm font-bold text-magic mb-3"><ArrowLeft className="h-4 w-4" /> Voltar</Link>
+      {a.image_url && (
+        <div className="aspect-[16/9] w-full overflow-hidden rounded-2xl bg-muted mb-4 shadow-soft">
+          <img src={a.image_url} alt={a.name} className="h-full w-full object-cover" />
+        </div>
+      )}
       <h1 className="font-display text-3xl font-bold text-magic">{a.name}</h1>
       <p className="text-sm text-muted-foreground">{a.area} · {a.experience_type}</p>
 
