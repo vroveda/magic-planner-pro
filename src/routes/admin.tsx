@@ -538,6 +538,27 @@ function OwnBaseTab() {
         columns={["Atração", "Parque", "Dia", "Hora", "Média (min)", "Amostras", "Atualizado em"]}
         rows={rows}
       />
+
+      {isOwnSource && (
+        <div className="space-y-2 pt-4">
+          <h3 className="text-sm font-semibold">Evolução das amostras</h3>
+          <p className="text-xs text-muted-foreground">
+            Registros de <code>{sourceFilter}</code> ordenados por última atualização — para ver se sample_count cresce a cada ciclo.
+          </p>
+          <DataTable
+            columns={["Atração", "Parque", "Dia", "Hora", "Média (min)", "Amostras", "Atualizado em"]}
+            rows={(evolution.data ?? []).map((r: any) => [
+              fmt(r.attractions?.name),
+              fmt(r.attractions?.parks?.name),
+              DOWS[r.day_of_week],
+              `${r.hour_of_day}h`,
+              Number(r.average_wait_minutes).toFixed(1),
+              renderSamples(r.sample_count),
+              fmtDate(r.updated_at),
+            ])}
+          />
+        </div>
+      )}
     </div>
   );
 }
