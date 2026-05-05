@@ -248,7 +248,13 @@ function DayRoute() {
           const done = !!item.visited_at;
           const skipped = !!item.skipped_at;
           return (
-            <li key={item.id} className={`rounded-2xl border p-4 ${done ? "bg-success/5 border-success/30" : skipped ? "bg-muted/40 border-border opacity-70" : `bg-card border-border shadow-soft ${meta.bg}`}`}>
+            <li key={item.id} className={`rounded-2xl border overflow-hidden ${done ? "bg-success/5 border-success/30" : skipped ? "bg-muted/40 border-border opacity-70" : `bg-card border-border shadow-soft ${meta.bg}`}`}>
+              {a.image_url && !skipped && (
+                <Link to="/atracao/$id" params={{ id: a.id }} className="block aspect-[16/9] w-full overflow-hidden bg-muted">
+                  <img src={a.image_url} alt={a.name} loading="lazy" className={`h-full w-full object-cover ${done ? "grayscale opacity-70" : ""}`} />
+                </Link>
+              )}
+              <div className="p-4">
               <div className="flex items-start gap-3">
                 <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl font-display font-bold text-sm ${item.is_must_do ? "bg-gradient-gold text-magic" : "bg-secondary text-magic"}`}>
                   {idx + 1}
@@ -293,6 +299,7 @@ function DayRoute() {
                 </div>
               )}
               {done && <button onClick={() => markVisited.mutate({ itemId: item.id, visited: false })} className="mt-3 text-xs font-bold text-muted-foreground hover:underline">Desfazer</button>}
+              </div>
             </li>
           );
         })}
