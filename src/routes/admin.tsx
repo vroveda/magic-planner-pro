@@ -410,6 +410,44 @@ function OwnBaseTab() {
     },
   });
 
+  const snapshots = useQuery({
+    queryKey: ["admin", "ownbase-snapshots", parkId],
+    queryFn: async () => {
+      let query = supabase
+        .from("attraction_condition_snapshots")
+        .select("captured_at, condition, current_wait_minutes, historical_average_minutes, deviation_percent, attractions!inner(name, park_id, parks(name))")
+        .order("captured_at", { ascending: false })
+        .limit(200);
+      if (parkId !== "all") query = query.eq("attractions.park_id", parkId);
+      const { data, error } = await query;
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const snapshotsSummary = useQuery({
+    queryKey: ["admin", "ownbase-snapshots-summary", parkId],
+    queryFn: async () => {
+      let query = supabase
+        .from("attraction_condition_snapshots")
+        .select("captured_at, condition, attractions!inner(park_id)")
+        .order("captured_at", { ascending: false })
+        .limit(20000);
+      if (parkId !== "all") query = query.eq("attractions.park_id", parkId);
+      const { data, error } = await query;
+      if (error) throw error;
+      const rows = data ?? [];
+      const last = rows[0]?.captured_at ?? null;
+      const conditionCounts = new Map<string, number>();
+      for (const r of rows as any[]) {
+        const k = r.condition ?? "(null)";
+        conditionCounts.set(k, (conditionCounts.get(k) ?? 0) + 1);
+      }
+      const conditions = Array.from(conditionCounts.entries()).sort((a, b) => b[1] - a[1]);
+      return { count: rows.length, last, conditions };
+    },
+  });
+
   const q = useQuery({
     queryKey: ["admin", "ownbase", parkId, dow, hour, sort, sourceFilter],
     queryFn: async () => {
