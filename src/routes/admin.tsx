@@ -481,6 +481,13 @@ function OwnBaseTab() {
             ))}
           </div>
         )}
+        {isOwnSource && span.data && (span.data.first || span.data.last) && (
+          <div className="text-xs text-muted-foreground">
+            primeira coleta: {span.data.first ? new Date(span.data.first).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) : "—"}
+            {" — última: "}
+            {span.data.last ? new Date(span.data.last).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) : "—"}
+          </div>
+        )}
       </div>
 
       <div className="flex flex-wrap gap-2">
