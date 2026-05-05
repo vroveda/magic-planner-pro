@@ -363,6 +363,53 @@ function OwnBaseTab() {
 
   const sourceOptions = summary.data?.sources.map(([s]) => s).filter((s) => s !== "(null)") ?? [];
 
+  const isOwnSource =
+    sourceFilter !== "all" &&
+    sourceFilter !== "queue_times" &&
+    sourceFilter !== "queue-times.com";
+
+  const evolution = useQuery({
+    queryKey: ["admin", "ownbase-evolution", parkId, sourceFilter],
+    enabled: isOwnSource,
+    queryFn: async () => {
+      let query = supabase
+        .from("attraction_wait_history")
+        .select("day_of_week, hour_of_day, average_wait_minutes, sample_count, updated_at, attractions!inner(name, park_id, parks(name))")
+        .eq("source", sourceFilter)
+        .order("updated_at", { ascending: false })
+        .limit(200);
+      if (parkId !== "all") query = query.eq("attractions.park_id", parkId);
+      const { data, error } = await query;
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const span = useQuery({
+    queryKey: ["admin", "ownbase-span", parkId, sourceFilter],
+    enabled: isOwnSource,
+    queryFn: async () => {
+      let baseFirst = supabase
+        .from("attraction_wait_history")
+        .select("updated_at, attractions!inner(park_id)")
+        .eq("source", sourceFilter)
+        .order("updated_at", { ascending: true })
+        .limit(1);
+      let baseLast = supabase
+        .from("attraction_wait_history")
+        .select("updated_at, attractions!inner(park_id)")
+        .eq("source", sourceFilter)
+        .order("updated_at", { ascending: false })
+        .limit(1);
+      if (parkId !== "all") {
+        baseFirst = baseFirst.eq("attractions.park_id", parkId);
+        baseLast = baseLast.eq("attractions.park_id", parkId);
+      }
+      const [{ data: f }, { data: l }] = await Promise.all([baseFirst, baseLast]);
+      return { first: f?.[0]?.updated_at ?? null, last: l?.[0]?.updated_at ?? null };
+    },
+  });
+
   const q = useQuery({
     queryKey: ["admin", "ownbase", parkId, dow, hour, sort, sourceFilter],
     queryFn: async () => {
