@@ -465,12 +465,14 @@ function AdminPage() {
           <TabsList className="flex flex-wrap h-auto">
             <TabsTrigger value="live">Filas ao vivo</TabsTrigger>
             <TabsTrigger value="history">Médias históricas</TabsTrigger>
+            <TabsTrigger value="ownbase">Nossa base</TabsTrigger>
             <TabsTrigger value="walk">Caminhadas</TabsTrigger>
             <TabsTrigger value="sync">Sincronizações</TabsTrigger>
             <TabsTrigger value="attractions">Atrações</TabsTrigger>
           </TabsList>
           <TabsContent value="live"><LiveStatusTab /></TabsContent>
           <TabsContent value="history"><HistoryTab /></TabsContent>
+          <TabsContent value="ownbase"><OwnBaseTab /></TabsContent>
           <TabsContent value="walk"><WalkTab /></TabsContent>
           <TabsContent value="sync"><SyncTab /></TabsContent>
           <TabsContent value="attractions"><AttractionsTab /></TabsContent>
