@@ -325,6 +325,132 @@ function AttractionsTab() {
   );
 }
 
+type SortKey = "avg_desc" | "avg_asc" | "samples_desc" | "updated_desc";
+
+function OwnBaseTab() {
+  const parks = useParks();
+  const now = new Date();
+  const [parkId, setParkId] = useState<string>("all");
+  const [dow, setDow] = useState<number>(now.getDay());
+  const [hour, setHour] = useState<number>(now.getHours());
+  const [sort, setSort] = useState<SortKey>("avg_desc");
+
+  const summary = useQuery({
+    queryKey: ["admin", "ownbase-summary", parkId],
+    queryFn: async () => {
+      let query = supabase
+        .from("attraction_wait_history")
+        .select("sample_count, updated_at, attractions!inner(park_id)");
+      if (parkId !== "all") query = query.eq("attractions.park_id", parkId);
+      const { data, error } = await query.limit(10000);
+      if (error) throw error;
+      const rows = data ?? [];
+      const samples = rows.reduce((s: number, r: any) => s + (r.sample_count ?? 0), 0);
+      const last = rows.reduce((m: string | null, r: any) => {
+        if (!r.updated_at) return m;
+        return !m || r.updated_at > m ? r.updated_at : m;
+      }, null as string | null);
+      return { count: rows.length, samples, last };
+    },
+  });
+
+  const q = useQuery({
+    queryKey: ["admin", "ownbase", parkId, dow, hour, sort],
+    queryFn: async () => {
+      let query = supabase
+        .from("attraction_wait_history")
+        .select("day_of_week, hour_of_day, average_wait_minutes, sample_count, updated_at, attractions!inner(name, park_id, parks(name))")
+        .eq("day_of_week", dow)
+        .eq("hour_of_day", hour);
+      if (parkId !== "all") query = query.eq("attractions.park_id", parkId);
+      const orderMap: Record<SortKey, { col: string; asc: boolean }> = {
+        avg_desc: { col: "average_wait_minutes", asc: false },
+        avg_asc: { col: "average_wait_minutes", asc: true },
+        samples_desc: { col: "sample_count", asc: false },
+        updated_desc: { col: "updated_at", asc: false },
+      };
+      const o = orderMap[sort];
+      query = query.order(o.col, { ascending: o.asc }).limit(200);
+      const { data, error } = await query;
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const rows = (q.data ?? []).map((r: any) => [
+    fmt(r.attractions?.name),
+    fmt(r.attractions?.parks?.name),
+    DOWS[r.day_of_week],
+    `${r.hour_of_day}h`,
+    Number(r.average_wait_minutes).toFixed(1),
+    <span key="s" className={r.sample_count < 5 ? "text-amber-600" : ""}>
+      {r.sample_count < 5 ? `⚠ ${r.sample_count}` : r.sample_count}
+    </span>,
+    fmtDate(r.updated_at),
+  ]);
+
+  const s = summary.data;
+  return (
+    <div className="space-y-3">
+      <div className="rounded-md border border-border bg-card p-3">
+        <div className="flex flex-wrap gap-2 text-xs">
+          <span className="rounded-full bg-secondary px-3 py-1">
+            {s ? `${s.count} entradas` : "…"}
+          </span>
+          <span className="rounded-full bg-secondary px-3 py-1">
+            {s ? `${s.samples} amostras` : "…"}
+          </span>
+          <span className="rounded-full bg-secondary px-3 py-1">
+            {s?.last
+              ? `Atualizado: ${new Date(s.last).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}`
+              : "Sem atualizações"}
+          </span>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        <Select value={parkId} onValueChange={setParkId}>
+          <SelectTrigger className="w-48"><SelectValue placeholder="Parque" /></SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Todos os parques</SelectItem>
+            {(parks.data ?? []).map((p) => (
+              <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select value={String(dow)} onValueChange={(v) => setDow(Number(v))}>
+          <SelectTrigger className="w-32"><SelectValue /></SelectTrigger>
+          <SelectContent>
+            {DOWS.map((d, i) => <SelectItem key={i} value={String(i)}>{d}</SelectItem>)}
+          </SelectContent>
+        </Select>
+        <Select value={String(hour)} onValueChange={(v) => setHour(Number(v))}>
+          <SelectTrigger className="w-24"><SelectValue /></SelectTrigger>
+          <SelectContent>
+            {Array.from({ length: 24 }, (_, i) => (
+              <SelectItem key={i} value={String(i)}>{i}h</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select value={sort} onValueChange={(v) => setSort(v as SortKey)}>
+          <SelectTrigger className="w-48"><SelectValue /></SelectTrigger>
+          <SelectContent>
+            <SelectItem value="avg_desc">Maior média</SelectItem>
+            <SelectItem value="avg_asc">Menor média</SelectItem>
+            <SelectItem value="samples_desc">Mais amostras</SelectItem>
+            <SelectItem value="updated_desc">Atualizado recentemente</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <DataTable
+        columns={["Atração", "Parque", "Dia", "Hora", "Média (min)", "Amostras", "Atualizado em"]}
+        rows={rows}
+      />
+    </div>
+  );
+}
+
 function AdminPage() {
   return (
     <div className="min-h-screen bg-background pb-20">
