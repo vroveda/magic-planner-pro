@@ -325,160 +325,189 @@ function AttractionsTab() {
   );
 }
 
-type SortKey = "avg_desc" | "avg_asc" | "samples_desc" | "updated_desc";
+type SortKey = "samples_desc" | "avg_desc" | "avg_asc" | "updated_desc";
 
-function OwnBaseTab() {
+function PipelineHealth() {
+  const collection = useQuery({
+    queryKey: ["admin", "ownbase", "pipeline", "collection"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("data_sync_runs")
+        .select("status, started_at, records_processed")
+        .eq("source", "themeparks.wiki")
+        .order("started_at", { ascending: false })
+        .limit(5);
+      if (error) throw error;
+      return data ?? [];
+    },
+    refetchInterval: 60_000,
+  });
+
+  const aggregation = useQuery({
+    queryKey: ["admin", "ownbase", "pipeline", "aggregation"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("data_sync_runs")
+        .select("status, started_at, records_processed")
+        .eq("source", "live_aggregation")
+        .order("started_at", { ascending: false })
+        .limit(10);
+      if (error) throw error;
+      return data ?? [];
+    },
+    refetchInterval: 60_000,
+  });
+
+  const snapshots = useQuery({
+    queryKey: ["admin", "ownbase", "pipeline", "snapshots-summary"],
+    queryFn: async () => {
+      const { count } = await supabase
+        .from("attraction_condition_snapshots")
+        .select("*", { count: "exact", head: true });
+      const { data: first } = await supabase
+        .from("attraction_condition_snapshots")
+        .select("captured_at")
+        .order("captured_at", { ascending: true })
+        .limit(1);
+      const { data: last } = await supabase
+        .from("attraction_condition_snapshots")
+        .select("captured_at")
+        .order("captured_at", { ascending: false })
+        .limit(1);
+      const { data: distinctRows } = await supabase
+        .from("attraction_condition_snapshots")
+        .select("attraction_id")
+        .limit(20000);
+      const distinct = new Set((distinctRows ?? []).map((r: any) => r.attraction_id)).size;
+      return {
+        count: count ?? 0,
+        first: first?.[0]?.captured_at ?? null,
+        last: last?.[0]?.captured_at ?? null,
+        distinct,
+      };
+    },
+  });
+
+  const collLast = collection.data?.[0];
+  const aggLast = aggregation.data?.[0];
+  const aggSuccess = (aggregation.data ?? []).filter((r) => r.status === "success").length;
+  const aggTotal = aggregation.data?.length ?? 0;
+  const aggLastSuccess = (aggregation.data ?? []).find((r) => r.status === "success");
+
+  const collIndicator = !collLast
+    ? { label: "Sem execuções", className: "text-muted-foreground" }
+    : collLast.status === "success"
+      ? { label: "✅ Operacional", className: "text-emerald-600" }
+      : { label: "🔴 Com falha", className: "text-destructive" };
+
+  const aggIndicator = !aggLast
+    ? { label: "Sem execuções", className: "text-muted-foreground" }
+    : aggLast.status !== "success"
+      ? { label: "🔴 Com falha", className: "text-destructive" }
+      : aggSuccess < 8
+        ? { label: "⚠️ Instável", className: "text-amber-600" }
+        : { label: "✅ Operacional", className: "text-emerald-600" };
+
+  const StatusBadge = ({ status }: { status?: string }) => (
+    <Badge
+      variant={status === "success" ? "default" : status === "error" ? "destructive" : "secondary"}
+      className={status === "success" ? "bg-green-600 hover:bg-green-600" : ""}
+    >
+      {status ?? "—"}
+    </Badge>
+  );
+
+  const fmtSpan = (a: string | null, b: string | null) => {
+    if (!a || !b) return "—";
+    const ms = new Date(b).getTime() - new Date(a).getTime();
+    const days = Math.floor(ms / 86_400_000);
+    const hours = Math.floor((ms % 86_400_000) / 3_600_000);
+    if (days > 0) return `${days}d ${hours}h`;
+    return `${hours}h`;
+  };
+
+  return (
+    <section className="space-y-3">
+      <div>
+        <h2 className="text-base font-semibold">Saúde do Pipeline</h2>
+        <p className="text-xs text-muted-foreground">Jobs de coleta e agregação</p>
+      </div>
+      <div className="grid gap-3 sm:grid-cols-2">
+        <div className="rounded-md border border-border bg-card p-4 space-y-2">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-semibold">Coleta (a cada 5 min)</h3>
+            <StatusBadge status={collLast?.status} />
+          </div>
+          <div className={`text-sm font-medium ${collIndicator.className}`}>{collIndicator.label}</div>
+          <div className="text-xs text-muted-foreground space-y-1">
+            <div>Última execução: {collLast ? new Date(collLast.started_at).toLocaleString("pt-BR") : "—"}</div>
+            <div>Registros processados: {collLast?.records_processed ?? "—"}</div>
+          </div>
+        </div>
+        <div className="rounded-md border border-border bg-card p-4 space-y-2">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-semibold">Agregação (a cada 1h)</h3>
+            <StatusBadge status={aggLast?.status} />
+          </div>
+          <div className={`text-sm font-medium ${aggIndicator.className}`}>{aggIndicator.label}</div>
+          <div className="text-xs text-muted-foreground space-y-1">
+            <div>Última execução: {aggLast ? new Date(aggLast.started_at).toLocaleString("pt-BR") : "—"}</div>
+            <div>{aggTotal > 0 ? `${aggSuccess}/${aggTotal} com sucesso` : "Sem execuções"}</div>
+            <div>Último sucesso (registros): {aggLastSuccess?.records_processed ?? "—"}</div>
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-wrap gap-2 text-xs">
+        <span className="rounded-full bg-secondary px-3 py-1">
+          {snapshots.data ? `${snapshots.data.count.toLocaleString("pt-BR")} snapshots` : "…"}
+        </span>
+        <span className="rounded-full bg-secondary px-3 py-1">
+          {snapshots.data ? `${snapshots.data.distinct} atrações coletadas` : "…"}
+        </span>
+        <span className="rounded-full bg-secondary px-3 py-1">
+          {snapshots.data
+            ? `Span: ${fmtSpan(snapshots.data.first, snapshots.data.last)}`
+            : "…"}
+        </span>
+      </div>
+    </section>
+  );
+}
+
+function BaseGrowth() {
   const parks = useParks();
   const now = new Date();
   const [parkId, setParkId] = useState<string>("all");
   const [dow, setDow] = useState<number>(now.getDay());
   const [hour, setHour] = useState<number>(now.getHours());
-  const [sort, setSort] = useState<SortKey>("avg_desc");
-  const [sourceFilter, setSourceFilter] = useState<string>("all");
+  const [sort, setSort] = useState<SortKey>("samples_desc");
 
-  const summary = useQuery({
-    queryKey: ["admin", "ownbase-summary", parkId],
-    queryFn: async () => {
-      let query = supabase
-        .from("attraction_wait_history")
-        .select("sample_count, updated_at, source, attractions!inner(park_id)");
-      if (parkId !== "all") query = query.eq("attractions.park_id", parkId);
-      const { data, error } = await query.limit(20000);
-      if (error) throw error;
-      const rows = data ?? [];
-      const samples = rows.reduce((s: number, r: any) => s + (r.sample_count ?? 0), 0);
-      const last = rows.reduce((m: string | null, r: any) => {
-        if (!r.updated_at) return m;
-        return !m || r.updated_at > m ? r.updated_at : m;
-      }, null as string | null);
-      const sourceCounts = new Map<string, number>();
-      for (const r of rows as any[]) {
-        const k = r.source ?? "(null)";
-        sourceCounts.set(k, (sourceCounts.get(k) ?? 0) + 1);
-      }
-      const sources = Array.from(sourceCounts.entries()).sort((a, b) => b[1] - a[1]);
-      return { count: rows.length, samples, last, sources };
-    },
-  });
-
-  const sourceOptions = summary.data?.sources.map(([s]) => s).filter((s) => s !== "(null)") ?? [];
-
-  const isOwnSource =
-    sourceFilter !== "all" &&
-    sourceFilter !== "queue_times" &&
-    sourceFilter !== "queue-times.com";
-
-  const evolution = useQuery({
-    queryKey: ["admin", "ownbase-evolution", parkId, sourceFilter],
-    enabled: isOwnSource,
+  const q = useQuery({
+    queryKey: ["admin", "ownbase", "growth", parkId, dow, hour, sort],
     queryFn: async () => {
       let query = supabase
         .from("attraction_wait_history")
         .select("day_of_week, hour_of_day, average_wait_minutes, sample_count, updated_at, attractions!inner(name, park_id, parks(name))")
-        .eq("source", sourceFilter)
-        .order("updated_at", { ascending: false })
-        .limit(200);
-      if (parkId !== "all") query = query.eq("attractions.park_id", parkId);
-      const { data, error } = await query;
-      if (error) throw error;
-      return data;
-    },
-  });
-
-  const span = useQuery({
-    queryKey: ["admin", "ownbase-span", parkId, sourceFilter],
-    enabled: isOwnSource,
-    queryFn: async () => {
-      let baseFirst = supabase
-        .from("attraction_wait_history")
-        .select("updated_at, attractions!inner(park_id)")
-        .eq("source", sourceFilter)
-        .order("updated_at", { ascending: true })
-        .limit(1);
-      let baseLast = supabase
-        .from("attraction_wait_history")
-        .select("updated_at, attractions!inner(park_id)")
-        .eq("source", sourceFilter)
-        .order("updated_at", { ascending: false })
-        .limit(1);
-      if (parkId !== "all") {
-        baseFirst = baseFirst.eq("attractions.park_id", parkId);
-        baseLast = baseLast.eq("attractions.park_id", parkId);
-      }
-      const [{ data: f }, { data: l }] = await Promise.all([baseFirst, baseLast]);
-      return { first: f?.[0]?.updated_at ?? null, last: l?.[0]?.updated_at ?? null };
-    },
-  });
-
-  const snapshots = useQuery({
-    queryKey: ["admin", "ownbase-snapshots", parkId],
-    queryFn: async () => {
-      let query = supabase
-        .from("attraction_condition_snapshots")
-        .select("captured_at, condition, current_wait_minutes, historical_average_minutes, deviation_percent, attractions!inner(name, park_id, parks(name))")
-        .order("captured_at", { ascending: false })
-        .limit(200);
-      if (parkId !== "all") query = query.eq("attractions.park_id", parkId);
-      const { data, error } = await query;
-      if (error) throw error;
-      return data;
-    },
-  });
-
-  const snapshotsSummary = useQuery({
-    queryKey: ["admin", "ownbase-snapshots-summary", parkId],
-    queryFn: async () => {
-      let query = supabase
-        .from("attraction_condition_snapshots")
-        .select("captured_at, condition, attractions!inner(park_id)")
-        .order("captured_at", { ascending: false })
-        .limit(20000);
-      if (parkId !== "all") query = query.eq("attractions.park_id", parkId);
-      const { data, error } = await query;
-      if (error) throw error;
-      const rows = data ?? [];
-      const last = rows[0]?.captured_at ?? null;
-      const conditionCounts = new Map<string, number>();
-      for (const r of rows as any[]) {
-        const k = r.condition ?? "(null)";
-        conditionCounts.set(k, (conditionCounts.get(k) ?? 0) + 1);
-      }
-      const conditions = Array.from(conditionCounts.entries()).sort((a, b) => b[1] - a[1]);
-      return { count: rows.length, last, conditions };
-    },
-  });
-
-  const q = useQuery({
-    queryKey: ["admin", "ownbase", parkId, dow, hour, sort, sourceFilter],
-    queryFn: async () => {
-      let query = supabase
-        .from("attraction_wait_history")
-        .select("day_of_week, hour_of_day, average_wait_minutes, sample_count, updated_at, source, attractions!inner(name, park_id, parks(name))")
+        .eq("source", "live_aggregation")
         .eq("day_of_week", dow)
         .eq("hour_of_day", hour);
       if (parkId !== "all") query = query.eq("attractions.park_id", parkId);
-      if (sourceFilter !== "all") query = query.eq("source", sourceFilter);
       const orderMap: Record<SortKey, { col: string; asc: boolean }> = {
+        samples_desc: { col: "sample_count", asc: false },
         avg_desc: { col: "average_wait_minutes", asc: false },
         avg_asc: { col: "average_wait_minutes", asc: true },
-        samples_desc: { col: "sample_count", asc: false },
         updated_desc: { col: "updated_at", asc: false },
       };
       const o = orderMap[sort];
-      query = query.order(o.col, { ascending: o.asc }).limit(200);
-      const { data, error } = await query;
+      const { data, error } = await query.order(o.col, { ascending: o.asc }).limit(300);
       if (error) throw error;
-      return data;
+      return data ?? [];
     },
   });
 
   const renderSamples = (n: number | null | undefined) => {
-    if (n === null || n === undefined) {
-      return <span className="text-muted-foreground">—</span>;
-    }
-    if (n >= 1 && n <= 4) {
-      return <span className="text-amber-600">⚠ {n}</span>;
-    }
+    if (n === null || n === undefined) return <span className="text-muted-foreground">—</span>;
+    if (n >= 1 && n <= 4) return <span className="text-amber-600">⚠️ {n}</span>;
     return <span>{n}</span>;
   };
 
@@ -492,60 +521,14 @@ function OwnBaseTab() {
     fmtDate(r.updated_at),
   ]);
 
-  const s = summary.data;
   return (
-    <div className="space-y-3">
-      <div className="rounded-md border border-border bg-card p-3 space-y-2">
-        <div className="flex flex-wrap gap-2 text-xs">
-          <span className="rounded-full bg-secondary px-3 py-1">
-            {s ? `${s.count} entradas` : "…"}
-          </span>
-          <span className="rounded-full bg-secondary px-3 py-1">
-            {s ? `${s.samples} amostras` : "…"}
-          </span>
-          <span className="rounded-full bg-secondary px-3 py-1">
-            {s?.last
-              ? `Atualizado: ${new Date(s.last).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}`
-              : "Sem atualizações"}
-          </span>
-        </div>
-        {s?.sources && s.sources.length > 0 && (
-          <div className="flex flex-wrap gap-2 text-xs">
-            <span className="text-muted-foreground self-center">Sources:</span>
-            {s.sources.map(([name, count]) => (
-              <span key={name} className="rounded-full border border-border px-3 py-1">
-                {name}: {count} linhas
-              </span>
-            ))}
-          </div>
-        )}
-        {isOwnSource && span.data && (span.data.first || span.data.last) && (
-          <div className="text-xs text-muted-foreground">
-            primeira coleta: {span.data.first ? new Date(span.data.first).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) : "—"}
-            {" — última: "}
-            {span.data.last ? new Date(span.data.last).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) : "—"}
-          </div>
-        )}
-        {snapshotsSummary.data && (
-          <div className="flex flex-wrap gap-2 text-xs pt-1 border-t border-border">
-            <span className="text-muted-foreground self-center">Snapshots de condição:</span>
-            <span className="rounded-full bg-secondary px-3 py-1">
-              {snapshotsSummary.data.count} registros
-            </span>
-            {snapshotsSummary.data.last && (
-              <span className="rounded-full bg-secondary px-3 py-1">
-                último: {new Date(snapshotsSummary.data.last).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
-              </span>
-            )}
-            {snapshotsSummary.data.conditions.map(([name, count]) => (
-              <span key={name} className="rounded-full border border-border px-3 py-1">
-                {name}: {count}
-              </span>
-            ))}
-          </div>
-        )}
+    <section className="space-y-3">
+      <div>
+        <h2 className="text-base font-semibold">Crescimento da Base</h2>
+        <p className="text-xs text-muted-foreground">
+          Médias construídas pela nossa coleta real (source = live_aggregation)
+        </p>
       </div>
-
       <div className="flex flex-wrap gap-2">
         <Select value={parkId} onValueChange={setParkId}>
           <SelectTrigger className="w-48"><SelectValue placeholder="Parque" /></SelectTrigger>
@@ -570,70 +553,29 @@ function OwnBaseTab() {
             ))}
           </SelectContent>
         </Select>
-        <Select value={sourceFilter} onValueChange={setSourceFilter}>
-          <SelectTrigger className="w-44"><SelectValue placeholder="Fonte" /></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Todas as fontes</SelectItem>
-            {sourceOptions.map((src) => (
-              <SelectItem key={src} value={src}>{src}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
         <Select value={sort} onValueChange={(v) => setSort(v as SortKey)}>
-          <SelectTrigger className="w-48"><SelectValue /></SelectTrigger>
+          <SelectTrigger className="w-52"><SelectValue /></SelectTrigger>
           <SelectContent>
+            <SelectItem value="samples_desc">Mais amostras</SelectItem>
             <SelectItem value="avg_desc">Maior média</SelectItem>
             <SelectItem value="avg_asc">Menor média</SelectItem>
-            <SelectItem value="samples_desc">Mais amostras</SelectItem>
             <SelectItem value="updated_desc">Atualizado recentemente</SelectItem>
           </SelectContent>
         </Select>
       </div>
-
       <DataTable
         columns={["Atração", "Parque", "Dia", "Hora", "Média (min)", "Amostras", "Atualizado em"]}
         rows={rows}
       />
+    </section>
+  );
+}
 
-      {isOwnSource && (
-        <div className="space-y-2 pt-4">
-          <h3 className="text-sm font-semibold">Evolução das amostras</h3>
-          <p className="text-xs text-muted-foreground">
-            Registros de <code>{sourceFilter}</code> ordenados por última atualização — para ver se sample_count cresce a cada ciclo.
-          </p>
-          <DataTable
-            columns={["Atração", "Parque", "Dia", "Hora", "Média (min)", "Amostras", "Atualizado em"]}
-            rows={(evolution.data ?? []).map((r: any) => [
-              fmt(r.attractions?.name),
-              fmt(r.attractions?.parks?.name),
-              DOWS[r.day_of_week],
-              `${r.hour_of_day}h`,
-              Number(r.average_wait_minutes).toFixed(1),
-              renderSamples(r.sample_count),
-              fmtDate(r.updated_at),
-            ])}
-          />
-        </div>
-      )}
-
-      <div className="space-y-2 pt-4">
-        <h3 className="text-sm font-semibold">Snapshots de condição</h3>
-        <p className="text-xs text-muted-foreground">
-          Últimas capturas de <code>attraction_condition_snapshots</code> — comparação fila atual vs média histórica.
-        </p>
-        <DataTable
-          columns={["Atração", "Parque", "Condição", "Fila atual", "Média hist.", "Desvio %", "Capturado"]}
-          rows={(snapshots.data ?? []).map((r: any) => [
-            fmt(r.attractions?.name),
-            fmt(r.attractions?.parks?.name),
-            fmt(r.condition),
-            fmt(r.current_wait_minutes),
-            r.historical_average_minutes != null ? Number(r.historical_average_minutes).toFixed(1) : fmt(null),
-            r.deviation_percent != null ? `${Number(r.deviation_percent).toFixed(1)}%` : fmt(null),
-            fmtDate(r.captured_at),
-          ])}
-        />
-      </div>
+function OwnBaseTab() {
+  return (
+    <div className="space-y-8">
+      <PipelineHealth />
+      <BaseGrowth />
     </div>
   );
 }
