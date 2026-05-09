@@ -4,6 +4,7 @@ import {
   Sparkle, Sparkles, Zap, Gauge, Smartphone, Wand2, ChevronDown, Check, Star,
 } from "lucide-react";
 import { useAttractionsByPark, type TripPrefs, type Attraction } from "@/lib/queries";
+import { buildSuggestion, type WaitHistory } from "@/lib/route-builder";
 
 const TYPE_ORDER: Attraction["experience_type"][] = ["ride", "show", "meet_greet", "parade", "fireworks", "other"];
 
@@ -22,11 +23,25 @@ const LL_META: Record<string, { icon: typeof Zap; label: string }> = {
   virtual_queue: { icon: Smartphone, label: "Fila Virtual" },
 };
 
+// Converte a faixa de altura do prefs para cm (valor mínimo da faixa)
+function heightBandToCm(band: string): number {
+  switch (band) {
+    case "under_97": return 80;
+    case "97_107": return 97;
+    case "107_122": return 107;
+    case "above_122": return 130;
+    default: return 130;
+  }
+}
+
 export function ParkRoutePicker({
   parkId, parkName, childrenPrefs, value, onChange, onBack, onNext,
   nextLabel = "Salvar roteiro", subtitle, headerExtra,
   usesLightningLane, onUsesLightningLaneChange,
   mustDoIds, onMustDoChange,
+  // Contexto para a sugestão inteligente
+  plannedArrivalTime,
+  waitHistory = {},
 }: {
   parkId: string;
   parkName: string;
@@ -42,9 +57,12 @@ export function ParkRoutePicker({
   onUsesLightningLaneChange?: (v: boolean) => void;
   mustDoIds?: string[];
   onMustDoChange?: (ids: string[]) => void;
+  plannedArrivalTime?: string | null;
+  waitHistory?: WaitHistory;
 }) {
   const { data: attractions = [], isLoading } = useAttractionsByPark(parkId);
   const [legendOpen, setLegendOpen] = useState(true);
+  const [suggestionReasons, setSuggestionReasons] = useState<Record<string, string>>({});
 
   const grouped = useMemo(() => {
     const m = new Map<string, Attraction[]>();
@@ -61,25 +79,52 @@ export function ParkRoutePicker({
   function toggle(id: string) {
     if (value.includes(id)) {
       onChange(value.filter((x) => x !== id));
-      // unselecting also clears must-do
       if (mustDoIds?.includes(id)) onMustDoChange?.(mustDoIds.filter((x) => x !== id));
     } else {
       onChange([...value, id]);
     }
   }
+
   function toggleMustDo(id: string, e: React.MouseEvent) {
     e.stopPropagation();
     if (!onMustDoChange) return;
     const cur = mustDoIds ?? [];
     onMustDoChange(cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id]);
   }
+
   function useSuggested() {
-    onChange(attractions.filter((a) => a.is_must_do).map((a) => a.id));
+    if (attractions.length === 0) return;
+
+    const childrenHeightsCm = childrenPrefs.map((c) => heightBandToCm(c.height));
+
+    const suggestion = buildSuggestion({
+      arrivalTime: plannedArrivalTime?.slice(0, 5) ?? "09:00",
+      childrenHeightsCm,
+      waitHistory,
+      attractions: attractions.map((a) => ({
+        id: a.id,
+        min_height_cm: a.min_height_cm,
+        avg_duration_minutes: a.avg_duration_minutes,
+        is_must_do: a.is_must_do,
+        experience_type: a.experience_type,
+        lightning_lane_type: a.lightning_lane_type,
+      })),
+    });
+
+    const ids = suggestion.map((s) => s.attractionId);
+    const mustDos = suggestion.filter((s) => s.isMustDo).map((s) => s.attractionId);
+    const reasons: Record<string, string> = {};
+    for (const s of suggestion) reasons[s.attractionId] = s.reason;
+
+    onChange(ids);
+    onMustDoChange?.(mustDos);
+    setSuggestionReasons(reasons);
   }
+
   function heightWarning(min: number | null) {
     if (!min || childrenPrefs.length === 0) return null;
     const blocked = childrenPrefs.filter((c) => {
-      const cm = c.height === "under_97" ? 80 : c.height === "97_107" ? 97 : c.height === "107_122" ? 107 : 122;
+      const cm = heightBandToCm(c.height);
       return cm < min;
     });
     if (blocked.length === 0) return null;
@@ -187,6 +232,7 @@ export function ParkRoutePicker({
                   const sel = value.includes(a.id);
                   const warn = heightWarning(a.min_height_cm);
                   const must = sel && (mustDoIds?.includes(a.id) ?? false);
+                  const reason = suggestionReasons[a.id];
                   return (
                     <div key={a.id} role="button" tabIndex={0} onClick={() => toggle(a.id)}
                       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(a.id); } }}
@@ -197,32 +243,38 @@ export function ParkRoutePicker({
                         </div>
                       )}
                       <div className="flex items-start gap-3 p-3">
-                      <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 ${sel ? "bg-gold border-gold text-magic" : "border-border bg-card text-transparent"}`}>
-                        <Check className="h-4 w-4" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-1.5 flex-wrap">
-                          <p className="font-bold leading-tight truncate">{a.name}</p>
-                          {a.is_must_do && <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-extrabold ${sel ? "bg-gold text-magic" : "bg-gradient-gold text-magic"}`}>IMPERDÍVEL</span>}
-                          <LightningLaneIcon type={a.lightning_lane_type} selected={sel} />
+                        <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 ${sel ? "bg-gold border-gold text-magic" : "border-border bg-card text-transparent"}`}>
+                          <Check className="h-4 w-4" />
                         </div>
-                        {a.short_description && (
-                          <p className={`text-[11px] mt-0.5 leading-snug line-clamp-2 ${sel ? "text-white/80" : "text-muted-foreground"}`}>{a.short_description}</p>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <p className="font-bold leading-tight truncate">{a.name}</p>
+                            {a.is_must_do && <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-extrabold ${sel ? "bg-gold text-magic" : "bg-gradient-gold text-magic"}`}>IMPERDÍVEL</span>}
+                            <LightningLaneIcon type={a.lightning_lane_type} selected={sel} />
+                          </div>
+                          {/* Razão da sugestão — aparece só quando veio da sugestão do app */}
+                          {sel && reason && (
+                            <p className="text-[10px] mt-0.5 font-bold text-white/70 flex items-center gap-1">
+                              <Wand2 className="h-3 w-3" /> {reason}
+                            </p>
+                          )}
+                          {a.short_description && (
+                            <p className={`text-[11px] mt-0.5 leading-snug line-clamp-2 ${sel ? "text-white/80" : "text-muted-foreground"}`}>{a.short_description}</p>
+                          )}
+                          {warn && <p className={`text-[11px] mt-0.5 font-bold ${sel ? "text-gold" : "text-warning"}`}>{warn}</p>}
+                        </div>
+                        {sel && onMustDoChange && (
+                          <button
+                            type="button"
+                            onClick={(e) => toggleMustDo(a.id, e)}
+                            aria-pressed={must}
+                            aria-label={must ? "Remover obrigatório" : "Marcar como obrigatório"}
+                            title={must ? "Obrigatório (não posso perder)" : "Marcar como obrigatório"}
+                            className={`shrink-0 flex h-8 w-8 items-center justify-center rounded-full transition ${must ? "bg-gold text-magic shadow-gold" : "bg-white/15 text-white hover:bg-white/25"}`}
+                          >
+                            <Star className={`h-4 w-4 ${must ? "fill-current" : ""}`} />
+                          </button>
                         )}
-                        {warn && <p className={`text-[11px] mt-0.5 font-bold ${sel ? "text-gold" : "text-warning"}`}>{warn}</p>}
-                      </div>
-                      {sel && onMustDoChange && (
-                        <button
-                          type="button"
-                          onClick={(e) => toggleMustDo(a.id, e)}
-                          aria-pressed={must}
-                          aria-label={must ? "Remover obrigatório" : "Marcar como obrigatório"}
-                          title={must ? "Obrigatório (não posso perder)" : "Marcar como obrigatório"}
-                          className={`shrink-0 flex h-8 w-8 items-center justify-center rounded-full transition ${must ? "bg-gold text-magic shadow-gold" : "bg-white/15 text-white hover:bg-white/25"}`}
-                        >
-                          <Star className={`h-4 w-4 ${must ? "fill-current" : ""}`} />
-                        </button>
-                      )}
                       </div>
                     </div>
                   );
