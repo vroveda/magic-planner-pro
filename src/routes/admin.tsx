@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import { SuggestionDebugTab } from "./admin.suggestion-tab";
 
 export const Route = createFileRoute("/admin")({
   component: AdminPage,
@@ -598,13 +599,15 @@ function AdminPage() {
             <TabsTrigger value="walk">Caminhadas</TabsTrigger>
             <TabsTrigger value="sync">Sincronizações</TabsTrigger>
             <TabsTrigger value="attractions">Atrações</TabsTrigger>
+            <TabsTrigger value="suggestion">Sugestão</TabsTrigger>
           </TabsList>
           <TabsContent value="live"><LiveStatusTab /></TabsContent>
           <TabsContent value="history"><HistoryTab /></TabsContent>
           <TabsContent value="ownbase"><OwnBaseTab /></TabsContent>
           <TabsContent value="walk"><WalkTab /></TabsContent>
           <TabsContent value="sync"><SyncTab /></TabsContent>
-          <TabsContent value="attractions"><AttractionsTab /></TabsContent>
+            <TabsContent value="attractions"><AttractionsTab /></TabsContent>
+            <TabsContent value="suggestion"><SuggestionDebugTab /></TabsContent>
         </Tabs>
       </main>
     </div>
