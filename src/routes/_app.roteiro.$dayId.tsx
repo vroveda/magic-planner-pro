@@ -43,6 +43,11 @@ function DayRoute() {
   const { data: walkMatrix = {} } = useWalkMatrixForAttractions(ids);
   const { data: fullWaitHistory = {} } = useFullWaitHistoryForAttractions(ids, dayOfWeek);
 
+  // Histórico de espera para TODAS as atrações do parque — usado pela sugestão inteligente
+  const { data: parkAttractions = [] } = useAttractionsByPark(day?.park_id);
+  const parkAttractionIds = useMemo(() => parkAttractions.map((a) => a.id), [parkAttractions]);
+  const { data: parkWaitHistory = {} } = useFullWaitHistoryForAttractions(parkAttractionIds, dayOfWeek);
+
   const { scheduled, feasibilityWarning } = useMemo(() => {
     if (!day?.planned_arrival_time || items.length === 0 || attractions.length === 0) {
       return { scheduled: [] as ReturnType<typeof buildDayRoute>["scheduled"], feasibilityWarning: null as string | null };
@@ -80,11 +85,9 @@ function DayRoute() {
   const [step, setStep] = useState<"arrival" | "picker" | "order">("picker");
   const [arrivalDraft, setArrivalDraft] = useState<string>("09:00");
   const prefs = trip ? readTripPrefs(trip.id) : {};
-  const { data: parkAttractions = [] } = useAttractionsByPark(day?.park_id);
 
   const showPicker = editing || items.length === 0;
 
-  // initialize step + drafts when entering picker mode
   useEffect(() => {
     if (!showPicker || !day) return;
     setDraft(editing ? ids : []);
@@ -209,6 +212,8 @@ function DayRoute() {
           onUsesLightningLaneChange={(v) => setUsesLL.mutate({ dayId: day.id, value: v })}
           onNext={draft.length > 0 ? () => setStep("order") : null}
           nextLabel="Continuar"
+          plannedArrivalTime={arrivalDraft}
+          waitHistory={parkWaitHistory}
         />
       </main>
     );
@@ -255,50 +260,50 @@ function DayRoute() {
                 </Link>
               )}
               <div className="p-4">
-              <div className="flex items-start gap-3">
-                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl font-display font-bold text-sm ${item.is_must_do ? "bg-gradient-gold text-magic" : "bg-secondary text-magic"}`}>
-                  {idx + 1}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <Link to="/atracao/$id" params={{ id: a.id }}>
-                    <h3 className={`font-display font-bold text-magic text-base leading-tight ${done ? "line-through" : ""}`}>{a.name}</h3>
-                  </Link>
-                  {scheduleMap.get(item.attraction_id) && (
-                    <div className="mt-1 flex items-center gap-2 flex-wrap text-[11px] font-bold text-muted-foreground">
-                      <span className="inline-flex items-center gap-1 text-magic"><Clock className="h-3 w-3" /> {scheduleMap.get(item.attraction_id)!.arrivalTime}</span>
-                      {scheduleMap.get(item.attraction_id)!.walkFromPreviousMinutes > 0 && (
-                        <span className="inline-flex items-center gap-1"><Footprints className="h-3 w-3" /> {scheduleMap.get(item.attraction_id)!.walkFromPreviousMinutes}min</span>
-                      )}
-                      <span className="inline-flex items-center gap-1"><Timer className="h-3 w-3" /> ~{scheduleMap.get(item.attraction_id)!.estimatedWaitMinutes}min fila</span>
+                <div className="flex items-start gap-3">
+                  <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl font-display font-bold text-sm ${item.is_must_do ? "bg-gradient-gold text-magic" : "bg-secondary text-magic"}`}>
+                    {idx + 1}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <Link to="/atracao/$id" params={{ id: a.id }}>
+                      <h3 className={`font-display font-bold text-magic text-base leading-tight ${done ? "line-through" : ""}`}>{a.name}</h3>
+                    </Link>
+                    {scheduleMap.get(item.attraction_id) && (
+                      <div className="mt-1 flex items-center gap-2 flex-wrap text-[11px] font-bold text-muted-foreground">
+                        <span className="inline-flex items-center gap-1 text-magic"><Clock className="h-3 w-3" /> {scheduleMap.get(item.attraction_id)!.arrivalTime}</span>
+                        {scheduleMap.get(item.attraction_id)!.walkFromPreviousMinutes > 0 && (
+                          <span className="inline-flex items-center gap-1"><Footprints className="h-3 w-3" /> {scheduleMap.get(item.attraction_id)!.walkFromPreviousMinutes}min</span>
+                        )}
+                        <span className="inline-flex items-center gap-1"><Timer className="h-3 w-3" /> ~{scheduleMap.get(item.attraction_id)!.estimatedWaitMinutes}min fila</span>
+                      </div>
+                    )}
+                    <div className="mt-1.5 flex items-center gap-1.5 flex-wrap text-[10px] font-extrabold">
+                      {item.is_must_do && <span className="inline-flex items-center gap-1 rounded-full bg-gradient-gold text-magic px-2 py-0.5"><Crown className="h-3 w-3" /> OBRIGATÓRIO</span>}
+                      <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 ${meta.color}`}>{meta.emoji} {meta.label}</span>
+                      {h != null && <span className="text-muted-foreground">média {Math.round(h)}m</span>}
                     </div>
-                  )}
-                  <div className="mt-1.5 flex items-center gap-1.5 flex-wrap text-[10px] font-extrabold">
-                    {item.is_must_do && <span className="inline-flex items-center gap-1 rounded-full bg-gradient-gold text-magic px-2 py-0.5"><Crown className="h-3 w-3" /> OBRIGATÓRIO</span>}
-                    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 ${meta.color}`}>{meta.emoji} {meta.label}</span>
-                    {h != null && <span className="text-muted-foreground">média {Math.round(h)}m</span>}
+                  </div>
+                  <div className="text-right shrink-0">
+                    <p className="font-display text-2xl font-bold text-magic leading-none">
+                      {w != null ? w : "—"}
+                      <span className="text-xs font-bold text-muted-foreground"> min</span>
+                    </p>
+                    <p className={`text-xs font-bold ${meta.color}`}>{trend}</p>
                   </div>
                 </div>
-                <div className="text-right shrink-0">
-                  <p className="font-display text-2xl font-bold text-magic leading-none">
-                    {w != null ? w : "—"}
-                    <span className="text-xs font-bold text-muted-foreground"> min</span>
-                  </p>
-                  <p className={`text-xs font-bold ${meta.color}`}>{trend}</p>
-                </div>
-              </div>
-              {!done && !skipped && (
-                <div className="mt-3 grid grid-cols-2 gap-2">
-                  <button onClick={() => markVisited.mutate({ itemId: item.id, visited: true })}
-                    className="rounded-xl bg-success text-white py-2 text-sm font-bold flex items-center justify-center gap-1">
-                    <Check className="h-4 w-4" /> Feito!
-                  </button>
-                  <button onClick={() => markSkipped.mutate({ itemId: item.id })}
-                    className="rounded-xl border border-border bg-card text-magic py-2 text-sm font-bold flex items-center justify-center gap-1">
-                    <SkipForward className="h-4 w-4" /> Pular
-                  </button>
-                </div>
-              )}
-              {done && <button onClick={() => markVisited.mutate({ itemId: item.id, visited: false })} className="mt-3 text-xs font-bold text-muted-foreground hover:underline">Desfazer</button>}
+                {!done && !skipped && (
+                  <div className="mt-3 grid grid-cols-2 gap-2">
+                    <button onClick={() => markVisited.mutate({ itemId: item.id, visited: true })}
+                      className="rounded-xl bg-success text-white py-2 text-sm font-bold flex items-center justify-center gap-1">
+                      <Check className="h-4 w-4" /> Feito!
+                    </button>
+                    <button onClick={() => markSkipped.mutate({ itemId: item.id })}
+                      className="rounded-xl border border-border bg-card text-magic py-2 text-sm font-bold flex items-center justify-center gap-1">
+                      <SkipForward className="h-4 w-4" /> Pular
+                    </button>
+                  </div>
+                )}
+                {done && <button onClick={() => markVisited.mutate({ itemId: item.id, visited: false })} className="mt-3 text-xs font-bold text-muted-foreground hover:underline">Desfazer</button>}
               </div>
             </li>
           );
