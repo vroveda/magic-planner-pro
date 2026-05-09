@@ -1,19 +1,9 @@
-import { createFileRoute, Outlet, redirect, useLocation, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { BottomNav } from "@/components/BottomNav";
 
 export const Route = createFileRoute("/_app")({
-  beforeLoad: async ({ location }) => {
-    // Client-side guard: check session from supabase storage. SSR returns null and we re-check on mount.
-    if (typeof window !== "undefined") {
-      const { data } = await supabase.auth.getSession();
-      if (!data.session) {
-        throw redirect({ to: "/login", search: { redirect: location.href } });
-      }
-    }
-  },
   component: AppLayout,
 });
 
