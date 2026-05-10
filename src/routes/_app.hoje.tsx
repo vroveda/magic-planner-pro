@@ -42,7 +42,7 @@ const REC_STYLES: Record<SmartRecommendation["type"], {
 }> = {
   go_now:          { bg: "bg-gradient-magic", border: "border-magic",   icon: Zap,           iconColor: "text-gold",             gradient: true },
   must_do_urgent:  { bg: "bg-gradient-magic", border: "border-magic",   icon: AlertTriangle, iconColor: "text-gold",             gradient: true },
-  follow_route:    { bg: "bg-card",           border: "border-border",  icon: Route,         iconColor: "text-magic",            gradient: false },
+  follow_route:    { bg: "bg-card",           border: "border-border",  icon: RouteIcon,     iconColor: "text-magic",            gradient: false },
   route_detour:    { bg: "bg-card",           border: "border-warning", icon: Navigation,    iconColor: "text-warning",          gradient: false },
   closed:          { bg: "bg-muted/40",       border: "border-border",  icon: AlertTriangle, iconColor: "text-muted-foreground", gradient: false },
   day_complete:    { bg: "bg-gradient-gold",  border: "border-gold",    icon: Trophy,        iconColor: "text-magic",            gradient: true },
