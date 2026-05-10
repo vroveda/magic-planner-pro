@@ -1,1363 +1,352 @@
 {
   "scenario": "Só Must-Dos",
   "summary": {
-    "totalSteps": 28,
     "visitedCount": 4,
     "mustDosCompleted": 4,
-    "mustDosTotal": 4,
     "recCounts": {
-      "follow_route": 23,
-      "go_now": 4,
+      "follow_route": 15,
+      "go_now": 1,
       "day_complete": 1
     },
     "detourCount": 0,
-    "urgentAlerts": 4,
-    "go_now_count": 4
+    "urgentAlerts": 1,
+    "goNowCount": 1,
+    "totalSteps": 17
   },
   "steps": [
     {
       "time": "09:00",
       "phase": "morning",
-      "userLat": 28.42037,
-      "userLng": -81.58031,
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 69,
-          "status": "operating",
-          "visited": false,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 34,
-          "status": "operating",
-          "visited": false,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 18,
-          "status": "operating",
-          "visited": false,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 20,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
+      "inProgress": "Seven Dwarfs Mine Train",
+      "minutesLeftInCurrent": 71,
       "recommendations": [
         {
           "type": "follow_route",
           "attraction_id": "9d4d5229",
           "title": "Próxima: Seven Dwarfs Mine Train",
-          "message": "Continue conforme o roteiro — fila: 69min.",
+          "message": "Continue conforme o roteiro — fila: 67min.",
           "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
           "urgency": "low",
           "confidence": 0.8,
           "score": 500
         }
-      ]
+      ],
+      "pendingCount": 4,
+      "visitedCount": 0
     },
     {
       "time": "09:15",
       "phase": "morning",
-      "userLat": 28.42037,
-      "userLng": -81.58031,
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 69,
-          "status": "operating",
-          "visited": false,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 34,
-          "status": "operating",
-          "visited": false,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 18,
-          "status": "operating",
-          "visited": false,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 20,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
+      "inProgress": "Seven Dwarfs Mine Train",
+      "minutesLeftInCurrent": 56,
       "recommendations": [
         {
           "type": "follow_route",
           "attraction_id": "9d4d5229",
           "title": "Próxima: Seven Dwarfs Mine Train",
-          "message": "Continue conforme o roteiro — fila: 69min.",
+          "message": "Continue conforme o roteiro — fila: 67min.",
           "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
           "urgency": "low",
           "confidence": 0.8,
           "score": 500
         }
-      ]
+      ],
+      "pendingCount": 4,
+      "visitedCount": 0
     },
     {
       "time": "09:30",
       "phase": "morning",
-      "userLat": 28.42037,
-      "userLng": -81.58031,
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 69,
-          "status": "operating",
-          "visited": false,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 34,
-          "status": "operating",
-          "visited": false,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 18,
-          "status": "operating",
-          "visited": false,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 20,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
+      "inProgress": "Seven Dwarfs Mine Train",
+      "minutesLeftInCurrent": 41,
       "recommendations": [
         {
           "type": "follow_route",
           "attraction_id": "9d4d5229",
           "title": "Próxima: Seven Dwarfs Mine Train",
-          "message": "Continue conforme o roteiro — fila: 69min.",
+          "message": "Continue conforme o roteiro — fila: 67min.",
           "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
           "urgency": "low",
           "confidence": 0.8,
           "score": 500
         }
-      ]
+      ],
+      "pendingCount": 4,
+      "visitedCount": 0
     },
     {
       "time": "09:45",
       "phase": "morning",
-      "userLat": 28.42037,
-      "userLng": -81.58031,
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 69,
-          "status": "operating",
-          "visited": false,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 34,
-          "status": "operating",
-          "visited": false,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 18,
-          "status": "operating",
-          "visited": false,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 20,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
+      "inProgress": "Seven Dwarfs Mine Train",
+      "minutesLeftInCurrent": 26,
       "recommendations": [
         {
           "type": "follow_route",
           "attraction_id": "9d4d5229",
           "title": "Próxima: Seven Dwarfs Mine Train",
-          "message": "Continue conforme o roteiro — fila: 69min.",
+          "message": "Continue conforme o roteiro — fila: 67min.",
           "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
           "urgency": "low",
           "confidence": 0.8,
           "score": 500
         }
-      ]
+      ],
+      "pendingCount": 4,
+      "visitedCount": 0
     },
     {
       "time": "10:00",
       "phase": "morning",
-      "userLat": 28.42037,
-      "userLng": -81.58031,
-      "event": "📊 Seven Dwarfs com fila caindo",
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 33,
-          "status": "operating",
-          "visited": false,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 43,
-          "status": "operating",
-          "visited": false,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 37,
-          "status": "operating",
-          "visited": false,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 30,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
+      "inProgress": "Seven Dwarfs Mine Train",
+      "minutesLeftInCurrent": 11,
+      "event": "📊 Seven Dwarfs: janela boa",
       "recommendations": [
         {
           "type": "go_now",
           "attraction_id": "9d4d5229",
           "title": "Hora de ir: Seven Dwarfs Mine Train",
-          "message": "Fila 45% abaixo da média — 33min agora vs 60min histórico.",
+          "message": "Fila 45% abaixo da média — 34min agora vs 62min histórico.",
           "reason": "Must-do com janela boa. Aproveite agora.",
           "urgency": "high",
           "confidence": 0.85,
           "score": 950
         }
-      ]
+      ],
+      "pendingCount": 4,
+      "visitedCount": 0
     },
     {
       "time": "10:15",
       "phase": "morning",
-      "userLat": 28.42037,
-      "userLng": -81.58031,
-      "event": "📊 Seven Dwarfs com fila caindo",
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 33,
-          "status": "operating",
-          "visited": false,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 43,
-          "status": "operating",
-          "visited": false,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 37,
-          "status": "operating",
-          "visited": false,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 30,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
-      "recommendations": [
-        {
-          "type": "go_now",
-          "attraction_id": "9d4d5229",
-          "title": "Hora de ir: Seven Dwarfs Mine Train",
-          "message": "Fila 45% abaixo da média — 33min agora vs 60min histórico.",
-          "reason": "Must-do com janela boa. Aproveite agora.",
-          "urgency": "high",
-          "confidence": 0.85,
-          "score": 950
-        }
-      ]
-    },
-    {
-      "time": "10:30",
-      "phase": "morning",
-      "userLat": 28.42037,
-      "userLng": -81.58031,
-      "event": "📊 Seven Dwarfs com fila caindo",
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 33,
-          "status": "operating",
-          "visited": false,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 43,
-          "status": "operating",
-          "visited": false,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 37,
-          "status": "operating",
-          "visited": false,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 30,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
-      "recommendations": [
-        {
-          "type": "go_now",
-          "attraction_id": "9d4d5229",
-          "title": "Hora de ir: Seven Dwarfs Mine Train",
-          "message": "Fila 45% abaixo da média — 33min agora vs 60min histórico.",
-          "reason": "Must-do com janela boa. Aproveite agora.",
-          "urgency": "high",
-          "confidence": 0.85,
-          "score": 950
-        }
-      ]
-    },
-    {
-      "time": "10:45",
-      "phase": "morning",
-      "userLat": 28.42037,
-      "userLng": -81.58031,
-      "event": "📊 Seven Dwarfs com fila caindo",
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 33,
-          "status": "operating",
-          "visited": false,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 43,
-          "status": "operating",
-          "visited": false,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 37,
-          "status": "operating",
-          "visited": false,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 30,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
-      "recommendations": [
-        {
-          "type": "go_now",
-          "attraction_id": "9d4d5229",
-          "title": "Hora de ir: Seven Dwarfs Mine Train",
-          "message": "Fila 45% abaixo da média — 33min agora vs 60min histórico.",
-          "reason": "Must-do com janela boa. Aproveite agora.",
-          "urgency": "high",
-          "confidence": 0.85,
-          "score": 950
-        }
-      ]
-    },
-    {
-      "time": "11:00",
-      "phase": "midday",
-      "userLat": 28.42037,
-      "userLng": -81.58031,
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 43,
-          "status": "operating",
-          "visited": false,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 59,
-          "status": "operating",
-          "visited": false,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 38,
-          "status": "operating",
-          "visited": false,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 45,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
-      "recommendations": [
-        {
-          "type": "follow_route",
-          "attraction_id": "9d4d5229",
-          "title": "Próxima: Seven Dwarfs Mine Train",
-          "message": "Continue conforme o roteiro — fila: 43min.",
-          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
-          "urgency": "low",
-          "confidence": 0.8,
-          "score": 500
-        }
-      ]
-    },
-    {
-      "time": "11:15",
-      "phase": "midday",
-      "userLat": 28.42037,
-      "userLng": -81.58031,
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 43,
-          "status": "operating",
-          "visited": false,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 59,
-          "status": "operating",
-          "visited": false,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 38,
-          "status": "operating",
-          "visited": false,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 45,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
-      "recommendations": [
-        {
-          "type": "follow_route",
-          "attraction_id": "9d4d5229",
-          "title": "Próxima: Seven Dwarfs Mine Train",
-          "message": "Continue conforme o roteiro — fila: 43min.",
-          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
-          "urgency": "low",
-          "confidence": 0.8,
-          "score": 500
-        }
-      ]
-    },
-    {
-      "time": "11:30",
-      "phase": "midday",
-      "userLat": 28.42037,
-      "userLng": -81.58031,
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 43,
-          "status": "operating",
-          "visited": false,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 59,
-          "status": "operating",
-          "visited": false,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 38,
-          "status": "operating",
-          "visited": false,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 45,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
-      "recommendations": [
-        {
-          "type": "follow_route",
-          "attraction_id": "9d4d5229",
-          "title": "Próxima: Seven Dwarfs Mine Train",
-          "message": "Continue conforme o roteiro — fila: 43min.",
-          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
-          "urgency": "low",
-          "confidence": 0.8,
-          "score": 500
-        }
-      ]
-    },
-    {
-      "time": "11:45",
-      "phase": "midday",
-      "userLat": 28.42037,
-      "userLng": -81.58031,
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 43,
-          "status": "operating",
-          "visited": false,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 59,
-          "status": "operating",
-          "visited": false,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 38,
-          "status": "operating",
-          "visited": false,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 45,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
-      "recommendations": [
-        {
-          "type": "follow_route",
-          "attraction_id": "9d4d5229",
-          "title": "Próxima: Seven Dwarfs Mine Train",
-          "message": "Continue conforme o roteiro — fila: 43min.",
-          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
-          "urgency": "low",
-          "confidence": 0.8,
-          "score": 500
-        }
-      ]
-    },
-    {
-      "time": "12:00",
-      "phase": "midday",
-      "userLat": 28.42037,
-      "userLng": -81.58031,
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 81,
-          "status": "operating",
-          "visited": false,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 60,
-          "status": "operating",
-          "visited": false,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 49,
-          "status": "operating",
-          "visited": false,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 37,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
-      "recommendations": [
-        {
-          "type": "follow_route",
-          "attraction_id": "9d4d5229",
-          "title": "Próxima: Seven Dwarfs Mine Train",
-          "message": "Continue conforme o roteiro — fila: 81min.",
-          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
-          "urgency": "low",
-          "confidence": 0.8,
-          "score": 500
-        }
-      ]
-    },
-    {
-      "time": "12:15",
-      "phase": "midday",
-      "userLat": 28.42037,
-      "userLng": -81.58031,
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 81,
-          "status": "operating",
-          "visited": false,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 60,
-          "status": "operating",
-          "visited": false,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 49,
-          "status": "operating",
-          "visited": false,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 37,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
-      "recommendations": [
-        {
-          "type": "follow_route",
-          "attraction_id": "9d4d5229",
-          "title": "Próxima: Seven Dwarfs Mine Train",
-          "message": "Continue conforme o roteiro — fila: 81min.",
-          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
-          "urgency": "low",
-          "confidence": 0.8,
-          "score": 500
-        }
-      ]
-    },
-    {
-      "time": "12:30",
-      "phase": "midday",
-      "userLat": 28.42037,
-      "userLng": -81.58031,
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 81,
-          "status": "operating",
-          "visited": false,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 60,
-          "status": "operating",
-          "visited": false,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 49,
-          "status": "operating",
-          "visited": false,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 37,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
-      "recommendations": [
-        {
-          "type": "follow_route",
-          "attraction_id": "9d4d5229",
-          "title": "Próxima: Seven Dwarfs Mine Train",
-          "message": "Continue conforme o roteiro — fila: 81min.",
-          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
-          "urgency": "low",
-          "confidence": 0.8,
-          "score": 500
-        }
-      ]
-    },
-    {
-      "time": "12:45",
-      "phase": "midday",
-      "userLat": 28.42037,
-      "userLng": -81.58031,
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 81,
-          "status": "operating",
-          "visited": false,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 60,
-          "status": "operating",
-          "visited": false,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 49,
-          "status": "operating",
-          "visited": false,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 37,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
-      "recommendations": [
-        {
-          "type": "follow_route",
-          "attraction_id": "9d4d5229",
-          "title": "Próxima: Seven Dwarfs Mine Train",
-          "message": "Continue conforme o roteiro — fila: 81min.",
-          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
-          "urgency": "low",
-          "confidence": 0.8,
-          "score": 500
-        }
-      ]
-    },
-    {
-      "time": "13:00",
-      "phase": "afternoon",
-      "userLat": 28.42037,
-      "userLng": -81.58031,
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 76,
-          "status": "operating",
-          "visited": false,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 53,
-          "status": "operating",
-          "visited": false,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 43,
-          "status": "operating",
-          "visited": false,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 52,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
-      "recommendations": [
-        {
-          "type": "follow_route",
-          "attraction_id": "9d4d5229",
-          "title": "Próxima: Seven Dwarfs Mine Train",
-          "message": "Continue conforme o roteiro — fila: 76min.",
-          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
-          "urgency": "low",
-          "confidence": 0.8,
-          "score": 500
-        }
-      ]
-    },
-    {
-      "time": "13:15",
-      "phase": "afternoon",
-      "userLat": 28.42037,
-      "userLng": -81.58031,
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 76,
-          "status": "operating",
-          "visited": false,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 53,
-          "status": "operating",
-          "visited": false,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 43,
-          "status": "operating",
-          "visited": false,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 52,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
-      "recommendations": [
-        {
-          "type": "follow_route",
-          "attraction_id": "9d4d5229",
-          "title": "Próxima: Seven Dwarfs Mine Train",
-          "message": "Continue conforme o roteiro — fila: 76min.",
-          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
-          "urgency": "low",
-          "confidence": 0.8,
-          "score": 500
-        }
-      ]
-    },
-    {
-      "time": "13:30",
-      "phase": "afternoon",
-      "userLat": 28.42037,
-      "userLng": -81.58031,
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 76,
-          "status": "operating",
-          "visited": false,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 53,
-          "status": "operating",
-          "visited": false,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 43,
-          "status": "operating",
-          "visited": false,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 52,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
-      "recommendations": [
-        {
-          "type": "follow_route",
-          "attraction_id": "9d4d5229",
-          "title": "Próxima: Seven Dwarfs Mine Train",
-          "message": "Continue conforme o roteiro — fila: 76min.",
-          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
-          "urgency": "low",
-          "confidence": 0.8,
-          "score": 500
-        }
-      ],
-      "visitedThisStep": "Seven Dwarfs Mine Train"
-    },
-    {
-      "time": "13:45",
-      "phase": "afternoon",
-      "userLat": 28.41883,
-      "userLng": -81.57819,
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 76,
-          "status": "operating",
-          "visited": true,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 53,
-          "status": "operating",
-          "visited": false,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 43,
-          "status": "operating",
-          "visited": false,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 52,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
+      "inProgress": "Space Mountain",
+      "minutesLeftInCurrent": 47,
+      "event": "📊 Seven Dwarfs: janela boa",
+      "visitedThisStep": "Seven Dwarfs Mine Train",
       "recommendations": [
         {
           "type": "follow_route",
           "attraction_id": "b2260923",
           "title": "Próxima: Space Mountain",
-          "message": "Continue conforme o roteiro — fila: 53min.",
-          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "message": "Continue conforme o roteiro — fila: 44min.",
+          "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
           "urgency": "low",
           "confidence": 0.8,
           "score": 500
         }
       ],
-      "visitedThisStep": "Space Mountain"
+      "pendingCount": 3,
+      "visitedCount": 1
     },
     {
-      "time": "14:00",
-      "phase": "afternoon",
-      "userLat": 28.41996,
-      "userLng": -81.58464,
-      "attractions": [
+      "time": "10:30",
+      "phase": "morning",
+      "inProgress": "Space Mountain",
+      "minutesLeftInCurrent": 32,
+      "event": "📊 Seven Dwarfs: janela boa",
+      "recommendations": [
         {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 73,
-          "status": "operating",
-          "visited": true,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 52,
-          "status": "operating",
-          "visited": true,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 51,
-          "status": "operating",
-          "visited": false,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 48,
-          "status": "operating",
-          "visited": false,
-          "position": 4
+          "type": "follow_route",
+          "attraction_id": "b2260923",
+          "title": "Próxima: Space Mountain",
+          "message": "Continue conforme o roteiro — fila: 44min.",
+          "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
         }
       ],
+      "pendingCount": 3,
+      "visitedCount": 1
+    },
+    {
+      "time": "10:45",
+      "phase": "morning",
+      "inProgress": "Space Mountain",
+      "minutesLeftInCurrent": 17,
+      "event": "📊 Seven Dwarfs: janela boa",
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "b2260923",
+          "title": "Próxima: Space Mountain",
+          "message": "Continue conforme o roteiro — fila: 44min.",
+          "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 3,
+      "visitedCount": 1
+    },
+    {
+      "time": "11:00",
+      "phase": "midday",
+      "inProgress": "Space Mountain",
+      "minutesLeftInCurrent": 2,
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "b2260923",
+          "title": "Próxima: Space Mountain",
+          "message": "Continue conforme o roteiro — fila: 58min.",
+          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 3,
+      "visitedCount": 1
+    },
+    {
+      "time": "11:15",
+      "phase": "midday",
+      "inProgress": "Big Thunder Mountain Railroad",
+      "minutesLeftInCurrent": 42,
+      "visitedThisStep": "Space Mountain",
       "recommendations": [
         {
           "type": "follow_route",
           "attraction_id": "de3309ca",
           "title": "Próxima: Big Thunder Mountain Railroad",
-          "message": "Continue conforme o roteiro — fila: 51min.",
-          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "message": "Continue conforme o roteiro — fila: 39min.",
+          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
           "urgency": "low",
           "confidence": 0.8,
           "score": 500
         }
       ],
-      "visitedThisStep": "Big Thunder Mountain Railroad"
+      "pendingCount": 2,
+      "visitedCount": 2
     },
     {
-      "time": "14:15",
-      "phase": "afternoon",
-      "userLat": 28.4202,
-      "userLng": -81.58288,
-      "attractions": [
+      "time": "11:30",
+      "phase": "midday",
+      "inProgress": "Big Thunder Mountain Railroad",
+      "minutesLeftInCurrent": 27,
+      "recommendations": [
         {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 73,
-          "status": "operating",
-          "visited": true,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 52,
-          "status": "operating",
-          "visited": true,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 51,
-          "status": "operating",
-          "visited": true,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 48,
-          "status": "operating",
-          "visited": false,
-          "position": 4
+          "type": "follow_route",
+          "attraction_id": "de3309ca",
+          "title": "Próxima: Big Thunder Mountain Railroad",
+          "message": "Continue conforme o roteiro — fila: 39min.",
+          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
         }
       ],
+      "pendingCount": 2,
+      "visitedCount": 2
+    },
+    {
+      "time": "11:45",
+      "phase": "midday",
+      "inProgress": "Big Thunder Mountain Railroad",
+      "minutesLeftInCurrent": 12,
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "de3309ca",
+          "title": "Próxima: Big Thunder Mountain Railroad",
+          "message": "Continue conforme o roteiro — fila: 39min.",
+          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 2,
+      "visitedCount": 2
+    },
+    {
+      "time": "12:00",
+      "phase": "midday",
+      "inProgress": "Haunted Mansion",
+      "minutesLeftInCurrent": 47,
+      "visitedThisStep": "Big Thunder Mountain Railroad",
       "recommendations": [
         {
           "type": "follow_route",
           "attraction_id": "2551a77d",
           "title": "Próxima: Haunted Mansion",
-          "message": "Continue conforme o roteiro — fila: 48min.",
-          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "message": "Continue conforme o roteiro — fila: 38min.",
+          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
           "urgency": "low",
           "confidence": 0.8,
           "score": 500
         }
-      ]
+      ],
+      "pendingCount": 1,
+      "visitedCount": 3
     },
     {
-      "time": "14:30",
-      "phase": "afternoon",
-      "userLat": 28.4202,
-      "userLng": -81.58288,
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 73,
-          "status": "operating",
-          "visited": true,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 52,
-          "status": "operating",
-          "visited": true,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 51,
-          "status": "operating",
-          "visited": true,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 48,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
+      "time": "12:15",
+      "phase": "midday",
+      "inProgress": "Haunted Mansion",
+      "minutesLeftInCurrent": 32,
       "recommendations": [
         {
           "type": "follow_route",
           "attraction_id": "2551a77d",
           "title": "Próxima: Haunted Mansion",
-          "message": "Continue conforme o roteiro — fila: 48min.",
-          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "message": "Continue conforme o roteiro — fila: 38min.",
+          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
           "urgency": "low",
           "confidence": 0.8,
           "score": 500
         }
-      ]
+      ],
+      "pendingCount": 1,
+      "visitedCount": 3
     },
     {
-      "time": "14:45",
-      "phase": "afternoon",
-      "userLat": 28.4202,
-      "userLng": -81.58288,
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 73,
-          "status": "operating",
-          "visited": true,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 52,
-          "status": "operating",
-          "visited": true,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 51,
-          "status": "operating",
-          "visited": true,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 48,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
+      "time": "12:30",
+      "phase": "midday",
+      "inProgress": "Haunted Mansion",
+      "minutesLeftInCurrent": 17,
       "recommendations": [
         {
           "type": "follow_route",
           "attraction_id": "2551a77d",
           "title": "Próxima: Haunted Mansion",
-          "message": "Continue conforme o roteiro — fila: 48min.",
-          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "message": "Continue conforme o roteiro — fila: 38min.",
+          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
           "urgency": "low",
           "confidence": 0.8,
           "score": 500
         }
-      ]
+      ],
+      "pendingCount": 1,
+      "visitedCount": 3
     },
     {
-      "time": "15:00",
-      "phase": "afternoon",
-      "userLat": 28.4202,
-      "userLng": -81.58288,
-      "event": "📊 Space Mountain: janela no meio da tarde",
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 84,
-          "status": "operating",
-          "visited": true,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 30,
-          "status": "operating",
-          "visited": true,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 46,
-          "status": "operating",
-          "visited": true,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 49,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
+      "time": "12:45",
+      "phase": "midday",
+      "inProgress": "Haunted Mansion",
+      "minutesLeftInCurrent": 2,
       "recommendations": [
         {
           "type": "follow_route",
           "attraction_id": "2551a77d",
           "title": "Próxima: Haunted Mansion",
-          "message": "Continue conforme o roteiro — fila: 49min.",
-          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
-          "urgency": "low",
-          "confidence": 0.8,
-          "score": 500
-        }
-      ]
-    },
-    {
-      "time": "15:15",
-      "phase": "afternoon",
-      "userLat": 28.4202,
-      "userLng": -81.58288,
-      "event": "📊 Space Mountain: janela no meio da tarde",
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 84,
-          "status": "operating",
-          "visited": true,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 30,
-          "status": "operating",
-          "visited": true,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 46,
-          "status": "operating",
-          "visited": true,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 49,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
-      "recommendations": [
-        {
-          "type": "follow_route",
-          "attraction_id": "2551a77d",
-          "title": "Próxima: Haunted Mansion",
-          "message": "Continue conforme o roteiro — fila: 49min.",
-          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
-          "urgency": "low",
-          "confidence": 0.8,
-          "score": 500
-        }
-      ]
-    },
-    {
-      "time": "15:30",
-      "phase": "afternoon",
-      "userLat": 28.4202,
-      "userLng": -81.58288,
-      "event": "📊 Space Mountain: janela no meio da tarde",
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 84,
-          "status": "operating",
-          "visited": true,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 30,
-          "status": "operating",
-          "visited": true,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 46,
-          "status": "operating",
-          "visited": true,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 49,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        }
-      ],
-      "recommendations": [
-        {
-          "type": "follow_route",
-          "attraction_id": "2551a77d",
-          "title": "Próxima: Haunted Mansion",
-          "message": "Continue conforme o roteiro — fila: 49min.",
-          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "message": "Continue conforme o roteiro — fila: 38min.",
+          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
           "urgency": "low",
           "confidence": 0.8,
           "score": 500
         }
       ],
-      "visitedThisStep": "Haunted Mansion"
+      "pendingCount": 1,
+      "visitedCount": 3
     },
     {
-      "time": "15:45",
+      "time": "13:00",
       "phase": "afternoon",
-      "userLat": 28.4177,
-      "userLng": -81.5812,
-      "event": "📊 Space Mountain: janela no meio da tarde",
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 84,
-          "status": "operating",
-          "visited": true,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 30,
-          "status": "operating",
-          "visited": true,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 46,
-          "status": "operating",
-          "visited": true,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 49,
-          "status": "operating",
-          "visited": true,
-          "position": 4
-        }
-      ],
+      "inProgress": null,
+      "minutesLeftInCurrent": 0,
+      "visitedThisStep": "Haunted Mansion",
       "recommendations": [
         {
           "type": "day_complete",
@@ -1368,7 +357,9 @@
           "confidence": 1,
           "score": 1000
         }
-      ]
+      ],
+      "pendingCount": 0,
+      "visitedCount": 4
     }
   ]
 }
