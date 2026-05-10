@@ -433,9 +433,9 @@ function run(scenarioKey: string) {
   else console.log(`\n✅  Todos os must-dos concluídos!`);
   console.log(`${"═".repeat(70)}\n`);
 
-  const fs = require("fs");
+  const { writeFileSync } = await import("node:fs");
   const outPath = `simulate-day-result-${scenarioKey}.json`;
-  fs.writeFileSync(outPath, JSON.stringify({ scenario: scenario.name, summary, steps }, null, 2));
+  writeFileSync(outPath, JSON.stringify({ scenario: scenario.name, summary, steps }, null, 2));
   console.log(`💾  Log salvo em: ${outPath}\n`);
 }
 
