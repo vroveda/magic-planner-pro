@@ -313,6 +313,7 @@ export type Database = {
           min_height_cm: number | null
           name: string
           park_id: string
+          popularity_score: number
           queue_times_id: number | null
           short_description: string | null
           strategic_tip: string | null
@@ -336,6 +337,7 @@ export type Database = {
           min_height_cm?: number | null
           name: string
           park_id: string
+          popularity_score?: number
           queue_times_id?: number | null
           short_description?: string | null
           strategic_tip?: string | null
@@ -359,6 +361,7 @@ export type Database = {
           min_height_cm?: number | null
           name?: string
           park_id?: string
+          popularity_score?: number
           queue_times_id?: number | null
           short_description?: string | null
           strategic_tip?: string | null
