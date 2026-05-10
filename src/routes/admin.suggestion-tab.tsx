@@ -63,7 +63,7 @@ function useAttractionsForDebug(parkId: string) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("attractions")
-        .select("id, name, experience_type, is_must_do, min_height_cm, avg_duration_minutes, lightning_lane_type")
+        .select("id, name, experience_type, is_must_do, min_height_cm, avg_duration_minutes, lightning_lane_type, popularity_score")
         .eq("park_id", parkId)
         .order("name");
       if (error) throw error;
@@ -201,6 +201,7 @@ export function SuggestionDebugTab() {
                   <th className="px-3 py-2 text-left">#</th>
                   <th className="px-3 py-2 text-left">Atração</th>
                   <th className="px-3 py-2 text-left">Tipo</th>
+                  <th className="px-3 py-2 text-left">Pop</th>
                   <th className="px-3 py-2 text-left">Score</th>
                   <th className="px-3 py-2 text-left">Razão</th>
                   <th className="px-3 py-2 text-left">Flags</th>
@@ -214,6 +215,7 @@ export function SuggestionDebugTab() {
                       <td className="px-3 py-2 text-muted-foreground">{i + 1}</td>
                       <td className="px-3 py-2 font-medium">{a?.name ?? s.attractionId}</td>
                       <td className="px-3 py-2 text-muted-foreground">{a?.experience_type}</td>
+                      <td className="px-3 py-2 font-mono font-semibold text-amber-600">{(a as any)?.popularity_score ?? "—"}</td>
                       <td className="px-3 py-2 font-mono font-semibold">{s.score.toFixed(0)}</td>
                       <td className="px-3 py-2">{s.reason}</td>
                       <td className="px-3 py-2">

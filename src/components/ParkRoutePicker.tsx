@@ -108,6 +108,7 @@ export function ParkRoutePicker({
         is_must_do: a.is_must_do,
         experience_type: a.experience_type,
         lightning_lane_type: a.lightning_lane_type,
+        popularity_score: (a as any).popularity_score ?? null,
       })),
     });
 
