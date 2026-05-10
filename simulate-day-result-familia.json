@@ -1,0 +1,1778 @@
+{
+  "scenario": "Família com Criança",
+  "summary": {
+    "totalSteps": 21,
+    "visitedCount": 9,
+    "mustDosCompleted": 2,
+    "mustDosTotal": 2,
+    "recCounts": {
+      "follow_route": 19,
+      "go_now": 1,
+      "day_complete": 1
+    },
+    "detourCount": 0,
+    "urgentAlerts": 0,
+    "go_now_count": 1
+  },
+  "steps": [
+    {
+      "time": "09:00",
+      "phase": "morning",
+      "userLat": 28.42051,
+      "userLng": -81.57895,
+      "attractions": [
+        {
+          "name": "Haunted Mansion",
+          "wait": 20,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 13,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 28,
+          "status": "operating",
+          "visited": false,
+          "position": 8
+        },
+        {
+          "name": "Dumbo the Flying Elephant",
+          "wait": 8,
+          "status": "operating",
+          "visited": false,
+          "position": 1
+        },
+        {
+          "name": "Winnie the Pooh",
+          "wait": 25,
+          "status": "operating",
+          "visited": false,
+          "position": 2
+        },
+        {
+          "name": "Monsters Inc. Laugh Floor",
+          "wait": 10,
+          "status": "operating",
+          "visited": false,
+          "position": 9
+        },
+        {
+          "name": "Little Mermaid",
+          "wait": 7,
+          "status": "operating",
+          "visited": false,
+          "position": 3
+        },
+        {
+          "name": "Enchanted Tales with Belle",
+          "wait": 20,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Mickey's PhilharMagic",
+          "wait": 13,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "890fa430",
+          "title": "Próxima: Dumbo the Flying Elephant",
+          "message": "Continue conforme o roteiro — fila: 8min.",
+          "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ]
+    },
+    {
+      "time": "09:15",
+      "phase": "morning",
+      "userLat": 28.42051,
+      "userLng": -81.57895,
+      "attractions": [
+        {
+          "name": "Haunted Mansion",
+          "wait": 20,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 13,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 28,
+          "status": "operating",
+          "visited": false,
+          "position": 8
+        },
+        {
+          "name": "Dumbo the Flying Elephant",
+          "wait": 8,
+          "status": "operating",
+          "visited": false,
+          "position": 1
+        },
+        {
+          "name": "Winnie the Pooh",
+          "wait": 25,
+          "status": "operating",
+          "visited": false,
+          "position": 2
+        },
+        {
+          "name": "Monsters Inc. Laugh Floor",
+          "wait": 10,
+          "status": "operating",
+          "visited": false,
+          "position": 9
+        },
+        {
+          "name": "Little Mermaid",
+          "wait": 7,
+          "status": "operating",
+          "visited": false,
+          "position": 3
+        },
+        {
+          "name": "Enchanted Tales with Belle",
+          "wait": 20,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Mickey's PhilharMagic",
+          "wait": 13,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "890fa430",
+          "title": "Próxima: Dumbo the Flying Elephant",
+          "message": "Continue conforme o roteiro — fila: 8min.",
+          "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ]
+    },
+    {
+      "time": "09:30",
+      "phase": "morning",
+      "userLat": 28.42051,
+      "userLng": -81.57895,
+      "attractions": [
+        {
+          "name": "Haunted Mansion",
+          "wait": 20,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 13,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 28,
+          "status": "operating",
+          "visited": false,
+          "position": 8
+        },
+        {
+          "name": "Dumbo the Flying Elephant",
+          "wait": 8,
+          "status": "operating",
+          "visited": false,
+          "position": 1
+        },
+        {
+          "name": "Winnie the Pooh",
+          "wait": 25,
+          "status": "operating",
+          "visited": false,
+          "position": 2
+        },
+        {
+          "name": "Monsters Inc. Laugh Floor",
+          "wait": 10,
+          "status": "operating",
+          "visited": false,
+          "position": 9
+        },
+        {
+          "name": "Little Mermaid",
+          "wait": 7,
+          "status": "operating",
+          "visited": false,
+          "position": 3
+        },
+        {
+          "name": "Enchanted Tales with Belle",
+          "wait": 20,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Mickey's PhilharMagic",
+          "wait": 13,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "890fa430",
+          "title": "Próxima: Dumbo the Flying Elephant",
+          "message": "Continue conforme o roteiro — fila: 8min.",
+          "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ]
+    },
+    {
+      "time": "09:45",
+      "phase": "morning",
+      "userLat": 28.42051,
+      "userLng": -81.57895,
+      "attractions": [
+        {
+          "name": "Haunted Mansion",
+          "wait": 20,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 13,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 28,
+          "status": "operating",
+          "visited": false,
+          "position": 8
+        },
+        {
+          "name": "Dumbo the Flying Elephant",
+          "wait": 8,
+          "status": "operating",
+          "visited": false,
+          "position": 1
+        },
+        {
+          "name": "Winnie the Pooh",
+          "wait": 25,
+          "status": "operating",
+          "visited": false,
+          "position": 2
+        },
+        {
+          "name": "Monsters Inc. Laugh Floor",
+          "wait": 10,
+          "status": "operating",
+          "visited": false,
+          "position": 9
+        },
+        {
+          "name": "Little Mermaid",
+          "wait": 7,
+          "status": "operating",
+          "visited": false,
+          "position": 3
+        },
+        {
+          "name": "Enchanted Tales with Belle",
+          "wait": 20,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Mickey's PhilharMagic",
+          "wait": 13,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "890fa430",
+          "title": "Próxima: Dumbo the Flying Elephant",
+          "message": "Continue conforme o roteiro — fila: 8min.",
+          "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ]
+    },
+    {
+      "time": "10:00",
+      "phase": "morning",
+      "userLat": 28.42051,
+      "userLng": -81.57895,
+      "event": "📊 Dumbo com fila curta cedo",
+      "attractions": [
+        {
+          "name": "Haunted Mansion",
+          "wait": 30,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 30,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 51,
+          "status": "operating",
+          "visited": false,
+          "position": 8
+        },
+        {
+          "name": "Dumbo the Flying Elephant",
+          "wait": 9,
+          "status": "operating",
+          "visited": false,
+          "position": 1
+        },
+        {
+          "name": "Winnie the Pooh",
+          "wait": 30,
+          "status": "operating",
+          "visited": false,
+          "position": 2
+        },
+        {
+          "name": "Monsters Inc. Laugh Floor",
+          "wait": 12,
+          "status": "operating",
+          "visited": false,
+          "position": 9
+        },
+        {
+          "name": "Little Mermaid",
+          "wait": 11,
+          "status": "operating",
+          "visited": false,
+          "position": 3
+        },
+        {
+          "name": "Enchanted Tales with Belle",
+          "wait": 23,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Mickey's PhilharMagic",
+          "wait": 12,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "890fa430",
+          "title": "Próxima: Dumbo the Flying Elephant",
+          "message": "Continue conforme o roteiro — fila: 9min.",
+          "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ]
+    },
+    {
+      "time": "10:15",
+      "phase": "morning",
+      "userLat": 28.42051,
+      "userLng": -81.57895,
+      "event": "📊 Dumbo com fila curta cedo",
+      "attractions": [
+        {
+          "name": "Haunted Mansion",
+          "wait": 30,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 30,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 51,
+          "status": "operating",
+          "visited": false,
+          "position": 8
+        },
+        {
+          "name": "Dumbo the Flying Elephant",
+          "wait": 9,
+          "status": "operating",
+          "visited": false,
+          "position": 1
+        },
+        {
+          "name": "Winnie the Pooh",
+          "wait": 30,
+          "status": "operating",
+          "visited": false,
+          "position": 2
+        },
+        {
+          "name": "Monsters Inc. Laugh Floor",
+          "wait": 12,
+          "status": "operating",
+          "visited": false,
+          "position": 9
+        },
+        {
+          "name": "Little Mermaid",
+          "wait": 11,
+          "status": "operating",
+          "visited": false,
+          "position": 3
+        },
+        {
+          "name": "Enchanted Tales with Belle",
+          "wait": 23,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Mickey's PhilharMagic",
+          "wait": 12,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "890fa430",
+          "title": "Próxima: Dumbo the Flying Elephant",
+          "message": "Continue conforme o roteiro — fila: 9min.",
+          "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ]
+    },
+    {
+      "time": "10:30",
+      "phase": "morning",
+      "userLat": 28.42051,
+      "userLng": -81.57895,
+      "event": "📊 Dumbo com fila curta cedo",
+      "attractions": [
+        {
+          "name": "Haunted Mansion",
+          "wait": 30,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 30,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 51,
+          "status": "operating",
+          "visited": false,
+          "position": 8
+        },
+        {
+          "name": "Dumbo the Flying Elephant",
+          "wait": 9,
+          "status": "operating",
+          "visited": false,
+          "position": 1
+        },
+        {
+          "name": "Winnie the Pooh",
+          "wait": 30,
+          "status": "operating",
+          "visited": false,
+          "position": 2
+        },
+        {
+          "name": "Monsters Inc. Laugh Floor",
+          "wait": 12,
+          "status": "operating",
+          "visited": false,
+          "position": 9
+        },
+        {
+          "name": "Little Mermaid",
+          "wait": 11,
+          "status": "operating",
+          "visited": false,
+          "position": 3
+        },
+        {
+          "name": "Enchanted Tales with Belle",
+          "wait": 23,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Mickey's PhilharMagic",
+          "wait": 12,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "890fa430",
+          "title": "Próxima: Dumbo the Flying Elephant",
+          "message": "Continue conforme o roteiro — fila: 9min.",
+          "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ]
+    },
+    {
+      "time": "10:45",
+      "phase": "morning",
+      "userLat": 28.42051,
+      "userLng": -81.57895,
+      "event": "📊 Dumbo com fila curta cedo",
+      "attractions": [
+        {
+          "name": "Haunted Mansion",
+          "wait": 30,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 30,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 51,
+          "status": "operating",
+          "visited": false,
+          "position": 8
+        },
+        {
+          "name": "Dumbo the Flying Elephant",
+          "wait": 9,
+          "status": "operating",
+          "visited": false,
+          "position": 1
+        },
+        {
+          "name": "Winnie the Pooh",
+          "wait": 30,
+          "status": "operating",
+          "visited": false,
+          "position": 2
+        },
+        {
+          "name": "Monsters Inc. Laugh Floor",
+          "wait": 12,
+          "status": "operating",
+          "visited": false,
+          "position": 9
+        },
+        {
+          "name": "Little Mermaid",
+          "wait": 11,
+          "status": "operating",
+          "visited": false,
+          "position": 3
+        },
+        {
+          "name": "Enchanted Tales with Belle",
+          "wait": 23,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Mickey's PhilharMagic",
+          "wait": 12,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "890fa430",
+          "title": "Próxima: Dumbo the Flying Elephant",
+          "message": "Continue conforme o roteiro — fila: 9min.",
+          "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ]
+    },
+    {
+      "time": "11:00",
+      "phase": "midday",
+      "userLat": 28.42051,
+      "userLng": -81.57895,
+      "attractions": [
+        {
+          "name": "Haunted Mansion",
+          "wait": 45,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 24,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 50,
+          "status": "operating",
+          "visited": false,
+          "position": 8
+        },
+        {
+          "name": "Dumbo the Flying Elephant",
+          "wait": 11,
+          "status": "operating",
+          "visited": false,
+          "position": 1
+        },
+        {
+          "name": "Winnie the Pooh",
+          "wait": 39,
+          "status": "operating",
+          "visited": false,
+          "position": 2
+        },
+        {
+          "name": "Monsters Inc. Laugh Floor",
+          "wait": 11,
+          "status": "operating",
+          "visited": false,
+          "position": 9
+        },
+        {
+          "name": "Little Mermaid",
+          "wait": 10,
+          "status": "operating",
+          "visited": false,
+          "position": 3
+        },
+        {
+          "name": "Enchanted Tales with Belle",
+          "wait": 32,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Mickey's PhilharMagic",
+          "wait": 11,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "890fa430",
+          "title": "Próxima: Dumbo the Flying Elephant",
+          "message": "Continue conforme o roteiro — fila: 11min.",
+          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ]
+    },
+    {
+      "time": "11:15",
+      "phase": "midday",
+      "userLat": 28.42051,
+      "userLng": -81.57895,
+      "attractions": [
+        {
+          "name": "Haunted Mansion",
+          "wait": 45,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 24,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 50,
+          "status": "operating",
+          "visited": false,
+          "position": 8
+        },
+        {
+          "name": "Dumbo the Flying Elephant",
+          "wait": 11,
+          "status": "operating",
+          "visited": false,
+          "position": 1
+        },
+        {
+          "name": "Winnie the Pooh",
+          "wait": 39,
+          "status": "operating",
+          "visited": false,
+          "position": 2
+        },
+        {
+          "name": "Monsters Inc. Laugh Floor",
+          "wait": 11,
+          "status": "operating",
+          "visited": false,
+          "position": 9
+        },
+        {
+          "name": "Little Mermaid",
+          "wait": 10,
+          "status": "operating",
+          "visited": false,
+          "position": 3
+        },
+        {
+          "name": "Enchanted Tales with Belle",
+          "wait": 32,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Mickey's PhilharMagic",
+          "wait": 11,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "890fa430",
+          "title": "Próxima: Dumbo the Flying Elephant",
+          "message": "Continue conforme o roteiro — fila: 11min.",
+          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "visitedThisStep": "Dumbo the Flying Elephant"
+    },
+    {
+      "time": "11:30",
+      "phase": "midday",
+      "userLat": 28.42021,
+      "userLng": -81.58027,
+      "attractions": [
+        {
+          "name": "Haunted Mansion",
+          "wait": 45,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 24,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 50,
+          "status": "operating",
+          "visited": false,
+          "position": 8
+        },
+        {
+          "name": "Dumbo the Flying Elephant",
+          "wait": 11,
+          "status": "operating",
+          "visited": true,
+          "position": 1
+        },
+        {
+          "name": "Winnie the Pooh",
+          "wait": 39,
+          "status": "operating",
+          "visited": false,
+          "position": 2
+        },
+        {
+          "name": "Monsters Inc. Laugh Floor",
+          "wait": 11,
+          "status": "operating",
+          "visited": false,
+          "position": 9
+        },
+        {
+          "name": "Little Mermaid",
+          "wait": 10,
+          "status": "operating",
+          "visited": false,
+          "position": 3
+        },
+        {
+          "name": "Enchanted Tales with Belle",
+          "wait": 32,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Mickey's PhilharMagic",
+          "wait": 11,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "0d94ad60",
+          "title": "Próxima: Winnie the Pooh",
+          "message": "Continue conforme o roteiro — fila: 39min.",
+          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ]
+    },
+    {
+      "time": "11:45",
+      "phase": "midday",
+      "userLat": 28.42021,
+      "userLng": -81.58027,
+      "attractions": [
+        {
+          "name": "Haunted Mansion",
+          "wait": 45,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 24,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 50,
+          "status": "operating",
+          "visited": false,
+          "position": 8
+        },
+        {
+          "name": "Dumbo the Flying Elephant",
+          "wait": 11,
+          "status": "operating",
+          "visited": true,
+          "position": 1
+        },
+        {
+          "name": "Winnie the Pooh",
+          "wait": 39,
+          "status": "operating",
+          "visited": false,
+          "position": 2
+        },
+        {
+          "name": "Monsters Inc. Laugh Floor",
+          "wait": 11,
+          "status": "operating",
+          "visited": false,
+          "position": 9
+        },
+        {
+          "name": "Little Mermaid",
+          "wait": 10,
+          "status": "operating",
+          "visited": false,
+          "position": 3
+        },
+        {
+          "name": "Enchanted Tales with Belle",
+          "wait": 32,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Mickey's PhilharMagic",
+          "wait": 11,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "0d94ad60",
+          "title": "Próxima: Winnie the Pooh",
+          "message": "Continue conforme o roteiro — fila: 39min.",
+          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ]
+    },
+    {
+      "time": "12:00",
+      "phase": "midday",
+      "userLat": 28.42021,
+      "userLng": -81.58027,
+      "attractions": [
+        {
+          "name": "Haunted Mansion",
+          "wait": 37,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 38,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 49,
+          "status": "operating",
+          "visited": false,
+          "position": 8
+        },
+        {
+          "name": "Dumbo the Flying Elephant",
+          "wait": 23,
+          "status": "operating",
+          "visited": true,
+          "position": 1
+        },
+        {
+          "name": "Winnie the Pooh",
+          "wait": 35,
+          "status": "operating",
+          "visited": false,
+          "position": 2
+        },
+        {
+          "name": "Monsters Inc. Laugh Floor",
+          "wait": 16,
+          "status": "operating",
+          "visited": false,
+          "position": 9
+        },
+        {
+          "name": "Little Mermaid",
+          "wait": 23,
+          "status": "operating",
+          "visited": false,
+          "position": 3
+        },
+        {
+          "name": "Enchanted Tales with Belle",
+          "wait": 31,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Mickey's PhilharMagic",
+          "wait": 16,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "0d94ad60",
+          "title": "Próxima: Winnie the Pooh",
+          "message": "Continue conforme o roteiro — fila: 35min.",
+          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "visitedThisStep": "Winnie the Pooh"
+    },
+    {
+      "time": "12:15",
+      "phase": "midday",
+      "userLat": 28.42112,
+      "userLng": -81.57998,
+      "attractions": [
+        {
+          "name": "Haunted Mansion",
+          "wait": 37,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 38,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 49,
+          "status": "operating",
+          "visited": false,
+          "position": 8
+        },
+        {
+          "name": "Dumbo the Flying Elephant",
+          "wait": 23,
+          "status": "operating",
+          "visited": true,
+          "position": 1
+        },
+        {
+          "name": "Winnie the Pooh",
+          "wait": 35,
+          "status": "operating",
+          "visited": true,
+          "position": 2
+        },
+        {
+          "name": "Monsters Inc. Laugh Floor",
+          "wait": 16,
+          "status": "operating",
+          "visited": false,
+          "position": 9
+        },
+        {
+          "name": "Little Mermaid",
+          "wait": 23,
+          "status": "operating",
+          "visited": false,
+          "position": 3
+        },
+        {
+          "name": "Enchanted Tales with Belle",
+          "wait": 31,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Mickey's PhilharMagic",
+          "wait": 16,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "3cba0cb4",
+          "title": "Próxima: Little Mermaid",
+          "message": "Continue conforme o roteiro — fila: 23min.",
+          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "visitedThisStep": "Little Mermaid"
+    },
+    {
+      "time": "12:30",
+      "phase": "midday",
+      "userLat": 28.42003,
+      "userLng": -81.58148,
+      "attractions": [
+        {
+          "name": "Haunted Mansion",
+          "wait": 37,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 38,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 49,
+          "status": "operating",
+          "visited": false,
+          "position": 8
+        },
+        {
+          "name": "Dumbo the Flying Elephant",
+          "wait": 23,
+          "status": "operating",
+          "visited": true,
+          "position": 1
+        },
+        {
+          "name": "Winnie the Pooh",
+          "wait": 35,
+          "status": "operating",
+          "visited": true,
+          "position": 2
+        },
+        {
+          "name": "Monsters Inc. Laugh Floor",
+          "wait": 16,
+          "status": "operating",
+          "visited": false,
+          "position": 9
+        },
+        {
+          "name": "Little Mermaid",
+          "wait": 23,
+          "status": "operating",
+          "visited": true,
+          "position": 3
+        },
+        {
+          "name": "Enchanted Tales with Belle",
+          "wait": 31,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Mickey's PhilharMagic",
+          "wait": 16,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "7c5e1e02",
+          "title": "Próxima: Mickey's PhilharMagic",
+          "message": "Continue conforme o roteiro — fila: 16min.",
+          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "visitedThisStep": "Mickey's PhilharMagic"
+    },
+    {
+      "time": "12:45",
+      "phase": "midday",
+      "userLat": 28.42099,
+      "userLng": -81.58093,
+      "attractions": [
+        {
+          "name": "Haunted Mansion",
+          "wait": 37,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 38,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 49,
+          "status": "operating",
+          "visited": false,
+          "position": 8
+        },
+        {
+          "name": "Dumbo the Flying Elephant",
+          "wait": 23,
+          "status": "operating",
+          "visited": true,
+          "position": 1
+        },
+        {
+          "name": "Winnie the Pooh",
+          "wait": 35,
+          "status": "operating",
+          "visited": true,
+          "position": 2
+        },
+        {
+          "name": "Monsters Inc. Laugh Floor",
+          "wait": 16,
+          "status": "operating",
+          "visited": false,
+          "position": 9
+        },
+        {
+          "name": "Little Mermaid",
+          "wait": 23,
+          "status": "operating",
+          "visited": true,
+          "position": 3
+        },
+        {
+          "name": "Enchanted Tales with Belle",
+          "wait": 31,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Mickey's PhilharMagic",
+          "wait": 16,
+          "status": "operating",
+          "visited": true,
+          "position": 4
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "e76c93df",
+          "title": "Próxima: Enchanted Tales with Belle",
+          "message": "Continue conforme o roteiro — fila: 31min.",
+          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "visitedThisStep": "Enchanted Tales with Belle"
+    },
+    {
+      "time": "13:00",
+      "phase": "afternoon",
+      "userLat": 28.4202,
+      "userLng": -81.58288,
+      "event": "📊 Haunted Mansion: janela boa após almoço",
+      "attractions": [
+        {
+          "name": "Haunted Mansion",
+          "wait": 36,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 44,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 57,
+          "status": "operating",
+          "visited": false,
+          "position": 8
+        },
+        {
+          "name": "Dumbo the Flying Elephant",
+          "wait": 27,
+          "status": "operating",
+          "visited": true,
+          "position": 1
+        },
+        {
+          "name": "Winnie the Pooh",
+          "wait": 31,
+          "status": "operating",
+          "visited": true,
+          "position": 2
+        },
+        {
+          "name": "Monsters Inc. Laugh Floor",
+          "wait": 14,
+          "status": "operating",
+          "visited": false,
+          "position": 9
+        },
+        {
+          "name": "Little Mermaid",
+          "wait": 26,
+          "status": "operating",
+          "visited": true,
+          "position": 3
+        },
+        {
+          "name": "Enchanted Tales with Belle",
+          "wait": 27,
+          "status": "operating",
+          "visited": true,
+          "position": 5
+        },
+        {
+          "name": "Mickey's PhilharMagic",
+          "wait": 15,
+          "status": "operating",
+          "visited": true,
+          "position": 4
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "go_now",
+          "attraction_id": "2551a77d",
+          "title": "Hora de ir: Haunted Mansion",
+          "message": "Fila 31% abaixo da média — 36min agora vs 52min histórico.",
+          "reason": "Must-do com janela boa. Aproveite agora.",
+          "urgency": "medium",
+          "confidence": 0.85,
+          "score": 950
+        }
+      ],
+      "visitedThisStep": "Haunted Mansion"
+    },
+    {
+      "time": "13:15",
+      "phase": "afternoon",
+      "userLat": 28.41797,
+      "userLng": -81.58422,
+      "event": "📊 Haunted Mansion: janela boa após almoço",
+      "attractions": [
+        {
+          "name": "Haunted Mansion",
+          "wait": 36,
+          "status": "operating",
+          "visited": true,
+          "position": 6
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 44,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 57,
+          "status": "operating",
+          "visited": false,
+          "position": 8
+        },
+        {
+          "name": "Dumbo the Flying Elephant",
+          "wait": 27,
+          "status": "operating",
+          "visited": true,
+          "position": 1
+        },
+        {
+          "name": "Winnie the Pooh",
+          "wait": 31,
+          "status": "operating",
+          "visited": true,
+          "position": 2
+        },
+        {
+          "name": "Monsters Inc. Laugh Floor",
+          "wait": 14,
+          "status": "operating",
+          "visited": false,
+          "position": 9
+        },
+        {
+          "name": "Little Mermaid",
+          "wait": 26,
+          "status": "operating",
+          "visited": true,
+          "position": 3
+        },
+        {
+          "name": "Enchanted Tales with Belle",
+          "wait": 27,
+          "status": "operating",
+          "visited": true,
+          "position": 5
+        },
+        {
+          "name": "Mickey's PhilharMagic",
+          "wait": 15,
+          "status": "operating",
+          "visited": true,
+          "position": 4
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "352feb94",
+          "title": "Próxima: Pirates of the Caribbean",
+          "message": "Continue conforme o roteiro — fila: 44min.",
+          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "visitedThisStep": "Pirates of the Caribbean"
+    },
+    {
+      "time": "13:30",
+      "phase": "afternoon",
+      "userLat": 28.41797,
+      "userLng": -81.58343,
+      "event": "📊 Haunted Mansion: janela boa após almoço",
+      "attractions": [
+        {
+          "name": "Haunted Mansion",
+          "wait": 36,
+          "status": "operating",
+          "visited": true,
+          "position": 6
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 44,
+          "status": "operating",
+          "visited": true,
+          "position": 7
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 57,
+          "status": "operating",
+          "visited": false,
+          "position": 8
+        },
+        {
+          "name": "Dumbo the Flying Elephant",
+          "wait": 27,
+          "status": "operating",
+          "visited": true,
+          "position": 1
+        },
+        {
+          "name": "Winnie the Pooh",
+          "wait": 31,
+          "status": "operating",
+          "visited": true,
+          "position": 2
+        },
+        {
+          "name": "Monsters Inc. Laugh Floor",
+          "wait": 14,
+          "status": "operating",
+          "visited": false,
+          "position": 9
+        },
+        {
+          "name": "Little Mermaid",
+          "wait": 26,
+          "status": "operating",
+          "visited": true,
+          "position": 3
+        },
+        {
+          "name": "Enchanted Tales with Belle",
+          "wait": 27,
+          "status": "operating",
+          "visited": true,
+          "position": 5
+        },
+        {
+          "name": "Mickey's PhilharMagic",
+          "wait": 15,
+          "status": "operating",
+          "visited": true,
+          "position": 4
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "796b0a25",
+          "title": "Próxima: Jungle Cruise",
+          "message": "Continue conforme o roteiro — fila: 57min.",
+          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "visitedThisStep": "Jungle Cruise"
+    },
+    {
+      "time": "13:45",
+      "phase": "afternoon",
+      "userLat": 28.4184,
+      "userLng": -81.57974,
+      "event": "📊 Haunted Mansion: janela boa após almoço",
+      "attractions": [
+        {
+          "name": "Haunted Mansion",
+          "wait": 36,
+          "status": "operating",
+          "visited": true,
+          "position": 6
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 44,
+          "status": "operating",
+          "visited": true,
+          "position": 7
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 57,
+          "status": "operating",
+          "visited": true,
+          "position": 8
+        },
+        {
+          "name": "Dumbo the Flying Elephant",
+          "wait": 27,
+          "status": "operating",
+          "visited": true,
+          "position": 1
+        },
+        {
+          "name": "Winnie the Pooh",
+          "wait": 31,
+          "status": "operating",
+          "visited": true,
+          "position": 2
+        },
+        {
+          "name": "Monsters Inc. Laugh Floor",
+          "wait": 14,
+          "status": "operating",
+          "visited": false,
+          "position": 9
+        },
+        {
+          "name": "Little Mermaid",
+          "wait": 26,
+          "status": "operating",
+          "visited": true,
+          "position": 3
+        },
+        {
+          "name": "Enchanted Tales with Belle",
+          "wait": 27,
+          "status": "operating",
+          "visited": true,
+          "position": 5
+        },
+        {
+          "name": "Mickey's PhilharMagic",
+          "wait": 15,
+          "status": "operating",
+          "visited": true,
+          "position": 4
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "e8f0b426",
+          "title": "Próxima: Monsters Inc. Laugh Floor",
+          "message": "Continue conforme o roteiro — fila: 14min.",
+          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "visitedThisStep": "Monsters Inc. Laugh Floor"
+    },
+    {
+      "time": "14:00",
+      "phase": "afternoon",
+      "userLat": 28.4177,
+      "userLng": -81.5812,
+      "attractions": [
+        {
+          "name": "Haunted Mansion",
+          "wait": 48,
+          "status": "operating",
+          "visited": true,
+          "position": 6
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 42,
+          "status": "operating",
+          "visited": true,
+          "position": 7
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 48,
+          "status": "operating",
+          "visited": true,
+          "position": 8
+        },
+        {
+          "name": "Dumbo the Flying Elephant",
+          "wait": 28,
+          "status": "operating",
+          "visited": true,
+          "position": 1
+        },
+        {
+          "name": "Winnie the Pooh",
+          "wait": 36,
+          "status": "operating",
+          "visited": true,
+          "position": 2
+        },
+        {
+          "name": "Monsters Inc. Laugh Floor",
+          "wait": 14,
+          "status": "operating",
+          "visited": true,
+          "position": 9
+        },
+        {
+          "name": "Little Mermaid",
+          "wait": 26,
+          "status": "operating",
+          "visited": true,
+          "position": 3
+        },
+        {
+          "name": "Enchanted Tales with Belle",
+          "wait": 26,
+          "status": "operating",
+          "visited": true,
+          "position": 5
+        },
+        {
+          "name": "Mickey's PhilharMagic",
+          "wait": 13,
+          "status": "operating",
+          "visited": true,
+          "position": 4
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "day_complete",
+          "title": "Roteiro concluído! 🎉",
+          "message": "Dia completo.",
+          "reason": "Todas as atrações visitadas.",
+          "urgency": "low",
+          "confidence": 1,
+          "score": 1000
+        }
+      ]
+    }
+  ]
+}

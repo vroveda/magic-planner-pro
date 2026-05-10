@@ -1,0 +1,994 @@
+{
+  "scenario": "Chegada Tarde",
+  "summary": {
+    "totalSteps": 14,
+    "visitedCount": 7,
+    "mustDosCompleted": 4,
+    "mustDosTotal": 4,
+    "recCounts": {
+      "follow_route": 13,
+      "day_complete": 1
+    },
+    "detourCount": 0,
+    "urgentAlerts": 0,
+    "go_now_count": 0
+  },
+  "steps": [
+    {
+      "time": "12:00",
+      "phase": "midday",
+      "userLat": 28.42037,
+      "userLng": -81.58031,
+      "attractions": [
+        {
+          "name": "Seven Dwarfs Mine Train",
+          "wait": 81,
+          "status": "operating",
+          "visited": false,
+          "position": 1
+        },
+        {
+          "name": "Space Mountain",
+          "wait": 60,
+          "status": "operating",
+          "visited": false,
+          "position": 2
+        },
+        {
+          "name": "Big Thunder Mountain Railroad",
+          "wait": 49,
+          "status": "operating",
+          "visited": false,
+          "position": 3
+        },
+        {
+          "name": "Haunted Mansion",
+          "wait": 37,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 38,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 49,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Peter Pan's Flight",
+          "wait": 61,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "9d4d5229",
+          "title": "Próxima: Seven Dwarfs Mine Train",
+          "message": "Continue conforme o roteiro — fila: 81min.",
+          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "visitedThisStep": "Seven Dwarfs Mine Train"
+    },
+    {
+      "time": "12:15",
+      "phase": "midday",
+      "userLat": 28.41883,
+      "userLng": -81.57819,
+      "attractions": [
+        {
+          "name": "Seven Dwarfs Mine Train",
+          "wait": 81,
+          "status": "operating",
+          "visited": true,
+          "position": 1
+        },
+        {
+          "name": "Space Mountain",
+          "wait": 60,
+          "status": "operating",
+          "visited": false,
+          "position": 2
+        },
+        {
+          "name": "Big Thunder Mountain Railroad",
+          "wait": 49,
+          "status": "operating",
+          "visited": false,
+          "position": 3
+        },
+        {
+          "name": "Haunted Mansion",
+          "wait": 37,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 38,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 49,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Peter Pan's Flight",
+          "wait": 61,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "b2260923",
+          "title": "Próxima: Space Mountain",
+          "message": "Continue conforme o roteiro — fila: 60min.",
+          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "visitedThisStep": "Space Mountain"
+    },
+    {
+      "time": "12:30",
+      "phase": "midday",
+      "userLat": 28.41996,
+      "userLng": -81.58464,
+      "attractions": [
+        {
+          "name": "Seven Dwarfs Mine Train",
+          "wait": 81,
+          "status": "operating",
+          "visited": true,
+          "position": 1
+        },
+        {
+          "name": "Space Mountain",
+          "wait": 60,
+          "status": "operating",
+          "visited": true,
+          "position": 2
+        },
+        {
+          "name": "Big Thunder Mountain Railroad",
+          "wait": 49,
+          "status": "operating",
+          "visited": false,
+          "position": 3
+        },
+        {
+          "name": "Haunted Mansion",
+          "wait": 37,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 38,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 49,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Peter Pan's Flight",
+          "wait": 61,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "de3309ca",
+          "title": "Próxima: Big Thunder Mountain Railroad",
+          "message": "Continue conforme o roteiro — fila: 49min.",
+          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "visitedThisStep": "Big Thunder Mountain Railroad"
+    },
+    {
+      "time": "12:45",
+      "phase": "midday",
+      "userLat": 28.4202,
+      "userLng": -81.58288,
+      "attractions": [
+        {
+          "name": "Seven Dwarfs Mine Train",
+          "wait": 81,
+          "status": "operating",
+          "visited": true,
+          "position": 1
+        },
+        {
+          "name": "Space Mountain",
+          "wait": 60,
+          "status": "operating",
+          "visited": true,
+          "position": 2
+        },
+        {
+          "name": "Big Thunder Mountain Railroad",
+          "wait": 49,
+          "status": "operating",
+          "visited": true,
+          "position": 3
+        },
+        {
+          "name": "Haunted Mansion",
+          "wait": 37,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 38,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 49,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Peter Pan's Flight",
+          "wait": 61,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "2551a77d",
+          "title": "Próxima: Haunted Mansion",
+          "message": "Continue conforme o roteiro — fila: 37min.",
+          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ]
+    },
+    {
+      "time": "13:00",
+      "phase": "afternoon",
+      "userLat": 28.4202,
+      "userLng": -81.58288,
+      "attractions": [
+        {
+          "name": "Seven Dwarfs Mine Train",
+          "wait": 76,
+          "status": "operating",
+          "visited": true,
+          "position": 1
+        },
+        {
+          "name": "Space Mountain",
+          "wait": 53,
+          "status": "operating",
+          "visited": true,
+          "position": 2
+        },
+        {
+          "name": "Big Thunder Mountain Railroad",
+          "wait": 43,
+          "status": "operating",
+          "visited": true,
+          "position": 3
+        },
+        {
+          "name": "Haunted Mansion",
+          "wait": 52,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 44,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 57,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Peter Pan's Flight",
+          "wait": 68,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "2551a77d",
+          "title": "Próxima: Haunted Mansion",
+          "message": "Continue conforme o roteiro — fila: 52min.",
+          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ]
+    },
+    {
+      "time": "13:15",
+      "phase": "afternoon",
+      "userLat": 28.4202,
+      "userLng": -81.58288,
+      "attractions": [
+        {
+          "name": "Seven Dwarfs Mine Train",
+          "wait": 76,
+          "status": "operating",
+          "visited": true,
+          "position": 1
+        },
+        {
+          "name": "Space Mountain",
+          "wait": 53,
+          "status": "operating",
+          "visited": true,
+          "position": 2
+        },
+        {
+          "name": "Big Thunder Mountain Railroad",
+          "wait": 43,
+          "status": "operating",
+          "visited": true,
+          "position": 3
+        },
+        {
+          "name": "Haunted Mansion",
+          "wait": 52,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 44,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 57,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Peter Pan's Flight",
+          "wait": 68,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "2551a77d",
+          "title": "Próxima: Haunted Mansion",
+          "message": "Continue conforme o roteiro — fila: 52min.",
+          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ]
+    },
+    {
+      "time": "13:30",
+      "phase": "afternoon",
+      "userLat": 28.4202,
+      "userLng": -81.58288,
+      "attractions": [
+        {
+          "name": "Seven Dwarfs Mine Train",
+          "wait": 76,
+          "status": "operating",
+          "visited": true,
+          "position": 1
+        },
+        {
+          "name": "Space Mountain",
+          "wait": 53,
+          "status": "operating",
+          "visited": true,
+          "position": 2
+        },
+        {
+          "name": "Big Thunder Mountain Railroad",
+          "wait": 43,
+          "status": "operating",
+          "visited": true,
+          "position": 3
+        },
+        {
+          "name": "Haunted Mansion",
+          "wait": 52,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 44,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 57,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Peter Pan's Flight",
+          "wait": 68,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "2551a77d",
+          "title": "Próxima: Haunted Mansion",
+          "message": "Continue conforme o roteiro — fila: 52min.",
+          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ]
+    },
+    {
+      "time": "13:45",
+      "phase": "afternoon",
+      "userLat": 28.4202,
+      "userLng": -81.58288,
+      "attractions": [
+        {
+          "name": "Seven Dwarfs Mine Train",
+          "wait": 76,
+          "status": "operating",
+          "visited": true,
+          "position": 1
+        },
+        {
+          "name": "Space Mountain",
+          "wait": 53,
+          "status": "operating",
+          "visited": true,
+          "position": 2
+        },
+        {
+          "name": "Big Thunder Mountain Railroad",
+          "wait": 43,
+          "status": "operating",
+          "visited": true,
+          "position": 3
+        },
+        {
+          "name": "Haunted Mansion",
+          "wait": 52,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 44,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 57,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Peter Pan's Flight",
+          "wait": 68,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "2551a77d",
+          "title": "Próxima: Haunted Mansion",
+          "message": "Continue conforme o roteiro — fila: 52min.",
+          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ]
+    },
+    {
+      "time": "14:00",
+      "phase": "afternoon",
+      "userLat": 28.4202,
+      "userLng": -81.58288,
+      "event": "📊 Seven Dwarfs com fila alta no pico",
+      "attractions": [
+        {
+          "name": "Seven Dwarfs Mine Train",
+          "wait": 95,
+          "status": "operating",
+          "visited": true,
+          "position": 1
+        },
+        {
+          "name": "Space Mountain",
+          "wait": 52,
+          "status": "operating",
+          "visited": true,
+          "position": 2
+        },
+        {
+          "name": "Big Thunder Mountain Railroad",
+          "wait": 51,
+          "status": "operating",
+          "visited": true,
+          "position": 3
+        },
+        {
+          "name": "Haunted Mansion",
+          "wait": 48,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 42,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 48,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Peter Pan's Flight",
+          "wait": 56,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "2551a77d",
+          "title": "Próxima: Haunted Mansion",
+          "message": "Continue conforme o roteiro — fila: 48min.",
+          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ]
+    },
+    {
+      "time": "14:15",
+      "phase": "afternoon",
+      "userLat": 28.4202,
+      "userLng": -81.58288,
+      "event": "📊 Seven Dwarfs com fila alta no pico",
+      "attractions": [
+        {
+          "name": "Seven Dwarfs Mine Train",
+          "wait": 95,
+          "status": "operating",
+          "visited": true,
+          "position": 1
+        },
+        {
+          "name": "Space Mountain",
+          "wait": 52,
+          "status": "operating",
+          "visited": true,
+          "position": 2
+        },
+        {
+          "name": "Big Thunder Mountain Railroad",
+          "wait": 51,
+          "status": "operating",
+          "visited": true,
+          "position": 3
+        },
+        {
+          "name": "Haunted Mansion",
+          "wait": 48,
+          "status": "operating",
+          "visited": false,
+          "position": 4
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 42,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 48,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Peter Pan's Flight",
+          "wait": 56,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "2551a77d",
+          "title": "Próxima: Haunted Mansion",
+          "message": "Continue conforme o roteiro — fila: 48min.",
+          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "visitedThisStep": "Haunted Mansion"
+    },
+    {
+      "time": "14:30",
+      "phase": "afternoon",
+      "userLat": 28.41797,
+      "userLng": -81.58422,
+      "event": "📊 Seven Dwarfs com fila alta no pico",
+      "attractions": [
+        {
+          "name": "Seven Dwarfs Mine Train",
+          "wait": 95,
+          "status": "operating",
+          "visited": true,
+          "position": 1
+        },
+        {
+          "name": "Space Mountain",
+          "wait": 52,
+          "status": "operating",
+          "visited": true,
+          "position": 2
+        },
+        {
+          "name": "Big Thunder Mountain Railroad",
+          "wait": 51,
+          "status": "operating",
+          "visited": true,
+          "position": 3
+        },
+        {
+          "name": "Haunted Mansion",
+          "wait": 48,
+          "status": "operating",
+          "visited": true,
+          "position": 4
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 42,
+          "status": "operating",
+          "visited": false,
+          "position": 5
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 48,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Peter Pan's Flight",
+          "wait": 56,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "352feb94",
+          "title": "Próxima: Pirates of the Caribbean",
+          "message": "Continue conforme o roteiro — fila: 42min.",
+          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "visitedThisStep": "Pirates of the Caribbean"
+    },
+    {
+      "time": "14:45",
+      "phase": "afternoon",
+      "userLat": 28.41797,
+      "userLng": -81.58343,
+      "event": "📊 Seven Dwarfs com fila alta no pico",
+      "attractions": [
+        {
+          "name": "Seven Dwarfs Mine Train",
+          "wait": 95,
+          "status": "operating",
+          "visited": true,
+          "position": 1
+        },
+        {
+          "name": "Space Mountain",
+          "wait": 52,
+          "status": "operating",
+          "visited": true,
+          "position": 2
+        },
+        {
+          "name": "Big Thunder Mountain Railroad",
+          "wait": 51,
+          "status": "operating",
+          "visited": true,
+          "position": 3
+        },
+        {
+          "name": "Haunted Mansion",
+          "wait": 48,
+          "status": "operating",
+          "visited": true,
+          "position": 4
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 42,
+          "status": "operating",
+          "visited": true,
+          "position": 5
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 48,
+          "status": "operating",
+          "visited": false,
+          "position": 6
+        },
+        {
+          "name": "Peter Pan's Flight",
+          "wait": 56,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "796b0a25",
+          "title": "Próxima: Jungle Cruise",
+          "message": "Continue conforme o roteiro — fila: 48min.",
+          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "visitedThisStep": "Jungle Cruise"
+    },
+    {
+      "time": "15:00",
+      "phase": "afternoon",
+      "userLat": 28.42026,
+      "userLng": -81.58189,
+      "attractions": [
+        {
+          "name": "Seven Dwarfs Mine Train",
+          "wait": 84,
+          "status": "operating",
+          "visited": true,
+          "position": 1
+        },
+        {
+          "name": "Space Mountain",
+          "wait": 51,
+          "status": "operating",
+          "visited": true,
+          "position": 2
+        },
+        {
+          "name": "Big Thunder Mountain Railroad",
+          "wait": 46,
+          "status": "operating",
+          "visited": true,
+          "position": 3
+        },
+        {
+          "name": "Haunted Mansion",
+          "wait": 49,
+          "status": "operating",
+          "visited": true,
+          "position": 4
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 29,
+          "status": "operating",
+          "visited": true,
+          "position": 5
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 55,
+          "status": "operating",
+          "visited": true,
+          "position": 6
+        },
+        {
+          "name": "Peter Pan's Flight",
+          "wait": 58,
+          "status": "operating",
+          "visited": false,
+          "position": 7
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "86a41273",
+          "title": "Próxima: Peter Pan's Flight",
+          "message": "Continue conforme o roteiro — fila: 58min.",
+          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "visitedThisStep": "Peter Pan's Flight"
+    },
+    {
+      "time": "15:15",
+      "phase": "afternoon",
+      "userLat": 28.4177,
+      "userLng": -81.5812,
+      "attractions": [
+        {
+          "name": "Seven Dwarfs Mine Train",
+          "wait": 84,
+          "status": "operating",
+          "visited": true,
+          "position": 1
+        },
+        {
+          "name": "Space Mountain",
+          "wait": 51,
+          "status": "operating",
+          "visited": true,
+          "position": 2
+        },
+        {
+          "name": "Big Thunder Mountain Railroad",
+          "wait": 46,
+          "status": "operating",
+          "visited": true,
+          "position": 3
+        },
+        {
+          "name": "Haunted Mansion",
+          "wait": 49,
+          "status": "operating",
+          "visited": true,
+          "position": 4
+        },
+        {
+          "name": "Pirates of the Caribbean",
+          "wait": 29,
+          "status": "operating",
+          "visited": true,
+          "position": 5
+        },
+        {
+          "name": "Jungle Cruise",
+          "wait": 55,
+          "status": "operating",
+          "visited": true,
+          "position": 6
+        },
+        {
+          "name": "Peter Pan's Flight",
+          "wait": 58,
+          "status": "operating",
+          "visited": true,
+          "position": 7
+        }
+      ],
+      "recommendations": [
+        {
+          "type": "day_complete",
+          "title": "Roteiro concluído! 🎉",
+          "message": "Dia completo.",
+          "reason": "Todas as atrações visitadas.",
+          "urgency": "low",
+          "confidence": 1,
+          "score": 1000
+        }
+      ]
+    }
+  ]
+}
