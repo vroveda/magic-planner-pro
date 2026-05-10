@@ -555,19 +555,35 @@ export function useToggleMonitor() {
       desired_lightning_lane_time?: string | null;
     }) => {
       if (!user) throw new Error("Sem usuário");
+
+      // Auto-promove para show_reminder se a atração for um show
+      let resolvedType: MonitorType = monitorType;
+      if (monitorType === "wait_time") {
+        const { data: attr } = await supabase
+          .from("attractions")
+          .select("experience_type")
+          .eq("id", attractionId)
+          .maybeSingle();
+        if (attr?.experience_type === "show") {
+          resolvedType = "show_reminder" as MonitorType;
+        }
+      }
+      // show_reminder não usa max_wait_minutes
+      const effectiveMaxWait = resolvedType === ("show_reminder" as MonitorType) ? null : max_wait_minutes;
+
       const { data: existing } = await supabase
         .from("user_attraction_monitors")
         .select("id, is_active")
         .eq("user_id", user.id)
         .eq("attraction_id", attractionId)
-        .eq("monitor_type", monitorType)
+        .eq("monitor_type", resolvedType)
         .maybeSingle();
       if (existing) {
         await supabase
           .from("user_attraction_monitors")
           .update({
             is_active: !existing.is_active,
-            max_wait_minutes,
+            max_wait_minutes: effectiveMaxWait,
             desired_lightning_lane_time,
             trip_park_day_id: tripParkDayId,
           })
@@ -578,8 +594,8 @@ export function useToggleMonitor() {
         user_id: user.id,
         attraction_id: attractionId,
         trip_park_day_id: tripParkDayId,
-        monitor_type: monitorType,
-        max_wait_minutes,
+        monitor_type: resolvedType,
+        max_wait_minutes: effectiveMaxWait,
         desired_lightning_lane_time,
         is_active: true,
       };

@@ -69,6 +69,7 @@ export type Database = {
           message: string
           responded_at: string | null
           sent_at: string | null
+          show_window_minutes: number | null
           status: Database["public"]["Enums"]["alert_status"]
           suggested_attraction_id: string | null
           title: string
@@ -89,6 +90,7 @@ export type Database = {
           message: string
           responded_at?: string | null
           sent_at?: string | null
+          show_window_minutes?: number | null
           status?: Database["public"]["Enums"]["alert_status"]
           suggested_attraction_id?: string | null
           title: string
@@ -109,6 +111,7 @@ export type Database = {
           message?: string
           responded_at?: string | null
           sent_at?: string | null
+          show_window_minutes?: number | null
           status?: Database["public"]["Enums"]["alert_status"]
           suggested_attraction_id?: string | null
           title?: string
@@ -194,6 +197,7 @@ export type Database = {
           id: string
           lightning_lane_available: boolean | null
           lightning_lane_return_time: string | null
+          show_next_times: string[] | null
           source: string
           status: Database["public"]["Enums"]["attraction_status"]
           virtual_queue_available: boolean | null
@@ -205,6 +209,7 @@ export type Database = {
           id?: string
           lightning_lane_available?: boolean | null
           lightning_lane_return_time?: string | null
+          show_next_times?: string[] | null
           source?: string
           status?: Database["public"]["Enums"]["attraction_status"]
           virtual_queue_available?: boolean | null
@@ -216,6 +221,7 @@ export type Database = {
           id?: string
           lightning_lane_available?: boolean | null
           lightning_lane_return_time?: string | null
+          show_next_times?: string[] | null
           source?: string
           status?: Database["public"]["Enums"]["attraction_status"]
           virtual_queue_available?: boolean | null
@@ -856,7 +862,7 @@ export type Database = {
         | "multipass"
         | "single_pass"
         | "virtual_queue"
-      monitor_type: "lightning_lane" | "wait_time" | "status"
+      monitor_type: "lightning_lane" | "wait_time" | "status" | "show_reminder"
       plan_type: "free" | "day_pass" | "trip_pass"
       queue_condition: "excellent" | "good" | "normal" | "bad" | "avoid"
       thrill_level: "low" | "moderate" | "high" | "extreme"
@@ -1026,7 +1032,7 @@ export const Constants = {
         "single_pass",
         "virtual_queue",
       ],
-      monitor_type: ["lightning_lane", "wait_time", "status"],
+      monitor_type: ["lightning_lane", "wait_time", "status", "show_reminder"],
       plan_type: ["free", "day_pass", "trip_pass"],
       queue_condition: ["excellent", "good", "normal", "bad", "avoid"],
       thrill_level: ["low", "moderate", "high", "extreme"],
