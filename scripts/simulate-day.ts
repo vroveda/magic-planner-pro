@@ -501,9 +501,9 @@ function run(scenarioKey: string) {
 
   // Salva JSON completo
   const output = { scenario: scenario.name, summary, steps };
-  const fs = await import("node:fs");
+  const { writeFileSync } = await import("node:fs");
   const outPath = `simulate-day-result-${scenarioKey}.json`;
-  fs.writeFileSync(outPath, JSON.stringify(output, null, 2));
+  writeFileSync(outPath, JSON.stringify(output, null, 2));
   console.log(`💾  Log completo salvo em: ${outPath}\n`);
 }
 
