@@ -1,830 +1,213 @@
 {
   "scenario": "Dia Padrão",
   "summary": {
-    "totalSteps": 11,
     "visitedCount": 10,
     "mustDosCompleted": 4,
-    "mustDosTotal": 4,
     "recCounts": {
-      "follow_route": 10,
+      "follow_route": 35,
+      "go_now": 2,
       "day_complete": 1
     },
     "detourCount": 0,
-    "urgentAlerts": 0,
-    "go_now_count": 0
+    "urgentAlerts": 2,
+    "goNowCount": 2,
+    "totalSteps": 38
   },
   "steps": [
     {
       "time": "09:00",
       "phase": "morning",
-      "userLat": 28.42037,
-      "userLng": -81.58031,
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 69,
-          "status": "operating",
-          "visited": false,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 34,
-          "status": "operating",
-          "visited": false,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 18,
-          "status": "operating",
-          "visited": false,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 20,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        },
-        {
-          "name": "Pirates of the Caribbean",
-          "wait": 13,
-          "status": "operating",
-          "visited": false,
-          "position": 5
-        },
-        {
-          "name": "Jungle Cruise",
-          "wait": 28,
-          "status": "operating",
-          "visited": false,
-          "position": 6
-        },
-        {
-          "name": "Peter Pan's Flight",
-          "wait": 49,
-          "status": "operating",
-          "visited": false,
-          "position": 7
-        },
-        {
-          "name": "Dumbo the Flying Elephant",
-          "wait": 8,
-          "status": "operating",
-          "visited": false,
-          "position": 8
-        },
-        {
-          "name": "Winnie the Pooh",
-          "wait": 25,
-          "status": "operating",
-          "visited": false,
-          "position": 9
-        },
-        {
-          "name": "Monsters Inc. Laugh Floor",
-          "wait": 10,
-          "status": "operating",
-          "visited": false,
-          "position": 10
-        }
-      ],
+      "inProgress": "Seven Dwarfs Mine Train",
+      "minutesLeftInCurrent": 71,
       "recommendations": [
         {
           "type": "follow_route",
           "attraction_id": "9d4d5229",
           "title": "Próxima: Seven Dwarfs Mine Train",
-          "message": "Continue conforme o roteiro — fila: 69min.",
+          "message": "Continue conforme o roteiro — fila: 67min.",
           "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
           "urgency": "low",
           "confidence": 0.8,
           "score": 500
         }
       ],
-      "visitedThisStep": "Seven Dwarfs Mine Train"
+      "pendingCount": 10,
+      "visitedCount": 0
     },
     {
       "time": "09:15",
       "phase": "morning",
-      "userLat": 28.41883,
-      "userLng": -81.57819,
-      "attractions": [
+      "inProgress": "Seven Dwarfs Mine Train",
+      "minutesLeftInCurrent": 56,
+      "recommendations": [
         {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 69,
-          "status": "operating",
-          "visited": true,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 34,
-          "status": "operating",
-          "visited": false,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 18,
-          "status": "operating",
-          "visited": false,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 20,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        },
-        {
-          "name": "Pirates of the Caribbean",
-          "wait": 13,
-          "status": "operating",
-          "visited": false,
-          "position": 5
-        },
-        {
-          "name": "Jungle Cruise",
-          "wait": 28,
-          "status": "operating",
-          "visited": false,
-          "position": 6
-        },
-        {
-          "name": "Peter Pan's Flight",
-          "wait": 49,
-          "status": "operating",
-          "visited": false,
-          "position": 7
-        },
-        {
-          "name": "Dumbo the Flying Elephant",
-          "wait": 8,
-          "status": "operating",
-          "visited": false,
-          "position": 8
-        },
-        {
-          "name": "Winnie the Pooh",
-          "wait": 25,
-          "status": "operating",
-          "visited": false,
-          "position": 9
-        },
-        {
-          "name": "Monsters Inc. Laugh Floor",
-          "wait": 10,
-          "status": "operating",
-          "visited": false,
-          "position": 10
+          "type": "follow_route",
+          "attraction_id": "9d4d5229",
+          "title": "Próxima: Seven Dwarfs Mine Train",
+          "message": "Continue conforme o roteiro — fila: 67min.",
+          "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
         }
       ],
+      "pendingCount": 10,
+      "visitedCount": 0
+    },
+    {
+      "time": "09:30",
+      "phase": "morning",
+      "inProgress": "Seven Dwarfs Mine Train",
+      "minutesLeftInCurrent": 41,
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "9d4d5229",
+          "title": "Próxima: Seven Dwarfs Mine Train",
+          "message": "Continue conforme o roteiro — fila: 67min.",
+          "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 10,
+      "visitedCount": 0
+    },
+    {
+      "time": "09:45",
+      "phase": "morning",
+      "inProgress": "Seven Dwarfs Mine Train",
+      "minutesLeftInCurrent": 26,
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "9d4d5229",
+          "title": "Próxima: Seven Dwarfs Mine Train",
+          "message": "Continue conforme o roteiro — fila: 67min.",
+          "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 10,
+      "visitedCount": 0
+    },
+    {
+      "time": "10:00",
+      "phase": "morning",
+      "inProgress": "Seven Dwarfs Mine Train",
+      "minutesLeftInCurrent": 11,
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "9d4d5229",
+          "title": "Próxima: Seven Dwarfs Mine Train",
+          "message": "Continue conforme o roteiro — fila: 62min.",
+          "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 10,
+      "visitedCount": 0
+    },
+    {
+      "time": "10:15",
+      "phase": "morning",
+      "inProgress": "Space Mountain",
+      "minutesLeftInCurrent": 47,
+      "visitedThisStep": "Seven Dwarfs Mine Train",
       "recommendations": [
         {
           "type": "follow_route",
           "attraction_id": "b2260923",
           "title": "Próxima: Space Mountain",
-          "message": "Continue conforme o roteiro — fila: 34min.",
+          "message": "Continue conforme o roteiro — fila: 44min.",
           "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
           "urgency": "low",
           "confidence": 0.8,
           "score": 500
         }
       ],
-      "visitedThisStep": "Space Mountain"
+      "pendingCount": 9,
+      "visitedCount": 1
     },
     {
-      "time": "09:30",
+      "time": "10:30",
       "phase": "morning",
-      "userLat": 28.41996,
-      "userLng": -81.58464,
-      "attractions": [
+      "inProgress": "Space Mountain",
+      "minutesLeftInCurrent": 32,
+      "recommendations": [
         {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 69,
-          "status": "operating",
-          "visited": true,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 34,
-          "status": "operating",
-          "visited": true,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 18,
-          "status": "operating",
-          "visited": false,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 20,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        },
-        {
-          "name": "Pirates of the Caribbean",
-          "wait": 13,
-          "status": "operating",
-          "visited": false,
-          "position": 5
-        },
-        {
-          "name": "Jungle Cruise",
-          "wait": 28,
-          "status": "operating",
-          "visited": false,
-          "position": 6
-        },
-        {
-          "name": "Peter Pan's Flight",
-          "wait": 49,
-          "status": "operating",
-          "visited": false,
-          "position": 7
-        },
-        {
-          "name": "Dumbo the Flying Elephant",
-          "wait": 8,
-          "status": "operating",
-          "visited": false,
-          "position": 8
-        },
-        {
-          "name": "Winnie the Pooh",
-          "wait": 25,
-          "status": "operating",
-          "visited": false,
-          "position": 9
-        },
-        {
-          "name": "Monsters Inc. Laugh Floor",
-          "wait": 10,
-          "status": "operating",
-          "visited": false,
-          "position": 10
+          "type": "follow_route",
+          "attraction_id": "b2260923",
+          "title": "Próxima: Space Mountain",
+          "message": "Continue conforme o roteiro — fila: 44min.",
+          "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
         }
       ],
+      "pendingCount": 9,
+      "visitedCount": 1
+    },
+    {
+      "time": "10:45",
+      "phase": "morning",
+      "inProgress": "Space Mountain",
+      "minutesLeftInCurrent": 17,
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "b2260923",
+          "title": "Próxima: Space Mountain",
+          "message": "Continue conforme o roteiro — fila: 44min.",
+          "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 9,
+      "visitedCount": 1
+    },
+    {
+      "time": "11:00",
+      "phase": "midday",
+      "inProgress": "Space Mountain",
+      "minutesLeftInCurrent": 2,
+      "event": "📊 Haunted Mansion: fila caiu após manutenção",
+      "recommendations": [
+        {
+          "type": "go_now",
+          "attraction_id": "2551a77d",
+          "title": "Hora de ir: Haunted Mansion",
+          "message": "Fila 41% abaixo da média — 26min agora vs 44min histórico.",
+          "reason": "Must-do com janela boa. Aproveite agora.",
+          "urgency": "high",
+          "confidence": 0.85,
+          "score": 950
+        }
+      ],
+      "pendingCount": 9,
+      "visitedCount": 1
+    },
+    {
+      "time": "11:15",
+      "phase": "midday",
+      "inProgress": "Big Thunder Mountain Railroad",
+      "minutesLeftInCurrent": 42,
+      "event": "📊 Haunted Mansion: fila caiu após manutenção",
+      "visitedThisStep": "Space Mountain",
       "recommendations": [
         {
           "type": "follow_route",
           "attraction_id": "de3309ca",
           "title": "Próxima: Big Thunder Mountain Railroad",
-          "message": "Continue conforme o roteiro — fila: 18min.",
-          "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
-          "urgency": "low",
-          "confidence": 0.8,
-          "score": 500
-        }
-      ],
-      "visitedThisStep": "Big Thunder Mountain Railroad"
-    },
-    {
-      "time": "09:45",
-      "phase": "morning",
-      "userLat": 28.4202,
-      "userLng": -81.58288,
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 69,
-          "status": "operating",
-          "visited": true,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 34,
-          "status": "operating",
-          "visited": true,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 18,
-          "status": "operating",
-          "visited": true,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 20,
-          "status": "operating",
-          "visited": false,
-          "position": 4
-        },
-        {
-          "name": "Pirates of the Caribbean",
-          "wait": 13,
-          "status": "operating",
-          "visited": false,
-          "position": 5
-        },
-        {
-          "name": "Jungle Cruise",
-          "wait": 28,
-          "status": "operating",
-          "visited": false,
-          "position": 6
-        },
-        {
-          "name": "Peter Pan's Flight",
-          "wait": 49,
-          "status": "operating",
-          "visited": false,
-          "position": 7
-        },
-        {
-          "name": "Dumbo the Flying Elephant",
-          "wait": 8,
-          "status": "operating",
-          "visited": false,
-          "position": 8
-        },
-        {
-          "name": "Winnie the Pooh",
-          "wait": 25,
-          "status": "operating",
-          "visited": false,
-          "position": 9
-        },
-        {
-          "name": "Monsters Inc. Laugh Floor",
-          "wait": 10,
-          "status": "operating",
-          "visited": false,
-          "position": 10
-        }
-      ],
-      "recommendations": [
-        {
-          "type": "follow_route",
-          "attraction_id": "2551a77d",
-          "title": "Próxima: Haunted Mansion",
-          "message": "Continue conforme o roteiro — fila: 20min.",
-          "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
-          "urgency": "low",
-          "confidence": 0.8,
-          "score": 500
-        }
-      ],
-      "visitedThisStep": "Haunted Mansion"
-    },
-    {
-      "time": "10:00",
-      "phase": "morning",
-      "userLat": 28.41797,
-      "userLng": -81.58422,
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 60,
-          "status": "operating",
-          "visited": true,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 43,
-          "status": "operating",
-          "visited": true,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 37,
-          "status": "operating",
-          "visited": true,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 30,
-          "status": "operating",
-          "visited": true,
-          "position": 4
-        },
-        {
-          "name": "Pirates of the Caribbean",
-          "wait": 30,
-          "status": "operating",
-          "visited": false,
-          "position": 5
-        },
-        {
-          "name": "Jungle Cruise",
-          "wait": 51,
-          "status": "operating",
-          "visited": false,
-          "position": 6
-        },
-        {
-          "name": "Peter Pan's Flight",
-          "wait": 61,
-          "status": "operating",
-          "visited": false,
-          "position": 7
-        },
-        {
-          "name": "Dumbo the Flying Elephant",
-          "wait": 18,
-          "status": "operating",
-          "visited": false,
-          "position": 8
-        },
-        {
-          "name": "Winnie the Pooh",
-          "wait": 30,
-          "status": "operating",
-          "visited": false,
-          "position": 9
-        },
-        {
-          "name": "Monsters Inc. Laugh Floor",
-          "wait": 12,
-          "status": "operating",
-          "visited": false,
-          "position": 10
-        }
-      ],
-      "recommendations": [
-        {
-          "type": "follow_route",
-          "attraction_id": "352feb94",
-          "title": "Próxima: Pirates of the Caribbean",
-          "message": "Continue conforme o roteiro — fila: 30min.",
-          "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
-          "urgency": "low",
-          "confidence": 0.8,
-          "score": 500
-        }
-      ],
-      "visitedThisStep": "Pirates of the Caribbean"
-    },
-    {
-      "time": "10:15",
-      "phase": "morning",
-      "userLat": 28.41797,
-      "userLng": -81.58343,
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 60,
-          "status": "operating",
-          "visited": true,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 43,
-          "status": "operating",
-          "visited": true,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 37,
-          "status": "operating",
-          "visited": true,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 30,
-          "status": "operating",
-          "visited": true,
-          "position": 4
-        },
-        {
-          "name": "Pirates of the Caribbean",
-          "wait": 30,
-          "status": "operating",
-          "visited": true,
-          "position": 5
-        },
-        {
-          "name": "Jungle Cruise",
-          "wait": 51,
-          "status": "operating",
-          "visited": false,
-          "position": 6
-        },
-        {
-          "name": "Peter Pan's Flight",
-          "wait": 61,
-          "status": "operating",
-          "visited": false,
-          "position": 7
-        },
-        {
-          "name": "Dumbo the Flying Elephant",
-          "wait": 18,
-          "status": "operating",
-          "visited": false,
-          "position": 8
-        },
-        {
-          "name": "Winnie the Pooh",
-          "wait": 30,
-          "status": "operating",
-          "visited": false,
-          "position": 9
-        },
-        {
-          "name": "Monsters Inc. Laugh Floor",
-          "wait": 12,
-          "status": "operating",
-          "visited": false,
-          "position": 10
-        }
-      ],
-      "recommendations": [
-        {
-          "type": "follow_route",
-          "attraction_id": "796b0a25",
-          "title": "Próxima: Jungle Cruise",
-          "message": "Continue conforme o roteiro — fila: 51min.",
-          "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
-          "urgency": "low",
-          "confidence": 0.8,
-          "score": 500
-        }
-      ],
-      "visitedThisStep": "Jungle Cruise"
-    },
-    {
-      "time": "10:30",
-      "phase": "morning",
-      "userLat": 28.42026,
-      "userLng": -81.58189,
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 60,
-          "status": "operating",
-          "visited": true,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 43,
-          "status": "operating",
-          "visited": true,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 37,
-          "status": "operating",
-          "visited": true,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 30,
-          "status": "operating",
-          "visited": true,
-          "position": 4
-        },
-        {
-          "name": "Pirates of the Caribbean",
-          "wait": 30,
-          "status": "operating",
-          "visited": true,
-          "position": 5
-        },
-        {
-          "name": "Jungle Cruise",
-          "wait": 51,
-          "status": "operating",
-          "visited": true,
-          "position": 6
-        },
-        {
-          "name": "Peter Pan's Flight",
-          "wait": 61,
-          "status": "operating",
-          "visited": false,
-          "position": 7
-        },
-        {
-          "name": "Dumbo the Flying Elephant",
-          "wait": 18,
-          "status": "operating",
-          "visited": false,
-          "position": 8
-        },
-        {
-          "name": "Winnie the Pooh",
-          "wait": 30,
-          "status": "operating",
-          "visited": false,
-          "position": 9
-        },
-        {
-          "name": "Monsters Inc. Laugh Floor",
-          "wait": 12,
-          "status": "operating",
-          "visited": false,
-          "position": 10
-        }
-      ],
-      "recommendations": [
-        {
-          "type": "follow_route",
-          "attraction_id": "86a41273",
-          "title": "Próxima: Peter Pan's Flight",
-          "message": "Continue conforme o roteiro — fila: 61min.",
-          "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
-          "urgency": "low",
-          "confidence": 0.8,
-          "score": 500
-        }
-      ],
-      "visitedThisStep": "Peter Pan's Flight"
-    },
-    {
-      "time": "10:45",
-      "phase": "morning",
-      "userLat": 28.42051,
-      "userLng": -81.57895,
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 60,
-          "status": "operating",
-          "visited": true,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 43,
-          "status": "operating",
-          "visited": true,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 37,
-          "status": "operating",
-          "visited": true,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 30,
-          "status": "operating",
-          "visited": true,
-          "position": 4
-        },
-        {
-          "name": "Pirates of the Caribbean",
-          "wait": 30,
-          "status": "operating",
-          "visited": true,
-          "position": 5
-        },
-        {
-          "name": "Jungle Cruise",
-          "wait": 51,
-          "status": "operating",
-          "visited": true,
-          "position": 6
-        },
-        {
-          "name": "Peter Pan's Flight",
-          "wait": 61,
-          "status": "operating",
-          "visited": true,
-          "position": 7
-        },
-        {
-          "name": "Dumbo the Flying Elephant",
-          "wait": 18,
-          "status": "operating",
-          "visited": false,
-          "position": 8
-        },
-        {
-          "name": "Winnie the Pooh",
-          "wait": 30,
-          "status": "operating",
-          "visited": false,
-          "position": 9
-        },
-        {
-          "name": "Monsters Inc. Laugh Floor",
-          "wait": 12,
-          "status": "operating",
-          "visited": false,
-          "position": 10
-        }
-      ],
-      "recommendations": [
-        {
-          "type": "follow_route",
-          "attraction_id": "890fa430",
-          "title": "Próxima: Dumbo the Flying Elephant",
-          "message": "Continue conforme o roteiro — fila: 18min.",
-          "reason": "Como ainda estamos de manhã, seguir o plano é a melhor estratégia.",
-          "urgency": "low",
-          "confidence": 0.8,
-          "score": 500
-        }
-      ],
-      "visitedThisStep": "Dumbo the Flying Elephant"
-    },
-    {
-      "time": "11:00",
-      "phase": "midday",
-      "userLat": 28.42021,
-      "userLng": -81.58027,
-      "event": "📊 Fila de Haunted Mansion caiu (manutenção resolvida)",
-      "attractions": [
-        {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 43,
-          "status": "operating",
-          "visited": true,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 59,
-          "status": "operating",
-          "visited": true,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 38,
-          "status": "operating",
-          "visited": true,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 27,
-          "status": "operating",
-          "visited": true,
-          "position": 4
-        },
-        {
-          "name": "Pirates of the Caribbean",
-          "wait": 24,
-          "status": "operating",
-          "visited": true,
-          "position": 5
-        },
-        {
-          "name": "Jungle Cruise",
-          "wait": 50,
-          "status": "operating",
-          "visited": true,
-          "position": 6
-        },
-        {
-          "name": "Peter Pan's Flight",
-          "wait": 55,
-          "status": "operating",
-          "visited": true,
-          "position": 7
-        },
-        {
-          "name": "Dumbo the Flying Elephant",
-          "wait": 11,
-          "status": "operating",
-          "visited": true,
-          "position": 8
-        },
-        {
-          "name": "Winnie the Pooh",
-          "wait": 39,
-          "status": "operating",
-          "visited": false,
-          "position": 9
-        },
-        {
-          "name": "Monsters Inc. Laugh Floor",
-          "wait": 11,
-          "status": "operating",
-          "visited": false,
-          "position": 10
-        }
-      ],
-      "recommendations": [
-        {
-          "type": "follow_route",
-          "attraction_id": "0d94ad60",
-          "title": "Próxima: Winnie the Pooh",
           "message": "Continue conforme o roteiro — fila: 39min.",
           "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
           "urgency": "low",
@@ -832,178 +215,572 @@
           "score": 500
         }
       ],
-      "visitedThisStep": "Winnie the Pooh"
+      "pendingCount": 8,
+      "visitedCount": 2
     },
     {
-      "time": "11:15",
+      "time": "11:30",
       "phase": "midday",
-      "userLat": 28.4184,
-      "userLng": -81.57974,
-      "event": "📊 Fila de Haunted Mansion caiu (manutenção resolvida)",
-      "attractions": [
+      "inProgress": "Big Thunder Mountain Railroad",
+      "minutesLeftInCurrent": 27,
+      "event": "📊 Haunted Mansion: fila caiu após manutenção",
+      "recommendations": [
         {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 43,
-          "status": "operating",
-          "visited": true,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 59,
-          "status": "operating",
-          "visited": true,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 38,
-          "status": "operating",
-          "visited": true,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 27,
-          "status": "operating",
-          "visited": true,
-          "position": 4
-        },
-        {
-          "name": "Pirates of the Caribbean",
-          "wait": 24,
-          "status": "operating",
-          "visited": true,
-          "position": 5
-        },
-        {
-          "name": "Jungle Cruise",
-          "wait": 50,
-          "status": "operating",
-          "visited": true,
-          "position": 6
-        },
-        {
-          "name": "Peter Pan's Flight",
-          "wait": 55,
-          "status": "operating",
-          "visited": true,
-          "position": 7
-        },
-        {
-          "name": "Dumbo the Flying Elephant",
-          "wait": 11,
-          "status": "operating",
-          "visited": true,
-          "position": 8
-        },
-        {
-          "name": "Winnie the Pooh",
-          "wait": 39,
-          "status": "operating",
-          "visited": true,
-          "position": 9
-        },
-        {
-          "name": "Monsters Inc. Laugh Floor",
-          "wait": 11,
-          "status": "operating",
-          "visited": false,
-          "position": 10
+          "type": "go_now",
+          "attraction_id": "2551a77d",
+          "title": "Hora de ir: Haunted Mansion",
+          "message": "Fila 41% abaixo da média — 26min agora vs 44min histórico.",
+          "reason": "Must-do com janela boa. Aproveite agora.",
+          "urgency": "high",
+          "confidence": 0.85,
+          "score": 950
         }
       ],
+      "pendingCount": 8,
+      "visitedCount": 2
+    },
+    {
+      "time": "11:45",
+      "phase": "midday",
+      "inProgress": "Big Thunder Mountain Railroad",
+      "minutesLeftInCurrent": 12,
+      "event": "📊 Haunted Mansion: fila caiu após manutenção",
       "recommendations": [
         {
           "type": "follow_route",
-          "attraction_id": "e8f0b426",
-          "title": "Próxima: Monsters Inc. Laugh Floor",
-          "message": "Continue conforme o roteiro — fila: 11min.",
+          "attraction_id": "de3309ca",
+          "title": "Próxima: Big Thunder Mountain Railroad",
+          "message": "Continue conforme o roteiro — fila: 39min.",
           "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
           "urgency": "low",
           "confidence": 0.8,
           "score": 500
         }
       ],
-      "visitedThisStep": "Monsters Inc. Laugh Floor"
+      "pendingCount": 8,
+      "visitedCount": 2
     },
     {
-      "time": "11:30",
+      "time": "12:00",
       "phase": "midday",
-      "userLat": 28.4177,
-      "userLng": -81.5812,
-      "event": "📊 Fila de Haunted Mansion caiu (manutenção resolvida)",
-      "attractions": [
+      "inProgress": "Haunted Mansion",
+      "minutesLeftInCurrent": 47,
+      "visitedThisStep": "Big Thunder Mountain Railroad",
+      "recommendations": [
         {
-          "name": "Seven Dwarfs Mine Train",
-          "wait": 43,
-          "status": "operating",
-          "visited": true,
-          "position": 1
-        },
-        {
-          "name": "Space Mountain",
-          "wait": 59,
-          "status": "operating",
-          "visited": true,
-          "position": 2
-        },
-        {
-          "name": "Big Thunder Mountain Railroad",
-          "wait": 38,
-          "status": "operating",
-          "visited": true,
-          "position": 3
-        },
-        {
-          "name": "Haunted Mansion",
-          "wait": 27,
-          "status": "operating",
-          "visited": true,
-          "position": 4
-        },
-        {
-          "name": "Pirates of the Caribbean",
-          "wait": 24,
-          "status": "operating",
-          "visited": true,
-          "position": 5
-        },
-        {
-          "name": "Jungle Cruise",
-          "wait": 50,
-          "status": "operating",
-          "visited": true,
-          "position": 6
-        },
-        {
-          "name": "Peter Pan's Flight",
-          "wait": 55,
-          "status": "operating",
-          "visited": true,
-          "position": 7
-        },
-        {
-          "name": "Dumbo the Flying Elephant",
-          "wait": 11,
-          "status": "operating",
-          "visited": true,
-          "position": 8
-        },
-        {
-          "name": "Winnie the Pooh",
-          "wait": 39,
-          "status": "operating",
-          "visited": true,
-          "position": 9
-        },
-        {
-          "name": "Monsters Inc. Laugh Floor",
-          "wait": 11,
-          "status": "operating",
-          "visited": true,
-          "position": 10
+          "type": "follow_route",
+          "attraction_id": "2551a77d",
+          "title": "Próxima: Haunted Mansion",
+          "message": "Continue conforme o roteiro — fila: 38min.",
+          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
         }
       ],
+      "pendingCount": 7,
+      "visitedCount": 3
+    },
+    {
+      "time": "12:15",
+      "phase": "midday",
+      "inProgress": "Haunted Mansion",
+      "minutesLeftInCurrent": 32,
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "2551a77d",
+          "title": "Próxima: Haunted Mansion",
+          "message": "Continue conforme o roteiro — fila: 38min.",
+          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 7,
+      "visitedCount": 3
+    },
+    {
+      "time": "12:30",
+      "phase": "midday",
+      "inProgress": "Haunted Mansion",
+      "minutesLeftInCurrent": 17,
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "2551a77d",
+          "title": "Próxima: Haunted Mansion",
+          "message": "Continue conforme o roteiro — fila: 38min.",
+          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 7,
+      "visitedCount": 3
+    },
+    {
+      "time": "12:45",
+      "phase": "midday",
+      "inProgress": "Haunted Mansion",
+      "minutesLeftInCurrent": 2,
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "2551a77d",
+          "title": "Próxima: Haunted Mansion",
+          "message": "Continue conforme o roteiro — fila: 38min.",
+          "reason": "Como já é meio-dia, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 7,
+      "visitedCount": 3
+    },
+    {
+      "time": "13:00",
+      "phase": "afternoon",
+      "inProgress": "Pirates of the Caribbean",
+      "minutesLeftInCurrent": 52,
+      "visitedThisStep": "Haunted Mansion",
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "352feb94",
+          "title": "Próxima: Pirates of the Caribbean",
+          "message": "Continue conforme o roteiro — fila: 43min.",
+          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 6,
+      "visitedCount": 4
+    },
+    {
+      "time": "13:15",
+      "phase": "afternoon",
+      "inProgress": "Pirates of the Caribbean",
+      "minutesLeftInCurrent": 37,
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "352feb94",
+          "title": "Próxima: Pirates of the Caribbean",
+          "message": "Continue conforme o roteiro — fila: 43min.",
+          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 6,
+      "visitedCount": 4
+    },
+    {
+      "time": "13:30",
+      "phase": "afternoon",
+      "inProgress": "Pirates of the Caribbean",
+      "minutesLeftInCurrent": 22,
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "352feb94",
+          "title": "Próxima: Pirates of the Caribbean",
+          "message": "Continue conforme o roteiro — fila: 43min.",
+          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 6,
+      "visitedCount": 4
+    },
+    {
+      "time": "13:45",
+      "phase": "afternoon",
+      "inProgress": "Pirates of the Caribbean",
+      "minutesLeftInCurrent": 7,
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "352feb94",
+          "title": "Próxima: Pirates of the Caribbean",
+          "message": "Continue conforme o roteiro — fila: 43min.",
+          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 6,
+      "visitedCount": 4
+    },
+    {
+      "time": "14:00",
+      "phase": "afternoon",
+      "inProgress": "Jungle Cruise",
+      "minutesLeftInCurrent": 59,
+      "event": "📊 Space Mountain: fila alta (turno de escola)",
+      "visitedThisStep": "Pirates of the Caribbean",
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "796b0a25",
+          "title": "Próxima: Jungle Cruise",
+          "message": "Continue conforme o roteiro — fila: 49min.",
+          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 5,
+      "visitedCount": 5
+    },
+    {
+      "time": "14:15",
+      "phase": "afternoon",
+      "inProgress": "Jungle Cruise",
+      "minutesLeftInCurrent": 44,
+      "event": "📊 Space Mountain: fila alta (turno de escola)",
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "796b0a25",
+          "title": "Próxima: Jungle Cruise",
+          "message": "Continue conforme o roteiro — fila: 49min.",
+          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 5,
+      "visitedCount": 5
+    },
+    {
+      "time": "14:30",
+      "phase": "afternoon",
+      "inProgress": "Jungle Cruise",
+      "minutesLeftInCurrent": 29,
+      "event": "📊 Space Mountain: fila alta (turno de escola)",
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "796b0a25",
+          "title": "Próxima: Jungle Cruise",
+          "message": "Continue conforme o roteiro — fila: 49min.",
+          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 5,
+      "visitedCount": 5
+    },
+    {
+      "time": "14:45",
+      "phase": "afternoon",
+      "inProgress": "Jungle Cruise",
+      "minutesLeftInCurrent": 14,
+      "event": "📊 Space Mountain: fila alta (turno de escola)",
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "796b0a25",
+          "title": "Próxima: Jungle Cruise",
+          "message": "Continue conforme o roteiro — fila: 49min.",
+          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 5,
+      "visitedCount": 5
+    },
+    {
+      "time": "15:00",
+      "phase": "afternoon",
+      "inProgress": "Peter Pan's Flight",
+      "minutesLeftInCurrent": 62,
+      "visitedThisStep": "Jungle Cruise",
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "86a41273",
+          "title": "Próxima: Peter Pan's Flight",
+          "message": "Continue conforme o roteiro — fila: 59min.",
+          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 4,
+      "visitedCount": 6
+    },
+    {
+      "time": "15:15",
+      "phase": "afternoon",
+      "inProgress": "Peter Pan's Flight",
+      "minutesLeftInCurrent": 47,
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "86a41273",
+          "title": "Próxima: Peter Pan's Flight",
+          "message": "Continue conforme o roteiro — fila: 59min.",
+          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 4,
+      "visitedCount": 6
+    },
+    {
+      "time": "15:30",
+      "phase": "afternoon",
+      "inProgress": "Peter Pan's Flight",
+      "minutesLeftInCurrent": 32,
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "86a41273",
+          "title": "Próxima: Peter Pan's Flight",
+          "message": "Continue conforme o roteiro — fila: 59min.",
+          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 4,
+      "visitedCount": 6
+    },
+    {
+      "time": "15:45",
+      "phase": "afternoon",
+      "inProgress": "Peter Pan's Flight",
+      "minutesLeftInCurrent": 17,
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "86a41273",
+          "title": "Próxima: Peter Pan's Flight",
+          "message": "Continue conforme o roteiro — fila: 59min.",
+          "reason": "Como já é meio da tarde, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 4,
+      "visitedCount": 6
+    },
+    {
+      "time": "16:00",
+      "phase": "evening",
+      "inProgress": "Peter Pan's Flight",
+      "minutesLeftInCurrent": 2,
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "86a41273",
+          "title": "Próxima: Peter Pan's Flight",
+          "message": "Continue conforme o roteiro — fila: 70min.",
+          "reason": "Como o dia está chegando ao fim, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 4,
+      "visitedCount": 6
+    },
+    {
+      "time": "16:15",
+      "phase": "evening",
+      "inProgress": "Dumbo the Flying Elephant",
+      "minutesLeftInCurrent": 28,
+      "visitedThisStep": "Peter Pan's Flight",
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "890fa430",
+          "title": "Próxima: Dumbo the Flying Elephant",
+          "message": "Continue conforme o roteiro — fila: 26min.",
+          "reason": "Como o dia está chegando ao fim, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 3,
+      "visitedCount": 7
+    },
+    {
+      "time": "16:30",
+      "phase": "evening",
+      "inProgress": "Dumbo the Flying Elephant",
+      "minutesLeftInCurrent": 13,
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "890fa430",
+          "title": "Próxima: Dumbo the Flying Elephant",
+          "message": "Continue conforme o roteiro — fila: 26min.",
+          "reason": "Como o dia está chegando ao fim, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 3,
+      "visitedCount": 7
+    },
+    {
+      "time": "16:45",
+      "phase": "evening",
+      "inProgress": "Winnie the Pooh",
+      "minutesLeftInCurrent": 45,
+      "visitedThisStep": "Dumbo the Flying Elephant",
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "0d94ad60",
+          "title": "Próxima: Winnie the Pooh",
+          "message": "Continue conforme o roteiro — fila: 40min.",
+          "reason": "Como o dia está chegando ao fim, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 2,
+      "visitedCount": 8
+    },
+    {
+      "time": "17:00",
+      "phase": "evening",
+      "inProgress": "Winnie the Pooh",
+      "minutesLeftInCurrent": 30,
+      "event": "📊 Seven Dwarfs: janela boa antes do show da noite",
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "0d94ad60",
+          "title": "Próxima: Winnie the Pooh",
+          "message": "Continue conforme o roteiro — fila: 39min.",
+          "reason": "Como o dia está chegando ao fim, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 2,
+      "visitedCount": 8
+    },
+    {
+      "time": "17:15",
+      "phase": "evening",
+      "inProgress": "Winnie the Pooh",
+      "minutesLeftInCurrent": 15,
+      "event": "📊 Seven Dwarfs: janela boa antes do show da noite",
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "0d94ad60",
+          "title": "Próxima: Winnie the Pooh",
+          "message": "Continue conforme o roteiro — fila: 39min.",
+          "reason": "Como o dia está chegando ao fim, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 2,
+      "visitedCount": 8
+    },
+    {
+      "time": "17:30",
+      "phase": "evening",
+      "inProgress": "Monsters Inc. Laugh Floor",
+      "minutesLeftInCurrent": 31,
+      "event": "📊 Seven Dwarfs: janela boa antes do show da noite",
+      "visitedThisStep": "Winnie the Pooh",
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "e8f0b426",
+          "title": "Próxima: Monsters Inc. Laugh Floor",
+          "message": "Continue conforme o roteiro — fila: 16min.",
+          "reason": "Como o dia está chegando ao fim, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 1,
+      "visitedCount": 9
+    },
+    {
+      "time": "17:45",
+      "phase": "evening",
+      "inProgress": "Monsters Inc. Laugh Floor",
+      "minutesLeftInCurrent": 16,
+      "event": "📊 Seven Dwarfs: janela boa antes do show da noite",
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "e8f0b426",
+          "title": "Próxima: Monsters Inc. Laugh Floor",
+          "message": "Continue conforme o roteiro — fila: 16min.",
+          "reason": "Como o dia está chegando ao fim, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 1,
+      "visitedCount": 9
+    },
+    {
+      "time": "18:00",
+      "phase": "evening",
+      "inProgress": "Monsters Inc. Laugh Floor",
+      "minutesLeftInCurrent": 1,
+      "recommendations": [
+        {
+          "type": "follow_route",
+          "attraction_id": "e8f0b426",
+          "title": "Próxima: Monsters Inc. Laugh Floor",
+          "message": "Continue conforme o roteiro — fila: 15min.",
+          "reason": "Como o dia está chegando ao fim, seguir o plano é a melhor estratégia.",
+          "urgency": "low",
+          "confidence": 0.8,
+          "score": 500
+        }
+      ],
+      "pendingCount": 1,
+      "visitedCount": 9
+    },
+    {
+      "time": "18:15",
+      "phase": "evening",
+      "inProgress": null,
+      "minutesLeftInCurrent": 0,
+      "visitedThisStep": "Monsters Inc. Laugh Floor",
       "recommendations": [
         {
           "type": "day_complete",
@@ -1014,7 +791,9 @@
           "confidence": 1,
           "score": 1000
         }
-      ]
+      ],
+      "pendingCount": 0,
+      "visitedCount": 10
     }
   ]
 }
