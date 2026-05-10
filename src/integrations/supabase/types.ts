@@ -236,6 +236,47 @@ export type Database = {
           },
         ]
       }
+      attraction_show_schedules: {
+        Row: {
+          attraction_id: string
+          captured_at: string
+          duration_minutes: number | null
+          end_time: string | null
+          id: string
+          show_date: string
+          source: string
+          start_time: string
+        }
+        Insert: {
+          attraction_id: string
+          captured_at?: string
+          duration_minutes?: number | null
+          end_time?: string | null
+          id?: string
+          show_date: string
+          source?: string
+          start_time: string
+        }
+        Update: {
+          attraction_id?: string
+          captured_at?: string
+          duration_minutes?: number | null
+          end_time?: string | null
+          id?: string
+          show_date?: string
+          source?: string
+          start_time?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attraction_show_schedules_attraction_id_fkey"
+            columns: ["attraction_id"]
+            isOneToOne: false
+            referencedRelation: "attractions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       attraction_wait_history: {
         Row: {
           attraction_id: string
@@ -321,6 +362,7 @@ export type Database = {
           park_id: string
           popularity_score: number
           queue_times_id: number | null
+          schedule_type: string
           short_description: string | null
           strategic_tip: string | null
           thrill_level: Database["public"]["Enums"]["thrill_level"] | null
@@ -345,6 +387,7 @@ export type Database = {
           park_id: string
           popularity_score?: number
           queue_times_id?: number | null
+          schedule_type?: string
           short_description?: string | null
           strategic_tip?: string | null
           thrill_level?: Database["public"]["Enums"]["thrill_level"] | null
@@ -369,6 +412,7 @@ export type Database = {
           park_id?: string
           popularity_score?: number
           queue_times_id?: number | null
+          schedule_type?: string
           short_description?: string | null
           strategic_tip?: string | null
           thrill_level?: Database["public"]["Enums"]["thrill_level"] | null
