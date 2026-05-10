@@ -1,68 +1,63 @@
-## Objetivo
+## Suporte completo a Shows com horário fixo
 
-Refinar o fluxo de definição do roteiro de um dia em `_app.roteiro.$dayId` / `ParkRoutePicker`:
+Mudança em 3 camadas: banco, worker de polling e UI.
 
-1. Renomear "Usar sugerido" → "Sugestão do App" com ícone discreto de magia.
-2. Pedir primeiro a hora prevista de chegada ao parque.
-3. Permitir selecionar atrações sem reordenar (sem subir item ao topo ao marcar).
-4. Agrupar atrações por tipo (Atração, Show, Meet & Greet, Parada, Fogos, Outro).
-5. Mostrar legenda dos ícones (tipo + Lightning Lane) no topo.
+### 1. Migration (Supabase)
 
----
+```sql
+-- Adicionar próximos horários de show
+ALTER TABLE attraction_live_status
+  ADD COLUMN show_next_times TIMESTAMPTZ[];
 
-## Mudanças
+-- Janela de alerta para deduplicação de lembretes de show
+ALTER TABLE alerts
+  ADD COLUMN show_window_minutes INTEGER;
 
-### 1. Banco — nova coluna `planned_arrival_time`
-Migração na tabela `trip_park_days`:
-- adicionar `planned_arrival_time time` (nullable).
-- regerar `src/integrations/supabase/types.ts` automaticamente.
+-- Novo tipo de monitor
+ALTER TYPE monitor_type ADD VALUE IF NOT EXISTS 'show_reminder';
+```
 
-Adicionar mutation `useSetPlannedArrival(dayId, time)` em `src/lib/queries.ts`.
+Após a migration, `src/integrations/supabase/types.ts` será regenerado automaticamente.
 
-### 2. `src/components/ParkRoutePicker.tsx` — refatoração
+### 2. Lógica de monitoramento
 
-**Header**
-- Trocar texto "Usar sugerido" por "Sugestão do App" + ícone `Wand2` (lucide) discreto antes do texto.
+**`fn_poll_park_data` (Edge Function remota)**
+- Ler `showtimes` retornado pela ThemeParks.wiki para entidades `SHOW` e gravar em `attraction_live_status.show_next_times` (array de `startTime` futuros).
+- Continuar gravando `current_wait_minutes` apenas para rides.
 
-**Legenda dos ícones (novo bloco no topo)**
-Card compacto colapsável (aberto por padrão na 1ª visita) listando:
-- Tipos: Atração (RollerCoaster), Show (Drama), Meet & Greet (HandHeart), Parada (Music), Fogos (Sparkle), Outro (Sparkles).
-- Lightning Lane: Multi Pass (Zap), Single Pass (Gauge), Fila Virtual (Smartphone).
-Texto curto ao lado de cada ícone.
+**Worker de alerta de shows** — nova Edge Function `fn_check_show_reminders`:
+- Roda a cada minuto (cron).
+- Para cada `user_attraction_monitors` com `monitor_type = 'show_reminder'` e `is_active = true`:
+  - Buscar `show_next_times` da atração.
+  - Para cada horário futuro, calcular `delta = horário - now()` em minutos.
+  - Disparar alerta quando `delta` cair em uma das janelas: `[60, 30, 5]` (com tolerância de ±1 min).
+  - Antes de inserir, checar `alerts` existentes com mesmo `attraction_id`, `user_id`, `show_window_minutes` e horário-alvo dentro de ±2 min para deduplicar.
+  - Inserir alerta com `alert_type = 'show_reminder'` (adicionar valor ao enum se não existir), `show_window_minutes` preenchido, `expires_at = horário_show`.
 
-**Lista**
-- Remover lógica `ordered` que coloca selecionados no topo. Renderizar `attractions` na ordem original (mantida pelo backend: must-do primeiro, depois nome).
-- Agrupar por `experience_type` na ordem fixa: `ride`, `show`, `meet_greet`, `parade`, `fireworks`, `other`. Cada grupo com cabeçalho (ícone + nome do tipo + contagem `selecionadas/total`).
-- Remover número de prioridade/order do card. Substituir o badge numérico por um indicador simples de check (círculo vazio / check dourado quando selecionado).
-- Manter aviso de altura, badges de IMPERDÍVEL, ícones de tipo/LL no card (já que a legenda explica).
+**Hook `useToggleMonitor`** (`src/lib/queries.ts`):
+- Detectar `experience_type === 'show'` da atração e forçar `monitor_type = 'show_reminder'` ignorando `max_wait_minutes`.
 
-**Props**
-- Sem mudança na assinatura externa, exceto: nova prop opcional `arrivalTime?: string` (apenas para exibição do título "Chegada às HH:MM" se quiser; não obrigatório).
+### 3. UI
 
-### 3. `src/routes/_app.roteiro.$dayId.tsx` — fluxo em 2 passos
+**`src/routes/_app.atracao.$id.tsx`**:
+- Para shows, esconder o botão "Monitorar queda de fila" e exibir "Lembrar dos horários do show".
+- Exibir lista de `show_next_times` com horários formatados.
 
-Quando `showPicker`:
-- **Passo A — Hora de chegada**: se `day.planned_arrival_time` é nulo (ou em modo edição e o usuário clicou "alterar"), mostrar um card simples com:
-  - Título "Que horas você pretende chegar em {parque}?"
-  - `<input type="time">` com default `09:00`.
-  - Botão "Continuar" → salva via `useSetPlannedArrival` e avança para Passo B.
-- **Passo B — Escolher atrações**: render `ParkRoutePicker` (já refatorado). Mostra acima um chip "Chegada às HH:MM • alterar" que volta ao Passo A.
+**Card de show na lista de monitoramento** (`src/routes/_app.alertas.tsx` ou componente equivalente da lista):
+- Detectar `experience_type === 'show'`.
+- Exibir badge `SHOW` (cor: `bg-magic/20 text-magic`) em vez de `RIDE` (cor atual).
+- Em vez de "X min de fila", mostrar:
+  - Linha 1: horários compactos `14h00 · 16h30 · 18h00` (apenas futuros, max 4).
+  - Linha 2: countdown para o próximo (`em 47 min`, `em 2h12`, ou `começou`).
+- Atualizar o countdown a cada 30s via `setInterval` no componente.
 
-Estado local: `step: 'arrival' | 'picker'`. Inicializa em `arrival` se `planned_arrival_time` é nulo, senão `picker`.
+### Detalhes técnicos
 
-Salvar atrações continua via `replaceRoute.mutateAsync` no botão "Salvar roteiro".
+- **Formatação de horário**: usar `toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'America/New_York' })` e substituir `:` por `h`.
+- **Countdown**: helper `formatCountdown(ms)` → `em Nmin` / `em XhYY` / `começou`.
+- **Cron do `fn_check_show_reminders`**: agendar via `pg_cron` chamando a edge function a cada minuto, com `apikey` no header.
+- **Tipos TS**: após migration, `types.ts` ganha `show_next_times: string[] | null` e `show_window_minutes: number | null` automaticamente.
 
-### 4. Persistência da ordem de prioridade
-A ordem do array `value` (e `route_items.order_index`) passa a refletir a ordem em que o usuário clicou nas atrações (não mais visualmente reordenada). Em uma etapa futura o usuário poderá priorizar arrastando — fora do escopo deste passo.
-
----
-
-## Arquivos afetados
-
-- migração SQL: adicionar `planned_arrival_time` em `trip_park_days`
-- `src/integrations/supabase/types.ts` (regenerado)
-- `src/lib/queries.ts` — nova mutation `useSetPlannedArrival`
-- `src/components/ParkRoutePicker.tsx` — legenda, agrupamento, sem reordenação, "Sugestão do App" + Wand2
-- `src/routes/_app.roteiro.$dayId.tsx` — fluxo 2 passos com input de hora
-
-Sem mudanças em `_app.setup.tsx` (a hora é definida sob demanda quando o usuário entra em "Definir roteiro" do dia).
+### Fora de escopo
+- Edição/teste manual da `fn_poll_park_data` (somente atualização do parser de showtimes — código será atualizado e re-deployado, mas sem mudar contrato de upsert que já está correto).
+- Notificação push/Telegram dos alertas de show: apenas insere em `alerts`; o caminho de entrega já existente cuida do envio.
