@@ -289,7 +289,7 @@ function lerp(a: number, b: number, t: number): number {
   return a + (b - a) * t;
 }
 
-function run(scenarioKey: string) {
+async function run(scenarioKey: string) {
   const scenario = SCENARIOS[scenarioKey];
   if (!scenario) {
     console.error(`Cenário "${scenarioKey}" não encontrado. Opções: ${Object.keys(SCENARIOS).join(", ")}`);
