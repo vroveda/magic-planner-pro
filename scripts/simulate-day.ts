@@ -260,7 +260,7 @@ type StepLog = {
   visitedCount: number;
 };
 
-function run(scenarioKey: string) {
+async function run(scenarioKey: string) {
   const scenario = SCENARIOS[scenarioKey];
   if (!scenario) { console.error(`Cenário "${scenarioKey}" não encontrado.`); process.exit(1); }
 
