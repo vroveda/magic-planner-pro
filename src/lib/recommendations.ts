@@ -11,13 +11,12 @@ export type DayPhase =
   | "closing";
 
 export type RecommendationType =
-  | "go_now"
-  | "wait_later"
-  | "skip_for_now"
-  | "nearby_opportunity"
-  | "route_adjustment"
-  | "closed"
-  | "unknown";
+  | "go_now"           // janela boa — vai agora
+  | "must_do_urgent"   // must-do em risco de não caber no dia
+  | "follow_route"     // segue o plano, tudo normal
+  | "route_detour"     // desvia do roteiro com motivo concreto
+  | "closed"           // atração fechada — pula por enquanto
+  | "day_complete";    // todas as atrações feitas
 
 export type RecommendationUrgency = "low" | "medium" | "high";
 
@@ -26,6 +25,7 @@ export type SmartRecommendation = {
   attraction_id?: string;
   title: string;
   message: string;
+  /** motivo em uma linha — por que o app está recomendando isso */
   reason: string;
   urgency: RecommendationUrgency;
   /** 0–1 */
@@ -37,10 +37,15 @@ export type SmartRecommendation = {
 export type AttractionInput = {
   id: string;
   name: string;
+  /** is_must_do do banco (ícone do parque) */
   is_must_do: boolean;
+  /** is_must_do do route_item (marcado pelo usuário) */
   route_is_must_do: boolean;
   experience_type: string;
-  /** índice original no roteiro (0-based) */
+  schedule_type?: "queue" | "showtime" | "both" | null;
+  /** próximos horários de sessão (shows/meets com horário fixo) */
+  show_next_times?: string[] | null;
+  /** posição no roteiro (1-based) */
   route_position: number;
   visited: boolean;
   skipped: boolean;
@@ -50,21 +55,20 @@ export type AttractionInput = {
   live_status: "operating" | "closed" | "down" | "refurbishment" | "unknown";
   /** média histórica para o horário atual */
   historical_avg: number | null;
+  /** duração média dentro da atração em minutos */
+  avg_duration_minutes: number | null;
   /** coordenadas para cálculo de proximidade */
   lat: number | null;
   lng: number | null;
-  /** Lightning Lane */
   lightning_lane_type: string;
+  popularity_score?: number | null;
 };
 
 export type RecommendationInput = {
-  /** hora atual local do dispositivo */
   now: Date;
-  /** hora de fechamento do parque — default 22:00 */
   parkCloseTime?: string;
   attractions: AttractionInput[];
   walkMatrix: WalkMatrix;
-  /** posição atual do usuário (geolocalização) */
   userLat?: number | null;
   userLng?: number | null;
 };
@@ -103,217 +107,271 @@ function deviation(current: number, avg: number): number {
   return (current - avg) / avg;
 }
 
-function distanceMeters(
-  lat1: number, lng1: number,
-  lat2: number, lng2: number,
-): number {
-  const R = 6_371_000;
-  const toRad = (d: number) => (d * Math.PI) / 180;
-  const dLat = toRad(lat2 - lat1);
-  const dLng = toRad(lng2 - lng1);
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
-  return 2 * R * Math.asin(Math.sqrt(a));
+function minutesUntil(isoTime: string, now: Date): number {
+  const target = new Date(isoTime);
+  return Math.round((target.getTime() - now.getTime()) / 60000);
 }
 
-function isNearby(a: AttractionInput, userLat: number, userLng: number): boolean {
-  if (a.lat == null || a.lng == null) return false;
-  return distanceMeters(userLat, userLng, a.lat, a.lng) <= 400;
+/** Minutos úteis restantes no parque (com buffer de 30min antes do fechamento) */
+function availableMinutes(now: Date, parkCloseTime: string): number {
+  const [ch, cm] = parkCloseTime.split(":").map(Number);
+  const closeMin = ch * 60 + cm;
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+  return Math.max(0, closeMin - nowMin - 30);
+}
+
+/** Custo estimado de uma atração em minutos (fila atual ou histórica + duração) */
+function attractionCost(a: AttractionInput): number {
+  const wait = a.current_wait ?? a.historical_avg ?? 20;
+  const duration = a.avg_duration_minutes ?? 10;
+  return wait + duration + 5; // +5 de caminhada média
 }
 
 // ---------- generateSmartRecommendations ----------
 
 /**
- * Gera até 3 recomendações inteligentes baseadas no estado atual do roteiro.
- * Leva em conta fase do dia, filas, desvio histórico, must-dos e proximidade.
+ * Filosofia GPS: 1 recomendação principal clara + até 2 cards de contexto.
+ *
+ * Hierarquia (ordem de avaliação):
+ * 1. Must-do em risco de não caber no dia → alerta urgente
+ * 2. Must-do com janela boa agora (fila ≥ 20% abaixo da média) → vai agora
+ * 3. Próxima do roteiro fechada → informa e sugere alternativa
+ * 4. Próxima do roteiro com fila ruim mas há alternativa melhor → desvia com motivo
+ * 5. Tudo normal → segue a próxima do roteiro
+ *
+ * Must-dos são garantias — o app monitora e alerta quando estão em risco.
  */
 export function generateSmartRecommendations(
   input: RecommendationInput,
 ): SmartRecommendation[] {
-  const { now, parkCloseTime = "22:00", attractions, walkMatrix, userLat, userLng } = input;
+  const { now, parkCloseTime = "22:00", attractions } = input;
   const phase = getDayPhase(now, parkCloseTime);
   const phaseLabel = dayPhaseLabel(phase);
-  const recs: SmartRecommendation[] = [];
+  const availMin = availableMinutes(now, parkCloseTime);
 
-  // Atrações pendentes (não visitadas, não puladas)
-  const pending = attractions.filter((a) => !a.visited && !a.skipped);
+  // Pendentes na ordem do roteiro
+  const pending = attractions
+    .filter((a) => !a.visited && !a.skipped)
+    .sort((a, b) => a.route_position - b.route_position);
 
-  // Próxima na ordem do roteiro
-  const nextInRoute = [...pending].sort((a, b) => a.route_position - b.route_position)[0];
-
-  // --- 1. Atrações fechadas entre as pendentes ---
-  for (const a of pending) {
-    if (a.live_status === "closed" || a.live_status === "refurbishment") {
-      recs.push({
-        type: "closed",
-        attraction_id: a.id,
-        title: `${a.name} está fechada`,
-        message: `Pule por enquanto e volte mais tarde.`,
-        reason: `Como ${phaseLabel}, não vale perder tempo esperando reabertura.`,
-        urgency: a.route_is_must_do || a.is_must_do ? "medium" : "low",
-        confidence: 0.95,
-        score: a.route_is_must_do ? 60 : 20,
-      });
-    }
+  // Dia completo
+  if (pending.length === 0 && attractions.some((a) => a.visited)) {
+    return [{
+      type: "day_complete",
+      title: "Roteiro concluído! 🎉",
+      message: "Você fez tudo que planejou. Aproveite o parque livremente.",
+      reason: "Todas as atrações do roteiro foram concluídas.",
+      urgency: "low",
+      confidence: 1,
+      score: 1000,
+    }];
   }
 
-  // --- 2. Must-do com fila abaixo da média (≥ 20%) → go_now ---
-  for (const a of pending) {
-    if (a.live_status !== "operating") continue;
-    if (!a.route_is_must_do && !a.is_must_do) continue;
-    if (a.current_wait == null || a.historical_avg == null) continue;
+  if (pending.length === 0) return [];
 
-    const dev = deviation(a.current_wait, a.historical_avg);
-    if (dev <= -0.2) {
+  const nextInRoute = pending[0];
+  const result: SmartRecommendation[] = [];
+
+  // -------------------------------------------------------
+  // CAMADA 1 — Must-do em risco de não caber no dia
+  // -------------------------------------------------------
+  const mustDosPending = pending.filter((a) => a.route_is_must_do || a.is_must_do);
+  const mustDoTotalCost = mustDosPending.reduce((acc, a) => acc + attractionCost(a), 0);
+  const mustDoAtRisk = mustDosPending.length > 0 && mustDoTotalCost > availMin && availMin < 180;
+
+  if (mustDoAtRisk) {
+    const names = mustDosPending.slice(0, 2).map((a) => a.name).join(" e ");
+    const extra = mustDosPending.length > 2 ? ` (+${mustDosPending.length - 2})` : "";
+    result.push({
+      type: "must_do_urgent",
+      attraction_id: mustDosPending[0].id,
+      title: "⚠️ Must-dos em risco",
+      message: `Ainda faltam: ${names}${extra}. No ritmo atual, pode não dar tempo.`,
+      reason: `Como ${phaseLabel}, priorize agora o que não pode perder antes de encerrar o dia.`,
+      urgency: "high",
+      confidence: 0.9,
+      score: 1000,
+    });
+  }
+
+  // -------------------------------------------------------
+  // CAMADA 2 — Must-do com janela boa agora
+  // -------------------------------------------------------
+  if (result.length === 0) {
+    const mustDoWindow = mustDosPending.find((a) => {
+      if (a.live_status !== "operating") return false;
+      if (a.current_wait == null || a.historical_avg == null) return false;
+      return deviation(a.current_wait, a.historical_avg) <= -0.2;
+    });
+
+    if (mustDoWindow) {
+      const dev = deviation(mustDoWindow.current_wait!, mustDoWindow.historical_avg!);
       const pct = Math.round(Math.abs(dev) * 100);
-      recs.push({
+      result.push({
         type: "go_now",
-        attraction_id: a.id,
-        title: `Hora de ir: ${a.name}`,
-        message: `Fila ${pct}% abaixo da média — ${a.current_wait}min agora vs ${Math.round(a.historical_avg)}min no histórico.`,
-        reason: `Como ${phaseLabel}, essa janela pode fechar. Atrações must-do costumam lotar rápido.`,
+        attraction_id: mustDoWindow.id,
+        title: `Hora de ir: ${mustDoWindow.name}`,
+        message: `Fila ${pct}% abaixo da média — ${mustDoWindow.current_wait}min agora vs ${Math.round(mustDoWindow.historical_avg!)}min no histórico.`,
+        reason: `Must-do com janela boa. Essa oportunidade pode fechar.`,
         urgency: pct >= 40 ? "high" : "medium",
         confidence: 0.85,
-        score: 900 + pct * 2,
-      });
-    }
-  }
-
-  // --- 3. Próxima do roteiro com fila ruim (≥ 30% acima) → route_adjustment ---
-  if (nextInRoute && nextInRoute.live_status === "operating") {
-    const { current_wait, historical_avg } = nextInRoute;
-    if (current_wait != null && historical_avg != null) {
-      const dev = deviation(current_wait, historical_avg);
-      if (dev >= 0.3) {
-        // Encontra alternativa pendente com fila melhor
-        const alternative = pending
-          .filter((a) => a.id !== nextInRoute.id && a.live_status === "operating" && a.current_wait != null && a.historical_avg != null)
-          .sort((a, b) => {
-            const devA = deviation(a.current_wait!, a.historical_avg!);
-            const devB = deviation(b.current_wait!, b.historical_avg!);
-            return devA - devB;
-          })[0];
-
-        const pct = Math.round(dev * 100);
-        recs.push({
-          type: "route_adjustment",
-          attraction_id: alternative?.id ?? nextInRoute.id,
-          title: `Ajuste de rota sugerido`,
-          message: alternative
-            ? `A fila de ${nextInRoute.name} está ${pct}% acima do normal. Considere ir antes para ${alternative.name} (${alternative.current_wait}min).`
-            : `A fila de ${nextInRoute.name} está ${pct}% acima do normal. Pode valer esperar um pouco.`,
-          reason: `Como ${phaseLabel}, vale reorganizar o roteiro para aproveitar melhor o tempo.`,
-          urgency: pct >= 50 ? "high" : "medium",
-          confidence: 0.75,
-          score: 700 + pct,
-        });
-      }
-    }
-  }
-
-  // --- 4. Oportunidade próxima ao usuário ---
-  if (userLat != null && userLng != null) {
-    const nearbyGood = pending
-      .filter((a) => {
-        if (a.live_status !== "operating") return false;
-        if (a.current_wait == null || a.historical_avg == null) return false;
-        if (!isNearby(a, userLat, userLng)) return false;
-        return deviation(a.current_wait, a.historical_avg) <= -0.15;
-      })
-      .sort((a, b) => {
-        const devA = deviation(a.current_wait!, a.historical_avg!);
-        const devB = deviation(b.current_wait!, b.historical_avg!);
-        return devA - devB;
-      })[0];
-
-    if (nearbyGood) {
-      const pct = Math.round(Math.abs(deviation(nearbyGood.current_wait!, nearbyGood.historical_avg!)) * 100);
-      recs.push({
-        type: "nearby_opportunity",
-        attraction_id: nearbyGood.id,
-        title: `Oportunidade perto de você`,
-        message: `${nearbyGood.name} está a poucos passos com fila ${pct}% abaixo da média (${nearbyGood.current_wait}min).`,
-        reason: `Como ${phaseLabel}, vale aproveitar sem precisar cruzar o parque.`,
-        urgency: "medium",
-        confidence: 0.7,
-        score: 650 + pct,
-      });
-    }
-  }
-
-  // --- 5. Fase: midday → sugerir atração interna/show se fila geral alta ---
-  if (phase === "midday") {
-    const indoorTypes = ["show", "meet_greet"];
-    const goodIndoor = pending
-      .filter((a) => {
-        if (!indoorTypes.includes(a.experience_type)) return false;
-        if (a.live_status !== "operating") return false;
-        if (a.current_wait != null && a.current_wait > 30) return false;
-        return true;
-      })
-      .sort((a, b) => (a.current_wait ?? 99) - (b.current_wait ?? 99))[0];
-
-    if (goodIndoor) {
-      recs.push({
-        type: "go_now",
-        attraction_id: goodIndoor.id,
-        title: `Boa hora para ${goodIndoor.name}`,
-        message: `Shows e encontros com personagens costumam ter menos concorrência no meio do dia.`,
-        reason: `Como ${phaseLabel}, o calor e o movimento estão no pico. Atrações cobertas são ótima pedida.`,
-        urgency: "low",
-        confidence: 0.65,
-        score: 400,
-      });
-    }
-  }
-
-  // --- 6. Closing → pendências must-do restantes ---
-  if (phase === "closing") {
-    const mustDoPending = pending.filter(
-      (a) => (a.route_is_must_do || a.is_must_do) && a.live_status === "operating",
-    );
-    if (mustDoPending.length > 0) {
-      const names = mustDoPending.map((a) => a.name).join(", ");
-      recs.push({
-        type: "go_now",
-        attraction_id: mustDoPending[0].id,
-        title: `Corra para as must-dos restantes`,
-        message: `Ainda faltam: ${names}.`,
-        reason: `Como ${phaseLabel}, priorize o que não pode perder antes de encerrar o dia.`,
-        urgency: "high",
-        confidence: 0.9,
         score: 950,
       });
     }
   }
 
-  // --- 7. Fallback: seguir o roteiro ---
-  if (nextInRoute && recs.filter((r) => r.type !== "closed").length === 0) {
-    recs.push({
-      type: "unknown",
+  // -------------------------------------------------------
+  // CAMADA 3 — Próxima do roteiro fechada
+  // -------------------------------------------------------
+  if (result.length === 0) {
+    const nextClosed =
+      nextInRoute.live_status === "closed" ||
+      nextInRoute.live_status === "down" ||
+      nextInRoute.live_status === "refurbishment";
+
+    if (nextClosed) {
+      const nextAvailable = pending.find(
+        (a) => a.id !== nextInRoute.id && a.live_status === "operating"
+      );
+      result.push({
+        type: "closed",
+        attraction_id: nextAvailable?.id ?? nextInRoute.id,
+        title: `${nextInRoute.name} está fechada`,
+        message: nextAvailable
+          ? `Vá para ${nextAvailable.name} (próxima disponível no roteiro).`
+          : "Aguarde reabertura ou explore o parque livremente.",
+        reason: `Como ${phaseLabel}, não vale perder tempo esperando reabertura.`,
+        urgency: nextInRoute.route_is_must_do ? "medium" : "low",
+        confidence: 0.95,
+        score: 800,
+      });
+    }
+  }
+
+  // -------------------------------------------------------
+  // CAMADA 4 — Próxima do roteiro com fila ruim → desvio justificado
+  // -------------------------------------------------------
+  if (result.length === 0) {
+    const nextOp = nextInRoute.live_status === "operating";
+    const nextDev =
+      nextOp && nextInRoute.current_wait != null && nextInRoute.historical_avg != null
+        ? deviation(nextInRoute.current_wait, nextInRoute.historical_avg)
+        : 0;
+
+    if (nextDev >= 0.3) {
+      // Busca alternativa com fila significativamente melhor
+      const alt = pending
+        .filter((a) => {
+          if (a.id === nextInRoute.id) return false;
+          if (a.live_status !== "operating") return false;
+          if (a.current_wait == null || a.historical_avg == null) return false;
+          // Alternativa precisa ser claramente melhor (pelo menos 25pp a menos)
+          return deviation(a.current_wait, a.historical_avg) < nextDev - 0.25;
+        })
+        .sort((a, b) => {
+          const dA = deviation(a.current_wait!, a.historical_avg!);
+          const dB = deviation(b.current_wait!, b.historical_avg!);
+          return dA - dB;
+        })[0];
+
+      if (alt) {
+        const pct = Math.round(nextDev * 100);
+        result.push({
+          type: "route_detour",
+          attraction_id: alt.id,
+          title: "Desvio recomendado",
+          message: `Fila de ${nextInRoute.name} está ${pct}% acima do normal (${nextInRoute.current_wait}min). Vá antes para ${alt.name} (${alt.current_wait}min).`,
+          reason: `Como ${phaseLabel}, vale trocar a ordem para aproveitar melhor o tempo.`,
+          urgency: pct >= 50 ? "high" : "medium",
+          confidence: 0.75,
+          score: 700,
+        });
+      }
+    }
+  }
+
+  // -------------------------------------------------------
+  // CAMADA 5 — Segue o plano (fallback padrão)
+  // -------------------------------------------------------
+  if (result.length === 0) {
+    const waitInfo = nextInRoute.current_wait != null
+      ? ` — fila atual: ${nextInRoute.current_wait}min`
+      : "";
+
+    // Verifica se é show com sessão próxima
+    let showNote = "";
+    if (
+      (nextInRoute.schedule_type === "showtime" || nextInRoute.schedule_type === "both") &&
+      nextInRoute.show_next_times?.length
+    ) {
+      const minsUntilShow = minutesUntil(nextInRoute.show_next_times[0], now);
+      if (minsUntilShow > 0 && minsUntilShow <= 60) {
+        showNote = ` Próxima sessão em ${minsUntilShow}min.`;
+      }
+    }
+
+    result.push({
+      type: "follow_route",
       attraction_id: nextInRoute.id,
-      title: `Siga o roteiro`,
-      message: `Continue para ${nextInRoute.name} conforme planejado${nextInRoute.current_wait != null ? ` — fila atual: ${nextInRoute.current_wait}min` : ""}.`,
-      reason: `Nenhuma grande oportunidade detectada agora. Como ${phaseLabel}, seguir o plano é a melhor estratégia.`,
+      title: `Próxima: ${nextInRoute.name}`,
+      message: `Continue conforme o roteiro${waitInfo}.${showNote}`,
+      reason: `Nenhuma oportunidade melhor detectada. Como ${phaseLabel}, seguir o plano é a melhor estratégia.`,
       urgency: "low",
-      confidence: 0.6,
-      score: 100,
+      confidence: 0.8,
+      score: 500,
     });
   }
 
-  // Deduplica por attraction_id, remove fechadas se já há recomendações ativas
-  const seen = new Set<string>();
-  const activeRecs = recs.filter((r) => r.type !== "closed");
-  const closedRecs = recs.filter((r) => r.type === "closed");
+  // -------------------------------------------------------
+  // CARDS SECUNDÁRIOS — contexto complementar
+  // -------------------------------------------------------
 
-  const deduped = [...activeRecs, ...closedRecs].filter((r) => {
-    const key = r.attraction_id ?? r.type;
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
+  // Se a principal não é about must-do urgente mas há must-dos acumulando risco
+  if (
+    result.length < 3 &&
+    result[0].type !== "must_do_urgent" &&
+    mustDosPending.length > 0 &&
+    mustDoTotalCost > availMin * 0.75
+  ) {
+    const mainId = result[0].attraction_id;
+    const nextMustDo = mustDosPending.find((a) => a.id !== mainId);
+    if (nextMustDo) {
+      result.push({
+        type: "must_do_urgent",
+        attraction_id: nextMustDo.id,
+        title: `Lembre: ${nextMustDo.name}`,
+        message: `Must-do ainda pendente. Garanta que cabe no tempo restante do dia.`,
+        reason: `Como ${phaseLabel}, monitore o tempo para não perder as prioridades.`,
+        urgency: "medium",
+        confidence: 0.8,
+        score: 400,
+      });
+    }
+  }
 
-  // Ordena por score desc e retorna no máximo 3
-  return deduped.sort((a, b) => b.score - a.score).slice(0, 3);
+  // Show com sessão começando em breve
+  if (result.length < 3) {
+    const soonShow = pending.find((a) => {
+      if (a.id === result[0]?.attraction_id) return false;
+      if (!a.show_next_times?.length) return false;
+      const min = minutesUntil(a.show_next_times[0], now);
+      return min > 0 && min <= 30;
+    });
+
+    if (soonShow) {
+      const min = minutesUntil(soonShow.show_next_times![0], now);
+      result.push({
+        type: "go_now",
+        attraction_id: soonShow.id,
+        title: `Show em ${min}min: ${soonShow.name}`,
+        message: `Próxima sessão começa em ${min} minutos. Vá agora para garantir lugar.`,
+        reason: "Shows têm horário fixo — se perder, o próximo pode ser daqui a horas.",
+        urgency: min <= 15 ? "high" : "medium",
+        confidence: 0.9,
+        score: min <= 15 ? 750 : 350,
+      });
+    }
+  }
+
+  return result.slice(0, 3);
 }

@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo } from "react";
 import {
   ArrowRight, MapPin, Calendar, Sparkles, Plane, Clock,
-  Zap, AlertTriangle, Navigation, SkipForward, CheckCircle2, HelpCircle,
+  Zap, AlertTriangle, Navigation, CheckCircle2, Route, Trophy,
 } from "lucide-react";
 import {
   useActiveTrip, useTripParkDays, useParks, useRouteForDay, useRouteItems,
@@ -35,18 +35,17 @@ function formatPtDate(iso: string) {
   return d.toLocaleDateString("pt-BR", { weekday: "long", day: "2-digit", month: "long" });
 }
 
-// ---------- card de recomendação ----------
+// ---------- estilos por tipo de recomendação ----------
 
 const REC_STYLES: Record<SmartRecommendation["type"], {
-  bg: string; border: string; icon: typeof Zap; iconColor: string;
+  bg: string; border: string; icon: typeof Zap; iconColor: string; gradient: boolean;
 }> = {
-  go_now:             { bg: "bg-gradient-magic", border: "border-magic",   icon: Zap,           iconColor: "text-gold" },
-  nearby_opportunity: { bg: "bg-gradient-magic", border: "border-magic",   icon: Navigation,    iconColor: "text-gold" },
-  route_adjustment:   { bg: "bg-card",           border: "border-warning", icon: AlertTriangle, iconColor: "text-warning" },
-  wait_later:         { bg: "bg-card",           border: "border-border",  icon: Clock,         iconColor: "text-muted-foreground" },
-  skip_for_now:       { bg: "bg-card",           border: "border-border",  icon: SkipForward,   iconColor: "text-muted-foreground" },
-  closed:             { bg: "bg-muted/40",       border: "border-border",  icon: AlertTriangle, iconColor: "text-danger" },
-  unknown:            { bg: "bg-card",           border: "border-border",  icon: HelpCircle,    iconColor: "text-muted-foreground" },
+  go_now:          { bg: "bg-gradient-magic", border: "border-magic",   icon: Zap,           iconColor: "text-gold",             gradient: true },
+  must_do_urgent:  { bg: "bg-gradient-magic", border: "border-magic",   icon: AlertTriangle, iconColor: "text-gold",             gradient: true },
+  follow_route:    { bg: "bg-card",           border: "border-border",  icon: Route,         iconColor: "text-magic",            gradient: false },
+  route_detour:    { bg: "bg-card",           border: "border-warning", icon: Navigation,    iconColor: "text-warning",          gradient: false },
+  closed:          { bg: "bg-muted/40",       border: "border-border",  icon: AlertTriangle, iconColor: "text-muted-foreground", gradient: false },
+  day_complete:    { bg: "bg-gradient-gold",  border: "border-gold",    icon: Trophy,        iconColor: "text-magic",            gradient: true },
 };
 
 const URGENCY_BADGE: Record<SmartRecommendation["urgency"], string> = {
@@ -62,42 +61,44 @@ const URGENCY_LABEL: Record<SmartRecommendation["urgency"], string> = {
 function RecCard({ rec, primary }: { rec: SmartRecommendation; primary: boolean }) {
   const style = REC_STYLES[rec.type];
   const Icon = style.icon;
-  const isGradient = style.bg.includes("gradient");
+  const g = style.gradient;
 
   return (
-    <div className={`rounded-2xl border overflow-hidden shadow-soft ${style.bg} ${style.border} ${primary ? "shadow-magic" : ""}`}>
+    <div className={`rounded-2xl border overflow-hidden ${style.bg} ${style.border} ${primary ? "shadow-magic" : "shadow-soft"}`}>
       <div className="p-4">
         <div className="flex items-start gap-3">
-          <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${isGradient ? "bg-white/15" : "bg-secondary"}`}>
-            <Icon className={`h-5 w-5 ${isGradient ? "text-white" : style.iconColor}`} />
+          <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${g ? "bg-white/15" : "bg-secondary"}`}>
+            <Icon className={`h-5 w-5 ${g ? "text-white" : style.iconColor}`} />
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap mb-0.5">
-              <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${isGradient ? "bg-white/20 text-white" : URGENCY_BADGE[rec.urgency]}`}>
+              <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${g ? "bg-white/20 text-white" : URGENCY_BADGE[rec.urgency]}`}>
                 {URGENCY_LABEL[rec.urgency]}
               </span>
-              {primary && <span className="rounded-full bg-gold/30 text-magic px-2 py-0.5 text-[10px] font-extrabold">Melhor jogada agora</span>}
+              {primary && (
+                <span className="rounded-full bg-gold/30 text-magic px-2 py-0.5 text-[10px] font-extrabold">
+                  Melhor jogada agora
+                </span>
+              )}
             </div>
-            <p className={`font-display font-bold text-base leading-tight ${isGradient ? "text-white" : "text-magic"}`}>
+            <p className={`font-display font-bold text-base leading-tight ${g ? "text-white" : "text-magic"}`}>
               {rec.title}
             </p>
-            <p className={`text-sm mt-1 leading-snug ${isGradient ? "text-white/85" : "text-foreground/85"}`}>
+            <p className={`text-sm mt-1 leading-snug ${g ? "text-white/85" : "text-foreground/85"}`}>
               {rec.message}
             </p>
-            <p className={`text-[11px] mt-1.5 leading-snug italic ${isGradient ? "text-white/60" : "text-muted-foreground"}`}>
+            <p className={`text-[11px] mt-1.5 leading-snug italic ${g ? "text-white/60" : "text-muted-foreground"}`}>
               {rec.reason}
             </p>
           </div>
         </div>
 
-        {rec.attraction_id && (
+        {rec.attraction_id && rec.type !== "day_complete" && (
           <Link
             to="/atracao/$id"
             params={{ id: rec.attraction_id }}
             className={`mt-3 flex items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-extrabold transition ${
-              isGradient
-                ? "bg-gold text-magic"
-                : "bg-gradient-magic text-white"
+              g ? "bg-gold text-magic" : "bg-gradient-magic text-white"
             }`}
           >
             Ver atração <ArrowRight className="h-4 w-4" />
@@ -149,11 +150,14 @@ function HubPage() {
     const hour = now.getHours();
 
     const attrMap = new Map(attractions.map((a) => [a.id, a]));
-    const attrInputs: AttractionInput[] = items.map((item) => {
+
+    const attrInputs: AttractionInput[] = items.map((item, idx) => {
       const a = attrMap.get(item.attraction_id);
       const liveRow = live[item.attraction_id];
       const histAvg = hist[item.attraction_id] ?? null;
-      const hourAvg = histAvg != null ? histAvg : null;
+
+      // Média histórica para a hora atual (hist retorna a média da hora)
+      const historicalAvg = typeof histAvg === "number" ? histAvg : null;
 
       return {
         id: item.attraction_id,
@@ -161,15 +165,19 @@ function HubPage() {
         is_must_do: a?.is_must_do ?? false,
         route_is_must_do: item.is_must_do ?? false,
         experience_type: a?.experience_type ?? "ride",
-        route_position: item.position ?? 0,
+        schedule_type: (a as any)?.schedule_type ?? null,
+        show_next_times: liveRow?.show_next_times ?? null,
+        route_position: item.position ?? idx + 1,
         visited: !!item.visited_at,
         skipped: !!item.skipped_at,
         current_wait: liveRow?.current_wait_minutes ?? null,
         live_status: (liveRow?.status as AttractionInput["live_status"]) ?? "unknown",
-        historical_avg: hourAvg,
-        lat: a?.coordinates_lat ?? null,
-        lng: a?.coordinates_lng ?? null,
+        historical_avg: historicalAvg,
+        avg_duration_minutes: a?.avg_duration_minutes ?? null,
+        lat: (a as any)?.coordinates_lat ?? null,
+        lng: (a as any)?.coordinates_lng ?? null,
         lightning_lane_type: a?.lightning_lane_type ?? "none",
+        popularity_score: (a as any)?.popularity_score ?? null,
       };
     });
 
