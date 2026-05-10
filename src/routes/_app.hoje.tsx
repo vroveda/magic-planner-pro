@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo } from "react";
 import {
   ArrowRight, MapPin, Calendar, Sparkles, Plane, Clock,
-  Zap, AlertTriangle, Navigation, CheckCircle2, Route, Trophy,
+  Zap, AlertTriangle, Navigation, CheckCircle2, Route as RouteIcon, Trophy,
 } from "lucide-react";
 import {
   useActiveTrip, useTripParkDays, useParks, useRouteForDay, useRouteItems,
