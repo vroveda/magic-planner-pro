@@ -446,5 +446,7 @@ const scenarioArg = args.find(a => a.startsWith("--scenario="))?.split("=")[1]
   ?? args[args.indexOf("--scenario") + 1]
   ?? "padrao";
 
-if (scenarioArg === "all") { for (const key of Object.keys(SCENARIOS)) run(key); }
-else run(scenarioArg);
+(async () => {
+  if (scenarioArg === "all") { for (const key of Object.keys(SCENARIOS)) await run(key); }
+  else await run(scenarioArg);
+})();
